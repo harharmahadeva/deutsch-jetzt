@@ -1019,17 +1019,17 @@ function renderLesson(lesson){
     }).join('');
     lessonPages.push({type:'grammar', html:`
       <div class="card" style="border-color:var(--violet)">
-        <div class="section-label" style="color:var(--violet)">📐 Grammar Point <span class="section-badge">${lesson.topic}</span></div>
-        <div style="background:var(--surface);border-left:3px solid var(--violet);padding:12px 14px;border-radius:8px;margin-bottom:14px">
-          <div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.5">${g.rule}</div>
+        <div class="section-label" style="color:var(--violet);margin-bottom:8px">📐 Grammar <span class="section-badge">${lesson.topic}</span></div>
+        <div style="background:var(--surface);border-left:3px solid var(--violet);padding:10px 12px;border-radius:8px;margin-bottom:10px">
+          <div style="font-size:14px;font-weight:700;color:var(--text);line-height:1.4">${g.rule}</div>
         </div>
-        <div style="font-size:13px;line-height:1.8;color:var(--muted);margin-bottom:14px">${g.explanation}</div>
-        <div style="margin-bottom:14px">
-          <div style="font-size:12px;color:var(--violet);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Examples</div>
+        <div style="font-size:12px;line-height:1.7;color:var(--muted);margin-bottom:10px">${g.explanation}</div>
+        <div style="margin-bottom:10px">
+          <div style="font-size:11px;color:var(--violet);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Examples</div>
           ${exHtml}
         </div>
-        ${g.mistake?`<div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px 12px;font-size:13px">
-          <span style="color:#f87171;font-weight:600">⚠️ Common mistake: </span><span style="color:var(--muted)">${g.mistake}</span>
+        ${g.mistake?`<div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:8px 10px;font-size:12px">
+          <span style="color:#f87171;font-weight:600">⚠️ </span><span style="color:var(--muted)">${g.mistake}</span>
         </div>`:''}
       </div>`});
   }
@@ -1039,34 +1039,34 @@ function renderLesson(lesson){
     const sid=`w${i}`;
     lessonPages.push({type:'word', html:`
       <div class="card">
-        <div class="section-label">📖 Word ${i+1} of ${lesson.words.length} <span class="section-badge">${lesson.topic}</span></div>
+        <div class="section-label" style="margin-bottom:8px">📖 Word ${i+1}/${lesson.words.length} <span class="section-badge">${lesson.topic}</span></div>
 
-        <div style="text-align:center;padding:16px 0 12px">
+        <div style="text-align:center;padding:8px 0 6px">
           <div class="word-de">${w.de}</div>
-          <div class="word-pron" style="margin:6px 0">${w.pron}</div>
-          <div class="word-en" style="font-size:18px">${w.en}</div>
+          <div class="word-pron" style="margin:4px 0">${w.pron}</div>
+          <div class="word-en" style="font-size:17px">${w.en}</div>
         </div>
 
-        <div class="word-example" style="margin-bottom:14px">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-            <div>
-              <div><strong>${w.example_de}</strong></div>
-              <div style="color:var(--muted);font-size:12px;margin-top:3px">${w.example_en}</div>
+        <div class="word-example" style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px"><strong>${w.example_de}</strong></div>
+              <div style="color:var(--muted);font-size:12px;margin-top:2px">${w.example_en}</div>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.example_de.replace(/'/g,"\\'")}')">🔊 Sentence</button>
+            <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.example_de.replace(/'/g,"\\'")}')">🔊</button>
           </div>
-          <div class="word-funny" style="margin-top:8px">💡 ${w.funny}</div>
+          <div class="word-funny" style="margin-top:6px;font-size:12px">💡 ${w.funny}</div>
         </div>
 
-        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
           <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.de.replace(/'/g,"\\'")}')">🔊 Word</button>
           <button class="mic-btn" id="micWord_${sid}" onclick="startVoiceValidation('${sid}','${w.de.replace(/'/g,"\\'")}','word')">🎤 Say it</button>
+          <button class="btn btn-outline btn-sm" id="exToggle_${sid}" onclick="toggleExercise('${sid}','${w.de.replace(/'/g,"\\'")}')">✍️ Try it</button>
         </div>
         <div id="voiceResult_${sid}"></div>
 
-        <div class="exercise-box" style="margin-top:12px">
-          <div class="exercise-label">✍️ Use it in a sentence</div>
-          <input class="exercise-input" id="exInput_${sid}" placeholder="Write a German sentence using: ${w.de}" onkeydown="if(event.key==='Enter')checkExercise('${sid}','${w.de.replace(/'/g,"\\'")}','${w.en.replace(/'/g,"\\'")}')"/>
+        <div class="exercise-box hidden" id="exBox_${sid}" style="margin-top:8px">
+          <input class="exercise-input" id="exInput_${sid}" placeholder="Sentence with: ${w.de}" onkeydown="if(event.key==='Enter')checkExercise('${sid}','${w.de.replace(/'/g,"\\'")}','${w.en.replace(/'/g,"\\'")}')"/>
           <button class="btn btn-outline btn-sm" onclick="checkExercise('${sid}','${w.de.replace(/'/g,"\\'")}','${w.en.replace(/'/g,"\\'")}')">Check ✓</button>
           <div class="exercise-feedback" id="exFeedback_${sid}"></div>
         </div>
@@ -1078,15 +1078,15 @@ function renderLesson(lesson){
     const sid=`p${i}`;
     lessonPages.push({type:'phrase', html:`
       <div class="card">
-        <div class="section-label">💬 Phrase ${i+1} of ${lesson.phrases.length} <span class="section-badge">${lesson.topic}</span></div>
+        <div class="section-label" style="margin-bottom:6px">💬 Phrase ${i+1}/${lesson.phrases.length} <span class="section-badge">${lesson.topic}</span></div>
 
-        <div style="text-align:center;padding:16px 0 12px">
-          <div class="phrase-de" style="font-size:20px;font-weight:700">${p.de}</div>
-          <div class="phrase-en" style="font-size:14px;margin-top:6px">${p.en}</div>
-          <div class="phrase-funny" style="margin-top:6px">😄 ${p.funny}</div>
+        <div style="text-align:center;padding:8px 0 6px">
+          <div class="phrase-de" style="font-size:19px;font-weight:700">${p.de}</div>
+          <div class="phrase-en" style="font-size:13px;margin-top:4px">${p.en}</div>
+          <div class="phrase-funny" style="margin-top:4px;font-size:12px">😄 ${p.funny}</div>
         </div>
 
-        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;justify-content:center">
+        <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;justify-content:center">
           <button class="btn btn-outline btn-sm" onclick="speakGerman('${p.de.replace(/'/g,"\\'")}')">🔊 Listen</button>
           <button class="mic-btn" id="micPhrase_${sid}" onclick="startVoiceValidation('${sid}','${p.de.replace(/'/g,"\\'")}','phrase')">🎤 Say it</button>
         </div>
@@ -1284,6 +1284,14 @@ Return JSON only: {"rating":"great|close|wrong","verdict":"one line verdict","ti
 // ═══════════════════════════════════
 // INTERACTIVE EXERCISES
 // ═══════════════════════════════════
+function toggleExercise(sid, word){
+  const box=document.getElementById('exBox_'+sid);
+  const inp=document.getElementById('exInput_'+sid);
+  if(!box)return;
+  box.classList.toggle('hidden');
+  if(!box.classList.contains('hidden'))inp&&inp.focus();
+}
+
 async function checkExercise(id, word, meaning){
   const input=document.getElementById('exInput_'+id);
   const feedback=document.getElementById('exFeedback_'+id);
