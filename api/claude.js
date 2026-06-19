@@ -1,5 +1,5 @@
-// Vercel Serverless Function — Claude Haiku API proxy
-// Set ANTHROPIC_API_KEY in Vercel → Settings → Environment Variables
+// Vercel Serverless Function — Groq API proxy
+// API key stored as "deutch_key" in Vercel Environment Variables
 
 const ALLOWED_ORIGINS = [
   'https://deutsch-jetzt.vercel.app',
@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
   const origin = req.headers.origin || '';
   const allowed = ALLOWED_ORIGINS.some(o => origin.startsWith(o)) || origin === '';
 
-  res.setHeader('Access-Control-Allow-Origin', allowed ? origin || '*' : 'null');
+  res.setHeader('Access-Control-Allow-Origin', allowed ? (origin || '*') : 'null');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   if (!allowed) return res.status(403).json({ error: 'Forbidden' });
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.deutch_key;
   if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
 
   try {
@@ -32,29 +32,42 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Too many messages' });
     }
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    // Build messages — prepend system as first message if provided
+    const messages = [];
+    if (body.system) {
+      messages.push({ role: 'system', content: body.system });
+    }
+    messages.push(...body.messages);
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
+        'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
+        model: 'llama-3.1-8b-instant',
         max_tokens: Math.min(body.max_tokens || 1000, 2000),
-        system: body.system || '',
-        messages: body.messages
+        temperature: 0.8,
+        messages
       })
     });
 
     if (!response.ok) {
       const err = await response.text();
-      console.error('Claude API error:', response.status, err);
+      console.error('Groq API error:', response.status, err);
       return res.status(502).json({ error: 'AI service temporarily unavailable' });
     }
 
     const data = await response.json();
-    return res.status(200).json(data);
+    const text = data?.choices?.[0]?.message?.content || '';
+
+    if (!text) return res.status(502).json({ error: 'Empty response from AI' });
+
+    // Return in Anthropic-compatible format so frontend needs no changes
+    return res.status(200).json({
+      content: [{ type: 'text', text }]
+    });
 
   } catch (e) {
     console.error('Proxy error:', e.message);
