@@ -496,67 +496,78 @@ let chatHistory=[], currentLesson=null;
 let testQuestions=[], currentTestQ=0, testScore=0, testCompleted=false;
 
 const TOTAL_DAYS=60;
+// A2-structured curriculum — Goethe A2 / TELC A2 aligned
+// Grammar point per day drives 60% of lesson; vocabulary 40%
 const DAY_TOPICS=[
-  "Survival Greetings — Hallo is not enough in Berlin",
-  "Numbers, Time & Money — rent, U-Bahn tickets, Döner prices",
-  "Job Interview German — Erzählen Sie von sich (tell me about yourself)",
-  "Office Small Talk — weather, Kaffee, Monday feelings",
-  "Shopping at REWE & Lidl — Berlin supermarket survival",
-  "Transport & Navigation — U-Bahn, S-Bahn, BVG chaos",
-  "Food & Restaurants — ordering without just pointing",
-  "IT & Cybersecurity Vocabulary — your actual job in German",
-  "Emails & Professional Writing — Sehr geehrte Damen und Herren",
-  "Phone Calls & Appointments — most terrifying German experience",
-  "Housing & Landlord — Wohnung, Nebenkosten, Kaution",
-  "Banking & Bureaucracy — Anmeldung, Finanzamt, surviving German admin",
-  "Healthcare — Arzt, Krankenversicherung, making appointments",
-  "Networking & LinkedIn — connect professionally auf Deutsch",
-  "Salary Negotiation — Gehaltsverhandlung like a pro",
-  "Making Friends in Berlin — social German beyond work",
-  "Emergency German — police, hospital, lost wallet",
-  "Job Application Writing — Bewerbungsschreiben & Lebenslauf",
-  "Advanced IT Security — CISO, DSGVO, NIS2 vocabulary",
-  "Presentations & Meetings — speaking up auf Deutsch",
-  "German Compound Words — why one word has 40 letters",
-  "Asking for Help — without seeming lost (even when you are)",
-  "German Work Culture — Pünktlichkeit, Feierabend, rules everywhere",
-  "Prepositions & Direction — auf, an, über, unter, durch",
-  "Opinions & Disagreement — professional pushback auf Deutsch",
-  "Celebrations — Glückwunsch, Prost, office party German",
-  "Travel within Germany — trains, cities, weekend trips",
-  "Digital Life — passwords, apps, software auf Deutsch",
-  "Feedback & Performance Reviews — giving and receiving auf Deutsch",
-  "Advanced Job Interview — technical questions and case studies",
-  "Legal & Contracts — Vertrag, Kündigung, basic rights",
-  "Networking Events — Messe, Konferenz, business cards",
-  "Reading German News & Media",
-  "Idioms — what Germans actually say (not textbook German)",
-  "Complaints & Problem Solving — Reklamation wie ein Profi",
-  "Cross-Cultural Communication — India meets Germany",
-  "Leadership & Management Vocabulary",
-  "German Humour — ja, it exists, trust me",
-  "Advanced Writing — reports and documentation",
-  "Confidently Speaking in Meetings — no more silence",
-  "Salary, Benefits & Contract Terms deep dive",
-  "Remote Work German — video call and home office vocab",
-  "Du vs Sie Mastery — when to use which",
-  "Weekend & Hobby German — life outside work",
-  "Describing Technical Problems — auf Deutsch",
-  "Project Management — Zeitplan, Meilenstein, Deliverable",
-  "Client-Facing German — external meeting mastery",
-  "Health & Wellbeing vocabulary",
-  "Company Culture & Values — talking about your employer",
-  "B1 Consolidation — full conversation confidence",
-  "Mock Interview Roleplay — practice the whole thing",
-  "Advanced DSGVO & Compliance German",
-  "Your LinkedIn Profile auf Deutsch",
-  "Negotiation Tactics — Verhandeln wie ein Profi",
-  "German Business Etiquette — dos and absolute don'ts",
-  "Complex Sentences — sounding more native",
-  "Reading & Decoding German Job Descriptions",
-  "Final Sprint — all topics reviewed",
-  "Full Mock Job Interview Simulation",
-  "Graduation — Du bist bereit, bhai! 🎓"
+  // WEEK 1 — Foundation: Pronunciation, Articles, Present Tense
+  "Day 1 | Greetings & Introductions — ich bin, du/Sie, formal vs informal",
+  "Day 2 | Numbers, Dates & Time — Zahlen 1-100, Uhrzeit, Datum",
+  "Day 3 | Grammar: der/die/das — noun genders, definite & indefinite articles",
+  "Day 4 | Grammar: Verb Conjugation Present — sein, haben, regular -en verbs",
+  "Day 5 | Family & Relationships — Familie, Beziehungen, possessive pronouns mein/dein",
+  "Day 6 | Daily Routine — Tagesablauf, separable verbs (aufstehen, anrufen, einkaufen)",
+  "Day 7 | Week 1 Review + A2 Checkpoint — revision of articles, verbs, greetings",
+  // WEEK 2 — Daily Life: Cases, Shopping, Transport
+  "Day 8 | Food & Ordering — Essen und Trinken, im Restaurant, im Café",
+  "Day 9 | Shopping & Prices — Supermarkt, Preise, im Geschäft",
+  "Day 10 | Clothes & Colors — Kleidung, Farben, im Kaufhaus",
+  "Day 11 | Grammar: Accusative Case — den/einen, direct object, masculine change",
+  "Day 12 | Home & Living — Wohnung, Zimmer, Miete, WG suchen",
+  "Day 13 | Directions & Public Transport — U-Bahn, S-Bahn, links/rechts, BVG",
+  "Day 14 | Week 2 Review — shopping scenarios, accusative practice",
+  // WEEK 3 — Communication: Modal Verbs, Dative, Appointments
+  "Day 15 | Grammar: Modal Verbs — können, müssen, wollen, dürfen, sollen, mögen",
+  "Day 16 | At the Doctor — beim Arzt, Körper, Beschwerden, Krankenversicherung",
+  "Day 17 | Weather & Seasons — Wetter, Jahreszeiten, es ist/es gibt",
+  "Day 18 | Grammar: Dative Case — dem/einem, indirect object, Präpositionen mit Dativ",
+  "Day 19 | Making Plans & Appointments — Verabredungen, Kalender, Termine",
+  "Day 20 | Telephone & Formal Language — am Telefon, per E-Mail, Sie-Form",
+  "Day 21 | Week 3 Review — modal verbs, dative, formal communication",
+  // WEEK 4 — Integration: Perfekt Tense, German System
+  "Day 22 | Grammar: Perfekt with haben — ich habe gemacht, regular & irregular",
+  "Day 23 | Grammar: Perfekt with sein — ich bin gegangen, movement & change verbs",
+  "Day 24 | German Bureaucracy — Anmeldung, Amt, Formulare, Ausweis",
+  "Day 25 | Banking & Finance — Konto, Überweisung, Girokonto, Sparkasse",
+  "Day 26 | Healthcare System — Krankenversicherung, Apotheke, Rezept",
+  "Day 27 | Housing & Renting — Mietvertrag, Nebenkosten, Kaution, Vermieter",
+  "Day 28 | Week 4 Review — Perfekt tense practice, bureaucracy vocab",
+  // WEEK 5 — Professional Life: Prepositions, Writing, IT Vocab
+  "Day 29 | Job Interview — Vorstellungsgespräch, Stärken/Schwächen, Bewerbung",
+  "Day 30 | Workplace Vocabulary — Büro, Kollegen, Besprechung, Feierabend",
+  "Day 31 | IT & Cybersecurity German — DSGVO, Firewall, Datenschutz, SOC, SIEM",
+  "Day 32 | Grammar: Two-Way Prepositions — an, auf, in, vor, über, unter, zwischen (Dativ/Akkusativ)",
+  "Day 33 | Professional Writing — E-Mail, Sehr geehrte/r, Mit freundlichen Grüßen",
+  "Day 34 | Grammar: Negation — nicht vs kein, niemand, nichts, niemals",
+  "Day 35 | Week 5 Review — IT vocab, prepositions, professional writing",
+  // WEEK 6 — Advanced Grammar: Adjectives, Subordinate Clauses
+  "Day 36 | Grammar: Adjective Endings — after der/die/das, after ein/eine, predicative",
+  "Day 37 | Grammar: Subordinate Clauses — weil, dass, wenn, ob, obwohl (verb-final)",
+  "Day 38 | Grammar: Comparative & Superlative — größer als, am größten, genauso wie",
+  "Day 39 | Grammar: Reflexive Verbs — sich vorstellen, sich freuen, sich erinnern",
+  "Day 40 | Grammar: Konjunktiv II — würde, hätte, wäre (polite requests, wishes)",
+  "Day 41 | German Culture & Work Values — Pünktlichkeit, Direktheit, Feierabend-Kultur",
+  "Day 42 | Week 6 Review — adjective endings, subordinate clauses, Konjunktiv II",
+  // WEEK 7 — A2 Exam Preparation: All 4 Skills
+  "Day 43 | Exam Skill: Lesen — reading comprehension strategies, skimming, scanning",
+  "Day 44 | Exam Skill: Hören — listening vocabulary, announcement types, instructions",
+  "Day 45 | Exam Skill: Schreiben — letter/email writing structure, formal vs informal",
+  "Day 46 | Exam Skill: Sprechen Teil 1 — sich vorstellen, über Alltag sprechen",
+  "Day 47 | Exam Skill: Sprechen Teil 2 — Bildbeschreibung, gemeinsam planen",
+  "Day 48 | Mock Lesen (A2 Reading Test) — practice texts, multiple choice, true/false",
+  "Day 49 | Mock Hören (A2 Listening Test) — practice dialogues, form-filling",
+  // WEEK 8 — Mock Exams & Consolidation
+  "Day 50 | Mock Schreiben (A2 Writing Test) — guided writing, 80-word email",
+  "Day 51 | Mock Sprechen (A2 Speaking Test) — role-play at the Amt, doctor, shop",
+  "Day 52 | Vocabulary Consolidation: Daily Life — all A2 topic groups reviewed",
+  "Day 53 | Vocabulary Consolidation: Professional — IT, office, job interview vocab",
+  "Day 54 | Grammar Consolidation: Cases — Nominativ, Akkusativ, Dativ review",
+  "Day 55 | Grammar Consolidation: Tenses — Präsens, Perfekt, Futur I (werden)",
+  "Day 56 | Full A2 Practice Test — Lesen + Hören + Schreiben + Sprechen",
+  // WEEK 9 — Final Push
+  "Day 57 | Common Errors & Corrections — false friends, case mistakes, word order",
+  "Day 58 | German Idioms & Fixed Expressions — Das ist mir Wurst, Daumen drücken",
+  "Day 59 | Berlin German & Culture — Berlinerisch, Kiez, Späti, Integration vocabulary",
+  "Day 60 | Graduation Day — full revision, A2 readiness check, Du bist bereit!"
 ];
 
 // ═══════════════════════════════════
@@ -629,6 +640,14 @@ function safeParseLesson(raw){
   obj.berlinTip=esc(obj.berlinTip||'');
   obj.jobTip=esc(obj.jobTip||'');
   obj.topic=esc(obj.topic||'');
+  if(obj.grammar&&typeof obj.grammar==='object'){
+    obj.grammar={
+      rule:esc(obj.grammar.rule||''),
+      explanation:esc(obj.grammar.explanation||''),
+      examples:(Array.isArray(obj.grammar.examples)?obj.grammar.examples:[]).slice(0,5).map(e=>esc(String(e||''))),
+      mistake:esc(obj.grammar.mistake||'')
+    };
+  } else { obj.grammar=null; }
   obj.words=obj.words.slice(0,12).map(w=>({
     de:esc(w.de||''), pron:esc(w.pron||''), en:esc(w.en||''),
     example_de:esc(w.example_de||''), example_en:esc(w.example_en||''),
@@ -903,25 +922,41 @@ async function loadLesson(day){
   currentLesson=null;
   document.getElementById('lessonContent').innerHTML=`<div class="lesson-loading"><div class="spinner"></div><div>Generating Day ${day} lesson... hang tight! 🍛</div></div>`;
   const topic=DAY_TOPICS[(day-1)%DAY_TOPICS.length]||'Advanced German';
-  const prompt=`You are a funny German tutor for two IT security professionals from New Delhi now living in Berlin who lost their jobs and urgently need German. 10+ years IT security experience each.
+  const prompt=`You are a structured A2 German tutor for two IT security professionals from New Delhi living in Berlin. Your goal: get them to Goethe/TELC A2 standard. Warm, memorable humor — but grammar and vocabulary precision come first.
 
-Generate a Day ${day} German lesson on: "${topic}"
+Generate a Day ${day} A2-aligned German lesson on: "${topic}"
 
-TONE: Like a hilarious senior desi colleague who's been in Berlin 5 years. Warm, never mean. Make it memorable through humor. Mix Delhi + Berlin references naturally.
+LEVEL RULES (strictly enforced):
+- Days 1-14: A1 foundation — articles, basic verbs, present tense only
+- Days 15-28: A1→A2 bridge — modal verbs, accusative/dative, Perfekt
+- Days 29-42: A2 core — two-way prepositions, adjective endings, subordinate clauses, Konjunktiv II
+- Days 43-56: A2 exam prep — all four skills (Lesen/Hören/Schreiben/Sprechen), mock test vocabulary
+- Days 57-60: Consolidation — common errors, idioms, exam readiness
 
-Delhi references to use: Connaught Place (CP), DTC bus, auto-wala, chai, biryani, Chandni Chowk, Noida traffic, jugaad, "bhai" culture, Blue Line metro, Lajpat Nagar
-Berlin references to use: U-Bahn, S-Bahn, BVG, REWE, Lidl, Aldi, Jobcenter, Alexanderplatz, Kreuzberg, Mitte, Prenzlauer Berg, Döner, Club Mate, Spätis
+GRAMMAR POINT (mandatory for this day):
+- The "grammar" field must explain the specific grammatical concept for day ${day} in simple English
+- Give a clear rule, 2-3 short example sentences, and a common mistake to avoid
+- This is the heart of the lesson — make it crystal clear
 
-Return ONLY valid JSON, no markdown, no backticks:
-{"day":${day},"topic":"${topic}","funnyIntro":"2-3 sentence funny intro mixing Delhi+Berlin+IT security context","words":[{"de":"word","pron":"[guide]","en":"meaning","example_de":"sentence","example_en":"translation","funny":"tip with Delhi or Berlin humor"}],"phrases":[{"de":"phrase","en":"meaning","funny":"when to use — funny context"}],"berlinTip":"Practical Berlin survival tip, funny","jobTip":"IT security job hunting tip in German context"}
+VOCABULARY RULES:
+- Words must be from A1-A2 CEFR word lists relevant to the day's topic
+- Include gender (der/die/das) for all nouns
+- Pronunciation guide in square brackets using approximate English sounds
+- Example sentences must be realistic Berlin daily-life situations
 
-Rules:
-- Exactly 8 words
-- Exactly 6 phrases  
-- Day 1-10: absolute beginner. Day 11-25: beginner-intermediate. Day 26-45: intermediate. Day 46-60: advanced/professional
-- Every example sentence uses a Berlin location OR a Delhi comparison
-- IT/cybersecurity angle whenever possible (DSGVO, Firewall, Penetrationstest, Datenschutz, SOC, SIEM)
-- Funny but genuinely educational
+TONE: Like a brilliant desi bhaiya who aced his Goethe A2. Humor through Delhi+Berlin comparisons, never at expense of clarity.
+Delhi: CP, DTC bus, auto-wala, chai, biryani, Chandni Chowk, jugaad, "bhai"
+Berlin: U-Bahn, BVG, REWE, Lidl, Jobcenter, Alexanderplatz, Kreuzberg, Döner, Späti
+
+Return ONLY valid JSON (no markdown, no backticks):
+{"day":${day},"topic":"${topic}","funnyIntro":"2 sentences — hook them with Delhi+Berlin humor, set up why today's grammar matters","grammar":{"rule":"Clear one-sentence grammar rule","explanation":"2-3 sentences explaining when and how to use it, with the logic behind it","examples":["German example sentence 1 — English translation","German example sentence 2 — English translation","German example sentence 3 — English translation"],"mistake":"The most common error learners make with this rule and how to avoid it"},"words":[{"de":"word with article if noun","pron":"[sounds-like-english]","en":"meaning","example_de":"Berlin-context sentence","example_en":"translation","funny":"Delhi/Berlin memory hook"}],"phrases":[{"de":"phrase","en":"meaning","funny":"when to use — real situation"}],"berlinTip":"Practical A2-level Berlin survival tip linked to today's grammar","jobTip":"IT security job hunting tip using today's grammar or vocabulary"}
+
+STRICT RULES:
+- Exactly 8 words (A1-A2 CEFR level)
+- Exactly 6 phrases
+- grammar field is REQUIRED — no exceptions
+- Every example sentence must be a complete, grammatically correct German sentence
+- IT/cybersecurity vocabulary angle where natural (DSGVO, Firewall, Datenschutz, SOC, Penetrationstest)
 - Pure JSON only — no text before or after`;
 
   try{
@@ -972,7 +1007,34 @@ function renderLesson(lesson){
       </div>
     </div>`});
 
-  // One word per page
+  // Page 1 — Grammar Point (if present)
+  if(lesson.grammar){
+    const g=lesson.grammar;
+    const exHtml=g.examples.map(ex=>{
+      const parts=ex.split(' — ');
+      return `<div style="padding:8px 0;border-bottom:1px solid var(--border)">
+        <div style="font-weight:600;color:var(--text)">${parts[0]||ex}</div>
+        ${parts[1]?`<div style="font-size:12px;color:var(--muted);margin-top:2px">${parts[1]}</div>`:''}
+      </div>`;
+    }).join('');
+    lessonPages.push({type:'grammar', html:`
+      <div class="card" style="border-color:var(--violet)">
+        <div class="section-label" style="color:var(--violet)">📐 Grammar Point <span class="section-badge">${lesson.topic}</span></div>
+        <div style="background:var(--surface);border-left:3px solid var(--violet);padding:12px 14px;border-radius:8px;margin-bottom:14px">
+          <div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.5">${g.rule}</div>
+        </div>
+        <div style="font-size:13px;line-height:1.8;color:var(--muted);margin-bottom:14px">${g.explanation}</div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:12px;color:var(--violet);font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Examples</div>
+          ${exHtml}
+        </div>
+        ${g.mistake?`<div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px 12px;font-size:13px">
+          <span style="color:#f87171;font-weight:600">⚠️ Common mistake: </span><span style="color:var(--muted)">${g.mistake}</span>
+        </div>`:''}
+      </div>`});
+  }
+
+  // Vocab pages — one word per page
   lesson.words.forEach((w,i)=>{
     const sid=`w${i}`;
     lessonPages.push({type:'word', html:`
