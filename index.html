@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,7 @@
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Referrer-Policy" content="no-referrer">
-<title>Speako — Learn German</title>
+<title>Speako â€” Learn German</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
@@ -47,7 +47,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .demo-modal-accept{width:100%;background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:"Space Grotesk",sans-serif;transition:all 0.2s;box-shadow:0 4px 20px rgba(59,130,246,0.3);}
 .demo-modal-accept:hover{transform:translateY(-1px);}
 
-/* ── DISCLAIMER SCREEN ── */
+/* â”€â”€ DISCLAIMER SCREEN â”€â”€ */
 #disclaimerScreen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 24px 120px;background:linear-gradient(160deg,#0F0C29 0%,#302B63 55%,#1D4ED8 100%);position:relative;z-index:1;overflow-y:auto;}
 #disclaimerScreen::before{content:"";position:absolute;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.04);top:-80px;left:-80px;pointer-events:none;}
 #disclaimerScreen::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.03);bottom:80px;right:-40px;pointer-events:none;}
@@ -119,7 +119,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .main{max-width:880px;margin:0 auto;padding:18px 20px 90px;width:100%;}
 
 .mot-banner{background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.06));border:1px solid rgba(59,130,246,0.2);border-radius:var(--r);padding:16px 20px;margin-bottom:16px;position:relative;overflow:hidden;font-size:13px;color:var(--text2);line-height:1.7;}
-.mot-banner::after{content:"🎯";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:40px;opacity:0.1;}
+.mot-banner::after{content:"ðŸŽ¯";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:40px;opacity:0.1;}
 .mot-banner strong{color:var(--orange);}
 
 .session-bar{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:14px 18px;margin-bottom:12px;}
@@ -211,7 +211,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .exercise-feedback.loading{background:var(--card2);color:var(--text3);border:1px solid var(--border2);}
 
 .drill-box{background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(239,68,68,0.06),rgba(139,92,246,0.05));border:1px solid rgba(245,158,11,0.2);border-radius:var(--r);padding:20px;margin-bottom:14px;position:relative;overflow:hidden;}
-.drill-box::after{content:"⚡";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:60px;opacity:0.08;}
+.drill-box::after{content:"âš¡";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:60px;opacity:0.08;}
 .drill-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:4px;}
 .drill-sub{font-size:13px;color:var(--text2);margin-bottom:16px;}
 .drill-scenario{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:16px;margin-bottom:12px;}
@@ -273,11 +273,11 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 </head>
 <body>
 
-<!-- ── DEMO DISCLAIMER MODAL (shown once on first visit) ── -->
+<!-- â”€â”€ DEMO DISCLAIMER MODAL (shown once on first visit) â”€â”€ -->
 <div class="demo-modal-overlay" id="demoModal">
   <div class="demo-modal">
-    <div class="demo-modal-badge">⚠️ Prototype / Demo</div>
-    <div class="demo-modal-title">This is a Demo Application — Not a Commercial Product</div>
+    <div class="demo-modal-badge">âš ï¸ Prototype / Demo</div>
+    <div class="demo-modal-title">This is a Demo Application â€” Not a Commercial Product</div>
     <div class="demo-modal-body">
       <strong>Please read before continuing:</strong>
       <ul>
@@ -290,25 +290,25 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
         <li>This app uses the <strong>Google Gemini API</strong> for content generation. Usage is subject to <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer" style="color:#c4b5fd">Google AI Terms of Service</a>.</li>
       </ul>
     </div>
-    <button class="demo-modal-accept" onclick="acceptDemo()">I understand — this is a demo. Let me in! 🇩🇪</button>
+    <button class="demo-modal-accept" onclick="acceptDemo()">I understand â€” this is a demo. Let me in! ðŸ‡©ðŸ‡ª</button>
   </div>
 </div>
 
-<!-- ── STICKY DEMO RIBBON (always visible) ── -->
+<!-- â”€â”€ STICKY DEMO RIBBON (always visible) â”€â”€ -->
 <div class="demo-ribbon" id="demoRibbon">
-  ⚠️ DEMO / PROTOTYPE — Not a commercial product. AI content may contain errors. For testing purposes only.
+  âš ï¸ DEMO / PROTOTYPE â€” Not a commercial product. AI content may contain errors. For testing purposes only.
   <a onclick="document.getElementById('demoModal').style.display='flex'" tabindex="0">Read disclaimer</a>
 </div>
 
 <div id="loadingScreen" class="loading-screen" style="position:fixed;inset:0;z-index:500;background:var(--black)">
   <div class="spinner"></div>
-  <div style="color:var(--text2);font-size:14px">Loading Speako... 🗣️</div>
+  <div style="color:var(--text2);font-size:14px">Loading Speako... ðŸ—£ï¸</div>
 </div>
 
 <div id="disclaimerScreen" class="hidden">
   <div class="disc-inner">
     <div class="disc-logo">
-      <div class="disc-logo-text">🗣️</div>
+      <div class="disc-logo-text">ðŸ—£ï¸</div>
       <div class="disc-logo-sub">Speako</div>
       <div class="disc-logo-tag">Hear it. Say it. Live it.</div>
     </div>
@@ -317,21 +317,21 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     <div class="disc-sub">A few things to know about this app before you start learning.</div>
 
     <div class="disc-card">
-      <div class="disc-card-icon">🎯</div>
+      <div class="disc-card-icon">ðŸŽ¯</div>
       <div>
         <div class="disc-card-title">Personal Learning Tool</div>
         <div class="disc-card-body">Speako is a private app built for immersive language learning. It is not a commercial product and is not publicly distributed.</div>
       </div>
     </div>
     <div class="disc-card">
-      <div class="disc-card-icon">🤖</div>
+      <div class="disc-card-icon">ðŸ¤–</div>
       <div>
         <div class="disc-card-title">AI-Generated Content</div>
         <div class="disc-card-body">Lesson content is generated by AI. It may occasionally contain errors or inaccuracies. Always verify with a qualified teacher if unsure.</div>
       </div>
     </div>
     <div class="disc-card">
-      <div class="disc-card-icon">🔒</div>
+      <div class="disc-card-icon">ðŸ”’</div>
       <div>
         <div class="disc-card-title">Your Privacy</div>
         <div class="disc-card-body">Your progress is saved locally in your browser only. No personal data is collected, stored on any server, or shared with third parties.</div>
@@ -341,68 +341,68 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     <div class="disc-section">What this app uses</div>
     <div class="disc-privacy">
       <div class="disc-row">
-        <div class="disc-row-icon green">🌐</div>
-        <div class="disc-row-label">Internet — to generate AI lessons</div>
-        <div style="margin-left:auto;font-size:16px;">✅</div>
+        <div class="disc-row-icon green">ðŸŒ</div>
+        <div class="disc-row-label">Internet â€” to generate AI lessons</div>
+        <div style="margin-left:auto;font-size:16px;">âœ…</div>
       </div>
       <div class="disc-row">
-        <div class="disc-row-icon green">🎤</div>
-        <div class="disc-row-label">Microphone — for speech practice</div>
-        <div style="margin-left:auto;font-size:16px;">✅</div>
+        <div class="disc-row-icon green">ðŸŽ¤</div>
+        <div class="disc-row-label">Microphone â€” for speech practice</div>
+        <div style="margin-left:auto;font-size:16px;">âœ…</div>
       </div>
       <div class="disc-row">
-        <div class="disc-row-icon green">💾</div>
-        <div class="disc-row-label">Local storage — to save your progress</div>
-        <div style="margin-left:auto;font-size:16px;">✅</div>
+        <div class="disc-row-icon green">ðŸ’¾</div>
+        <div class="disc-row-label">Local storage â€” to save your progress</div>
+        <div style="margin-left:auto;font-size:16px;">âœ…</div>
       </div>
     </div>
 
     <div class="disc-section">What we never access</div>
     <div class="disc-privacy">
       <div class="disc-row">
-        <div class="disc-row-icon red">📍</div>
+        <div class="disc-row-icon red">ðŸ“</div>
         <div class="disc-row-label">Location</div>
-        <div style="margin-left:auto;font-size:16px;">❌</div>
+        <div style="margin-left:auto;font-size:16px;">âŒ</div>
       </div>
       <div class="disc-row">
-        <div class="disc-row-icon red">📸</div>
+        <div class="disc-row-icon red">ðŸ“¸</div>
         <div class="disc-row-label">Camera or Photos</div>
-        <div style="margin-left:auto;font-size:16px;">❌</div>
+        <div style="margin-left:auto;font-size:16px;">âŒ</div>
       </div>
       <div class="disc-row">
-        <div class="disc-row-icon red">📱</div>
+        <div class="disc-row-icon red">ðŸ“±</div>
         <div class="disc-row-label">Contacts or Messages</div>
-        <div style="margin-left:auto;font-size:16px;">❌</div>
+        <div style="margin-left:auto;font-size:16px;">âŒ</div>
       </div>
       <div class="disc-row">
-        <div class="disc-row-icon red">🪪</div>
+        <div class="disc-row-icon red">ðŸªª</div>
         <div class="disc-row-label">Personal identity or account data</div>
-        <div style="margin-left:auto;font-size:16px;">❌</div>
+        <div style="margin-left:auto;font-size:16px;">âŒ</div>
       </div>
     </div>
   </div>
 
   <div class="disc-btn-wrap">
-    <button class="disc-btn" onclick="acceptDisclaimer()">I understand. Let's start learning →</button>
+    <button class="disc-btn" onclick="acceptDisclaimer()">I understand. Let's start learning â†’</button>
   </div>
 </div>
 
 <div id="loginScreen" class="hidden">
   <div class="login-box">
-    <div class="login-badge">🗣️ Language Learning</div>
-    <div class="login-logo">🗣️</div>
+    <div class="login-badge">ðŸ—£ï¸ Language Learning</div>
+    <div class="login-logo">ðŸ—£ï¸</div>
     <div class="login-appname">Speako</div>
     <div class="login-sub">Hear it. Say it. Live it.</div>
     <div class="login-mot">
-      🎯 Sign in to continue learning.<br>
+      ðŸŽ¯ Sign in to continue learning.<br>
       <strong>Your progress is saved.</strong>
     </div>
     <div id="loginError" class="login-error"></div>
     <label class="field-label">Username</label>
     <input class="field-input" id="loginName" placeholder="Enter your username" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')document.getElementById('loginPin').focus()" />
-    <label class="field-label">PIN — 4 digits</label>
-    <input class="field-input" id="loginPin" type="password" maxlength="4" placeholder="• • • •" inputmode="numeric" autocomplete="off" onkeydown="if(event.key==='Enter')handleLogin()" />
-    <button class="login-btn" id="loginBtn" onclick="handleLogin()">Sign in to continue →</button>
+    <label class="field-label">PIN â€” 4 digits</label>
+    <input class="field-input" id="loginPin" type="password" maxlength="4" placeholder="â€¢ â€¢ â€¢ â€¢" inputmode="numeric" autocomplete="off" onkeydown="if(event.key==='Enter')handleLogin()" />
+    <button class="login-btn" id="loginBtn" onclick="handleLogin()">Sign in to continue â†’</button>
     <div style="margin-top:16px;font-size:11px;color:rgba(255,255,255,0.45);text-align:center;line-height:1.7">
       Personal learning app. Progress stored locally.
     </div>
@@ -411,11 +411,11 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 
 <div id="appScreen" class="hidden">
   <div class="header">
-    <div class="logo">🗣️ Speako</div>
+    <div class="logo">ðŸ—£ï¸ Speako</div>
     <div class="header-right">
-      <div class="streak">🔥 <span id="streakCount">0</span></div>
+      <div class="streak">ðŸ”¥ <span id="streakCount">0</span></div>
       <div class="user-name" id="headerName"></div>
-      <button class="logout-btn" onclick="logout()">⏻ <span class="lbl">Logout</span></button>
+      <button class="logout-btn" onclick="logout()">â» <span class="lbl">Logout</span></button>
     </div>
   </div>
 
@@ -424,9 +424,9 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
       <div class="hero-greeting" id="heroGreeting">Good morning</div>
       <div class="hero-name" id="heroName">Welcome back!</div>
       <div class="hero-chips">
-        <div class="hero-chip">🗣️ German</div>
+        <div class="hero-chip">ðŸ—£ï¸ German</div>
         <div class="hero-chip" id="heroDayChip">Day 1</div>
-        <div class="hero-chip">🔥 <span id="heroStreak">0</span> streak</div>
+        <div class="hero-chip">ðŸ”¥ <span id="heroStreak">0</span> streak</div>
       </div>
     </div>
 
@@ -441,37 +441,37 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     </div>
 
     <div class="extend-bar" id="extendBar">
-      <div style="font-size:14px;color:var(--text)">✅ <strong>60 min done!</strong> Session complete! Test is now unlocked! Keep going? 🎯</div>
+      <div style="font-size:14px;color:var(--text)">âœ… <strong>60 min done!</strong> Session complete! Test is now unlocked! Keep going? ðŸŽ¯</div>
       <button class="btn btn-green" onclick="extendSession()">+ 30 min</button>
     </div>
 
     <div class="day-progress">
       <div class="dp-header">
-        <div class="dp-title">Your German Journey 🗺️</div>
+        <div class="dp-title">Your German Journey ðŸ—ºï¸</div>
         <div class="dp-day" id="currentDayLabel">Day 1</div>
       </div>
       <div class="dp-dots" id="dayDots"></div>
     </div>
 
     <div class="tabs">
-      <div class="tab active" id="tabBtnLesson" onclick="switchTab('lesson',this)">📚 Today's Lesson</div>
-      <div class="tab" id="tabBtnSpeak" onclick="switchTab('speak',this)">🎤 Speaking</div>
-      <div class="tab locked" id="tabBtnTest" onclick="openTest()">🎯 Take Test</div>
+      <div class="tab active" id="tabBtnLesson" onclick="switchTab('lesson',this)">ðŸ“š Today's Lesson</div>
+      <div class="tab" id="tabBtnSpeak" onclick="switchTab('speak',this)">ðŸŽ¤ Speaking</div>
+      <div class="tab locked" id="tabBtnTest" onclick="openTest()">ðŸŽ¯ Take Test</div>
     </div>
 
     <div id="tab-lesson">
       <div id="lessonContent">
-        <div class="lesson-loading"><div class="spinner"></div><div>Generating your lesson... hang tight! 🍛</div></div>
+        <div class="lesson-loading"><div class="spinner"></div><div>Generating your lesson... hang tight! ðŸ›</div></div>
       </div>
     </div>
 
     <div id="tab-speak" class="hidden">
       <div class="no-speech-warn" id="noSpeechWarn">
-        ⚠️ Speech recognition works best on Chrome or Edge. Safari is not supported.
+        âš ï¸ Speech recognition works best on Chrome or Edge. Safari is not supported.
       </div>
-      <div class="section-intro">🎤 Pronunciation practice — <strong>Listen first, then repeat.</strong> Your browser listens and tells you how accurate your pronunciation is. Use Chrome or Edge for best results.</div>
+      <div class="section-intro">ðŸŽ¤ Pronunciation practice â€” <strong>Listen first, then repeat.</strong> Your browser listens and tells you how accurate your pronunciation is. Use Chrome or Edge for best results.</div>
       <div id="speakContent">
-        <div class="lesson-loading"><div class="spinner"></div><div>Loading lesson content... 🎤</div></div>
+        <div class="lesson-loading"><div class="spinner"></div><div>Loading lesson content... ðŸŽ¤</div></div>
       </div>
     </div>
 
@@ -481,7 +481,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 
     <!-- FOOTER -->
     <div class="disclaimer-footer">
-      🗣️ <strong>Speako</strong> — Personal language learning app.<br>
+      ðŸ—£ï¸ <strong>Speako</strong> â€” Personal language learning app.<br>
       AI-generated content may occasionally contain errors. Progress stored locally in your browser only.<br>
       No user data is collected or shared.
     </div>
@@ -497,72 +497,72 @@ let testQuestions=[], currentTestQ=0, testScore=0, testCompleted=false;
 
 const TOTAL_DAYS=60;
 const DAY_TOPICS=[
-  "Survival Greetings — Hallo is not enough in Berlin",
-  "Numbers, Time & Money — rent, U-Bahn tickets, Döner prices",
-  "Job Interview German — Erzählen Sie von sich (tell me about yourself)",
-  "Office Small Talk — weather, Kaffee, Monday feelings",
-  "Shopping at REWE & Lidl — Berlin supermarket survival",
-  "Transport & Navigation — U-Bahn, S-Bahn, BVG chaos",
-  "Food & Restaurants — ordering without just pointing",
-  "IT & Cybersecurity Vocabulary — your actual job in German",
-  "Emails & Professional Writing — Sehr geehrte Damen und Herren",
-  "Phone Calls & Appointments — most terrifying German experience",
-  "Housing & Landlord — Wohnung, Nebenkosten, Kaution",
-  "Banking & Bureaucracy — Anmeldung, Finanzamt, surviving German admin",
-  "Healthcare — Arzt, Krankenversicherung, making appointments",
-  "Networking & LinkedIn — connect professionally auf Deutsch",
-  "Salary Negotiation — Gehaltsverhandlung like a pro",
-  "Making Friends in Berlin — social German beyond work",
-  "Emergency German — police, hospital, lost wallet",
-  "Job Application Writing — Bewerbungsschreiben & Lebenslauf",
-  "Advanced IT Security — CISO, DSGVO, NIS2 vocabulary",
-  "Presentations & Meetings — speaking up auf Deutsch",
-  "German Compound Words — why one word has 40 letters",
-  "Asking for Help — without seeming lost (even when you are)",
-  "German Work Culture — Pünktlichkeit, Feierabend, rules everywhere",
-  "Prepositions & Direction — auf, an, über, unter, durch",
-  "Opinions & Disagreement — professional pushback auf Deutsch",
-  "Celebrations — Glückwunsch, Prost, office party German",
-  "Travel within Germany — trains, cities, weekend trips",
-  "Digital Life — passwords, apps, software auf Deutsch",
-  "Feedback & Performance Reviews — giving and receiving auf Deutsch",
-  "Advanced Job Interview — technical questions and case studies",
-  "Legal & Contracts — Vertrag, Kündigung, basic rights",
-  "Networking Events — Messe, Konferenz, business cards",
+  "Survival Greetings â€” Hallo is not enough in Berlin",
+  "Numbers, Time & Money â€” rent, U-Bahn tickets, DÃ¶ner prices",
+  "Job Interview German â€” ErzÃ¤hlen Sie von sich (tell me about yourself)",
+  "Office Small Talk â€” weather, Kaffee, Monday feelings",
+  "Shopping at REWE & Lidl â€” Berlin supermarket survival",
+  "Transport & Navigation â€” U-Bahn, S-Bahn, BVG chaos",
+  "Food & Restaurants â€” ordering without just pointing",
+  "IT & Cybersecurity Vocabulary â€” your actual job in German",
+  "Emails & Professional Writing â€” Sehr geehrte Damen und Herren",
+  "Phone Calls & Appointments â€” most terrifying German experience",
+  "Housing & Landlord â€” Wohnung, Nebenkosten, Kaution",
+  "Banking & Bureaucracy â€” Anmeldung, Finanzamt, surviving German admin",
+  "Healthcare â€” Arzt, Krankenversicherung, making appointments",
+  "Networking & LinkedIn â€” connect professionally auf Deutsch",
+  "Salary Negotiation â€” Gehaltsverhandlung like a pro",
+  "Making Friends in Berlin â€” social German beyond work",
+  "Emergency German â€” police, hospital, lost wallet",
+  "Job Application Writing â€” Bewerbungsschreiben & Lebenslauf",
+  "Advanced IT Security â€” CISO, DSGVO, NIS2 vocabulary",
+  "Presentations & Meetings â€” speaking up auf Deutsch",
+  "German Compound Words â€” why one word has 40 letters",
+  "Asking for Help â€” without seeming lost (even when you are)",
+  "German Work Culture â€” PÃ¼nktlichkeit, Feierabend, rules everywhere",
+  "Prepositions & Direction â€” auf, an, Ã¼ber, unter, durch",
+  "Opinions & Disagreement â€” professional pushback auf Deutsch",
+  "Celebrations â€” GlÃ¼ckwunsch, Prost, office party German",
+  "Travel within Germany â€” trains, cities, weekend trips",
+  "Digital Life â€” passwords, apps, software auf Deutsch",
+  "Feedback & Performance Reviews â€” giving and receiving auf Deutsch",
+  "Advanced Job Interview â€” technical questions and case studies",
+  "Legal & Contracts â€” Vertrag, KÃ¼ndigung, basic rights",
+  "Networking Events â€” Messe, Konferenz, business cards",
   "Reading German News & Media",
-  "Idioms — what Germans actually say (not textbook German)",
-  "Complaints & Problem Solving — Reklamation wie ein Profi",
-  "Cross-Cultural Communication — India meets Germany",
+  "Idioms â€” what Germans actually say (not textbook German)",
+  "Complaints & Problem Solving â€” Reklamation wie ein Profi",
+  "Cross-Cultural Communication â€” India meets Germany",
   "Leadership & Management Vocabulary",
-  "German Humour — ja, it exists, trust me",
-  "Advanced Writing — reports and documentation",
-  "Confidently Speaking in Meetings — no more silence",
+  "German Humour â€” ja, it exists, trust me",
+  "Advanced Writing â€” reports and documentation",
+  "Confidently Speaking in Meetings â€” no more silence",
   "Salary, Benefits & Contract Terms deep dive",
-  "Remote Work German — video call and home office vocab",
-  "Du vs Sie Mastery — when to use which",
-  "Weekend & Hobby German — life outside work",
-  "Describing Technical Problems — auf Deutsch",
-  "Project Management — Zeitplan, Meilenstein, Deliverable",
-  "Client-Facing German — external meeting mastery",
+  "Remote Work German â€” video call and home office vocab",
+  "Du vs Sie Mastery â€” when to use which",
+  "Weekend & Hobby German â€” life outside work",
+  "Describing Technical Problems â€” auf Deutsch",
+  "Project Management â€” Zeitplan, Meilenstein, Deliverable",
+  "Client-Facing German â€” external meeting mastery",
   "Health & Wellbeing vocabulary",
-  "Company Culture & Values — talking about your employer",
-  "B1 Consolidation — full conversation confidence",
-  "Mock Interview Roleplay — practice the whole thing",
+  "Company Culture & Values â€” talking about your employer",
+  "B1 Consolidation â€” full conversation confidence",
+  "Mock Interview Roleplay â€” practice the whole thing",
   "Advanced DSGVO & Compliance German",
   "Your LinkedIn Profile auf Deutsch",
-  "Negotiation Tactics — Verhandeln wie ein Profi",
-  "German Business Etiquette — dos and absolute don'ts",
-  "Complex Sentences — sounding more native",
+  "Negotiation Tactics â€” Verhandeln wie ein Profi",
+  "German Business Etiquette â€” dos and absolute don'ts",
+  "Complex Sentences â€” sounding more native",
   "Reading & Decoding German Job Descriptions",
-  "Final Sprint — all topics reviewed",
+  "Final Sprint â€” all topics reviewed",
   "Full Mock Job Interview Simulation",
-  "Graduation — Du bist bereit, bhai! 🎓"
+  "Graduation â€” Du bist bereit, bhai! ðŸŽ“"
 ];
 
-// ═══════════════════════════════════
-// OWASP A03 – XSS: Central sanitiser
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// OWASP A03 â€“ XSS: Central sanitiser
 // Escapes all untrusted strings before DOM insertion
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function esc(str){
   if(typeof str!=='string')return '';
   return str
@@ -574,36 +574,36 @@ function esc(str){
     .replace(/\//g,'&#x2F;');
 }
 
-// Safe DOM text setter — never uses innerHTML for user/AI data
+// Safe DOM text setter â€” never uses innerHTML for user/AI data
 function safeText(el,text){if(el)el.textContent=String(text||'');}
 
-// OWASP A03 – Safe innerHTML only for trusted static markup
+// OWASP A03 â€“ Safe innerHTML only for trusted static markup
 // AI content goes through esc() before interpolation
 function safeHtml(el,html){if(el)el.innerHTML=html;}
 
-// ═══════════════════════════════════
-// OWASP A02 – PIN hashing (SHA-256)
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// OWASP A02 â€“ PIN hashing (SHA-256)
 // Never store raw PIN
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 async function hashPin(pin){
   const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('dj2_salt_'+pin));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);
 }
 
-// ═══════════════════════════════════
-// OWASP A04 – Rate limiting on API calls
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// OWASP A04 â€“ Rate limiting on API calls
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const apiCalls={count:0,windowStart:Date.now(),limit:20,windowMs:60000};
 function checkRateLimit(){
   const now=Date.now();
   if(now-apiCalls.windowStart>apiCalls.windowMs){apiCalls.count=0;apiCalls.windowStart=now;}
-  if(apiCalls.count>=apiCalls.limit)throw new Error('Too many requests. Ek minute ruko bhai! ⏱️');
+  if(apiCalls.count>=apiCalls.limit)throw new Error('Too many requests. Ek minute ruko bhai! â±ï¸');
   apiCalls.count++;
 }
 
-// ═══════════════════════════════════
-// OWASP A08 – Safe JSON parse with schema validation
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// OWASP A08 â€“ Safe JSON parse with schema validation
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function extractJSON(raw){
   // Remove markdown code blocks
   raw=raw.replace(/```json|```/g,'').trim();
@@ -653,9 +653,9 @@ function safeParseTest(raw){
   return obj;
 }
 
-// ═══════════════════════════════════
-// OWASP A07 – Input validation
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// OWASP A07 â€“ Input validation
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function validateName(name){
   if(!name||name.length<1||name.length>30)return 'Name 1-30 characters hona chahiye.';
   if(!/^[a-zA-Z0-9 _-]+$/.test(name))return 'Name mein only letters, numbers, spaces allowed.';
@@ -668,27 +668,27 @@ function validatePin(pin){
   return null;
 }
 
-// ═══════════════════════════════════
-// OWASP A09 – Safe error display
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// OWASP A09 â€“ Safe error display
 // Never expose stack traces or internal errors to user
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function safeError(context){
   const msgs={
     lesson:'Lesson load nahi hua. Internet check karo aur reload karo.',
     test:'Test generate nahi hua. Dobara try karo.',
-    chat:'Connection issue. Thodi der baad try karo. 📡',
+    chat:'Connection issue. Thodi der baad try karo. ðŸ“¡',
     login:'Login nahi hua. Check karo aur dobara try karo.',
     storage:'Progress save nahi hua. Check your browser settings.'
   };
   return msgs[context]||'Kuch problem aa gayi. Dobara try karo.';
 }
 
-// ═══════════════════════════════════
-// STORAGE — localStorage with validation
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// STORAGE â€” localStorage with validation
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 async function storageGet(k){
   try{
-    // OWASP A03 – Validate key format
+    // OWASP A03 â€“ Validate key format
     if(!/^[a-zA-Z0-9_:.-]+$/.test(k))return null;
     const r=localStorage.getItem(k);
     return r?JSON.parse(r):null;
@@ -697,17 +697,17 @@ async function storageGet(k){
 async function storageSet(k,v){
   try{
     if(!/^[a-zA-Z0-9_:.-]+$/.test(k))return;
-    // OWASP A09 – Limit storage size (prevent DoS via storage flood)
+    // OWASP A09 â€“ Limit storage size (prevent DoS via storage flood)
     const str=JSON.stringify(v);
     if(str.length>50000)return;
     localStorage.setItem(k,str);
   }catch(e){}
 }
 
-// OWASP A02 – Keys use hashed PIN, never raw
+// OWASP A02 â€“ Keys use hashed PIN, never raw
 async function pKey(n,p){return `dj2_p:${n.toLowerCase().trim()}:${await hashPin(p)}`;}
 
-// ── DEMO DISCLAIMER ──
+// â”€â”€ DEMO DISCLAIMER â”€â”€
 function acceptDemo(){
   localStorage.setItem('dj2_disclaimer','1');
   document.getElementById('demoModal').style.display='none';
@@ -752,11 +752,11 @@ window.onload=async()=>{
   }
 };
 
-// ═══════════════════════════════════
-// HARDCODED ACCOUNTS — 2 users only
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// HARDCODED ACCOUNTS â€” 2 users only
 // Credentials shared privately by admin
-// No signup possible — closed system
-// ═══════════════════════════════════
+// No signup possible â€” closed system
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const ACCOUNTS=[
   {name:'manra', pin:'7860', displayName:'Manisha'},
   {name:'nikra', pin:'5511', displayName:'Nikhil'}
@@ -768,10 +768,10 @@ async function isValidAccount(name, pin){
   );
 }
 
-// OWASP A07 – Input validation (kept from before)
+// OWASP A07 â€“ Input validation (kept from before)
 async function handleLogin(){
   if(handleLogin._locked){
-    showLoginError('Please wait a moment before trying again! ⏱️');return;
+    showLoginError('Please wait a moment before trying again! â±ï¸');return;
   }
   const nameRaw=document.getElementById('loginName').value.trim();
   const pinRaw=document.getElementById('loginPin').value.trim();
@@ -853,10 +853,10 @@ function updateMotBanner(){
   const done=(userProgress.completedDays||[]).length;
   const streak=userProgress.streak||1;
   const msgs=[
-    `🗣️ <strong>Willkommen!</strong> Every word you learn today brings you one step closer to speaking German with confidence. Let's begin!`,
-    `🔥 <strong>Day ${day} — ${streak} day streak!</strong> You're building a real habit. Consistency is everything. Keep going!`,
-    `🚀 <strong>${done} days complete!</strong> German is clicking. Each lesson makes the next one easier. Stay with it!`,
-    `🎯 <strong>${streak} days strong!</strong> You started. You showed up. That already puts you ahead of most. Weiter so! 💪`,
+    `ðŸ—£ï¸ <strong>Willkommen!</strong> Every word you learn today brings you one step closer to speaking German with confidence. Let's begin!`,
+    `ðŸ”¥ <strong>Day ${day} â€” ${streak} day streak!</strong> You're building a real habit. Consistency is everything. Keep going!`,
+    `ðŸš€ <strong>${done} days complete!</strong> German is clicking. Each lesson makes the next one easier. Stay with it!`,
+    `ðŸŽ¯ <strong>${streak} days strong!</strong> You started. You showed up. That already puts you ahead of most. Weiter so! ðŸ’ª`,
   ];
   document.getElementById('motBanner').innerHTML=msgs[Math.min(Math.floor(done/5),msgs.length-1)];
 }
@@ -869,7 +869,7 @@ function renderDayDots(){
   let html='';
   for(let i=1;i<=show;i++){
     let cls='dp-dot',label=i;
-    if(done.includes(i)){cls+=' done';label='✓';}
+    if(done.includes(i)){cls+=' done';label='âœ“';}
     else if(i===cur&&failed.includes(i)){cls+=' failed';}
     else if(i===cur){cls+=' current';}
     html+=`<div class="${cls}" title="Day ${i}: ${DAY_TOPICS[i-1]||'Advanced'}">${label}</div>`;
@@ -894,14 +894,14 @@ function unlockTest(){
   document.getElementById('extendBar').style.display='flex';
   const tb=document.getElementById('tabBtnTest');
   tb.classList.remove('locked');
-  tb.textContent='🎯 Take Test ← Now!';
+  tb.textContent='ðŸŽ¯ Take Test â† Now!';
   tb.style.color='var(--gold)';
   tb.style.borderColor='var(--gold)';
 }
 
 async function loadLesson(day){
   currentLesson=null;
-  document.getElementById('lessonContent').innerHTML=`<div class="lesson-loading"><div class="spinner"></div><div>Generating Day ${day} lesson... hang tight! 🍛</div></div>`;
+  document.getElementById('lessonContent').innerHTML=`<div class="lesson-loading"><div class="spinner"></div><div>Generating Day ${day} lesson... hang tight! ðŸ›</div></div>`;
   const topic=DAY_TOPICS[(day-1)%DAY_TOPICS.length]||'Advanced German';
   const prompt=`You are a funny German tutor for two IT security professionals from New Delhi now living in Berlin who lost their jobs and urgently need German. 10+ years IT security experience each.
 
@@ -910,10 +910,10 @@ Generate a Day ${day} German lesson on: "${topic}"
 TONE: Like a hilarious senior desi colleague who's been in Berlin 5 years. Warm, never mean. Make it memorable through humor. Mix Delhi + Berlin references naturally.
 
 Delhi references to use: Connaught Place (CP), DTC bus, auto-wala, chai, biryani, Chandni Chowk, Noida traffic, jugaad, "bhai" culture, Blue Line metro, Lajpat Nagar
-Berlin references to use: U-Bahn, S-Bahn, BVG, REWE, Lidl, Aldi, Jobcenter, Alexanderplatz, Kreuzberg, Mitte, Prenzlauer Berg, Döner, Club Mate, Spätis
+Berlin references to use: U-Bahn, S-Bahn, BVG, REWE, Lidl, Aldi, Jobcenter, Alexanderplatz, Kreuzberg, Mitte, Prenzlauer Berg, DÃ¶ner, Club Mate, SpÃ¤tis
 
 Return ONLY valid JSON, no markdown, no backticks:
-{"day":${day},"topic":"${topic}","funnyIntro":"2-3 sentence funny intro mixing Delhi+Berlin+IT security context","words":[{"de":"word","pron":"[guide]","en":"meaning","example_de":"sentence","example_en":"translation","funny":"tip with Delhi or Berlin humor"}],"phrases":[{"de":"phrase","en":"meaning","funny":"when to use — funny context"}],"berlinTip":"Practical Berlin survival tip, funny","jobTip":"IT security job hunting tip in German context"}
+{"day":${day},"topic":"${topic}","funnyIntro":"2-3 sentence funny intro mixing Delhi+Berlin+IT security context","words":[{"de":"word","pron":"[guide]","en":"meaning","example_de":"sentence","example_en":"translation","funny":"tip with Delhi or Berlin humor"}],"phrases":[{"de":"phrase","en":"meaning","funny":"when to use â€” funny context"}],"berlinTip":"Practical Berlin survival tip, funny","jobTip":"IT security job hunting tip in German context"}
 
 Rules:
 - Exactly 8 words
@@ -922,11 +922,11 @@ Rules:
 - Every example sentence uses a Berlin location OR a Delhi comparison
 - IT/cybersecurity angle whenever possible (DSGVO, Firewall, Penetrationstest, Datenschutz, SOC, SIEM)
 - Funny but genuinely educational
-- Pure JSON only — no text before or after`;
+- Pure JSON only â€” no text before or after`;
 
   try{
     checkRateLimit();
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5',max_tokens:2000,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,max_tokens:2000,messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
     if(!res.ok){
       console.error('API error:',res.status, data);
@@ -940,7 +940,7 @@ Rules:
     console.error('Lesson error:',e);
     document.getElementById('lessonContent').innerHTML=`
       <div class="card">
-        <p style="color:var(--red);margin-bottom:12px">⚠️ Error: ${esc(e.message)}</p>
+        <p style="color:var(--red);margin-bottom:12px">âš ï¸ Error: ${esc(e.message)}</p>
         <p style="color:var(--text2);font-size:13px">Lesson generation requires an internet connection and the Vercel API to be running.</p>
         <button class="btn btn-gold" style="margin-top:12px" onclick="loadLesson(${day})">Try Again</button>
       </div>`;
@@ -956,19 +956,19 @@ function renderLesson(lesson){
   lessonPages=[];
   lessonPage=0;
 
-  // Page 0 — Intro
+  // Page 0 â€” Intro
   lessonPages.push({type:'intro', html:`
     <div class="card">
       <div class="section-label">Day ${lesson.day} <span class="section-badge">${lesson.topic}</span></div>
       <div style="font-size:14px;line-height:1.8;background:var(--surface);padding:14px;border-radius:10px;border-left:3px solid var(--orange)">
-        😄 ${lesson.funnyIntro}
+        ðŸ˜„ ${lesson.funnyIntro}
       </div>
       <div style="margin-top:16px;padding:12px;background:var(--surface);border-radius:10px;font-size:13px;color:var(--muted);text-align:center;line-height:1.8">
-        📖 <strong style="color:var(--text)">${lesson.words.length} words</strong> &nbsp;·&nbsp;
-        💬 <strong style="color:var(--text)">${lesson.phrases.length} phrases</strong> &nbsp;·&nbsp;
-        ✍️ <strong style="color:var(--text)">exercises</strong> &nbsp;·&nbsp;
-        ⚡ <strong style="color:var(--text)">quick drill</strong><br>
-        <span style="color:var(--primary);font-size:12px;margin-top:6px;display:block">Tap Next to begin →</span>
+        ðŸ“– <strong style="color:var(--text)">${lesson.words.length} words</strong> &nbsp;Â·&nbsp;
+        ðŸ’¬ <strong style="color:var(--text)">${lesson.phrases.length} phrases</strong> &nbsp;Â·&nbsp;
+        âœï¸ <strong style="color:var(--text)">exercises</strong> &nbsp;Â·&nbsp;
+        âš¡ <strong style="color:var(--text)">quick drill</strong><br>
+        <span style="color:var(--primary);font-size:12px;margin-top:6px;display:block">Tap Next to begin â†’</span>
       </div>
     </div>`});
 
@@ -977,7 +977,7 @@ function renderLesson(lesson){
     const sid=`w${i}`;
     lessonPages.push({type:'word', html:`
       <div class="card">
-        <div class="section-label">📖 Word ${i+1} of ${lesson.words.length} <span class="section-badge">${lesson.topic}</span></div>
+        <div class="section-label">ðŸ“– Word ${i+1} of ${lesson.words.length} <span class="section-badge">${lesson.topic}</span></div>
 
         <div style="text-align:center;padding:16px 0 12px">
           <div class="word-de">${w.de}</div>
@@ -991,21 +991,21 @@ function renderLesson(lesson){
               <div><strong>${w.example_de}</strong></div>
               <div style="color:var(--muted);font-size:12px;margin-top:3px">${w.example_en}</div>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.example_de.replace(/'/g,"\\'")}')">🔊 Sentence</button>
+            <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.example_de.replace(/'/g,"\\'")}')">ðŸ”Š Sentence</button>
           </div>
-          <div class="word-funny" style="margin-top:8px">💡 ${w.funny}</div>
+          <div class="word-funny" style="margin-top:8px">ðŸ’¡ ${w.funny}</div>
         </div>
 
         <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
-          <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.de.replace(/'/g,"\\'")}')">🔊 Word</button>
-          <button class="mic-btn" id="micWord_${sid}" onclick="startVoiceValidation('${sid}','${w.de.replace(/'/g,"\\'")}','word')">🎤 Say it</button>
+          <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.de.replace(/'/g,"\\'")}')">ðŸ”Š Word</button>
+          <button class="mic-btn" id="micWord_${sid}" onclick="startVoiceValidation('${sid}','${w.de.replace(/'/g,"\\'")}','word')">ðŸŽ¤ Say it</button>
         </div>
         <div id="voiceResult_${sid}"></div>
 
         <div class="exercise-box" style="margin-top:12px">
-          <div class="exercise-label">✍️ Use it in a sentence</div>
+          <div class="exercise-label">âœï¸ Use it in a sentence</div>
           <input class="exercise-input" id="exInput_${sid}" placeholder="Write a German sentence using: ${w.de}" onkeydown="if(event.key==='Enter')checkExercise('${sid}','${w.de.replace(/'/g,"\\'")}','${w.en.replace(/'/g,"\\'")}')"/>
-          <button class="btn btn-outline btn-sm" onclick="checkExercise('${sid}','${w.de.replace(/'/g,"\\'")}','${w.en.replace(/'/g,"\\'")}')">Check ✓</button>
+          <button class="btn btn-outline btn-sm" onclick="checkExercise('${sid}','${w.de.replace(/'/g,"\\'")}','${w.en.replace(/'/g,"\\'")}')">Check âœ“</button>
           <div class="exercise-feedback" id="exFeedback_${sid}"></div>
         </div>
       </div>`});
@@ -1016,27 +1016,27 @@ function renderLesson(lesson){
     const sid=`p${i}`;
     lessonPages.push({type:'phrase', html:`
       <div class="card">
-        <div class="section-label">💬 Phrase ${i+1} of ${lesson.phrases.length} <span class="section-badge">${lesson.topic}</span></div>
+        <div class="section-label">ðŸ’¬ Phrase ${i+1} of ${lesson.phrases.length} <span class="section-badge">${lesson.topic}</span></div>
 
         <div style="text-align:center;padding:16px 0 12px">
           <div class="phrase-de" style="font-size:20px;font-weight:700">${p.de}</div>
           <div class="phrase-en" style="font-size:14px;margin-top:6px">${p.en}</div>
-          <div class="phrase-funny" style="margin-top:6px">😄 ${p.funny}</div>
+          <div class="phrase-funny" style="margin-top:6px">ðŸ˜„ ${p.funny}</div>
         </div>
 
         <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;justify-content:center">
-          <button class="btn btn-outline btn-sm" onclick="speakGerman('${p.de.replace(/'/g,"\\'")}')">🔊 Listen</button>
-          <button class="mic-btn" id="micPhrase_${sid}" onclick="startVoiceValidation('${sid}','${p.de.replace(/'/g,"\\'")}','phrase')">🎤 Say it</button>
+          <button class="btn btn-outline btn-sm" onclick="speakGerman('${p.de.replace(/'/g,"\\'")}')">ðŸ”Š Listen</button>
+          <button class="mic-btn" id="micPhrase_${sid}" onclick="startVoiceValidation('${sid}','${p.de.replace(/'/g,"\\'")}','phrase')">ðŸŽ¤ Say it</button>
         </div>
         <div id="voiceResult_${sid}"></div>
 
         <div class="exercise-box" style="margin-top:12px">
-          <div class="exercise-label">🎭 Berlin Scenario</div>
+          <div class="exercise-label">ðŸŽ­ Berlin Scenario</div>
           <div id="scenarioPrompt_${sid}">
-            <button class="btn btn-outline btn-sm" onclick="loadScenario('${sid}','${p.de.replace(/'/g,"\\'")}','${p.en.replace(/'/g,"\\'")}')">Get a scenario →</button>
+            <button class="btn btn-outline btn-sm" onclick="loadScenario('${sid}','${p.de.replace(/'/g,"\\'")}','${p.en.replace(/'/g,"\\'")}')">Get a scenario â†’</button>
           </div>
           <input class="exercise-input hidden" id="exInput_${sid}" placeholder="Respond in German..." onkeydown="if(event.key==='Enter')checkScenario('${sid}','${p.de.replace(/'/g,"\\'")}')"/>
-          <button class="btn btn-outline btn-sm hidden" id="exBtn_${sid}" onclick="checkScenario('${sid}','${p.de.replace(/'/g,"\\'")}')">Check ✓</button>
+          <button class="btn btn-outline btn-sm hidden" id="exBtn_${sid}" onclick="checkScenario('${sid}','${p.de.replace(/'/g,"\\'")}')">Check âœ“</button>
           <div class="exercise-feedback" id="exFeedback_${sid}"></div>
         </div>
       </div>`});
@@ -1045,37 +1045,37 @@ function renderLesson(lesson){
   // Tips page
   lessonPages.push({type:'tips', html:`
     <div class="card" style="border-color:var(--primary)">
-      <div class="section-label">🏙️ Berlin Survival Tip</div>
+      <div class="section-label">ðŸ™ï¸ Berlin Survival Tip</div>
       <div style="font-size:14px;line-height:1.8">${lesson.berlinTip}</div>
     </div>
     <div class="card" style="border-color:var(--green)">
-      <div class="section-label" style="color:var(--green)">💼 Job Hunting Tip</div>
+      <div class="section-label" style="color:var(--green)">ðŸ’¼ Job Hunting Tip</div>
       <div style="font-size:14px;line-height:1.8">${lesson.jobTip}</div>
     </div>
     <div class="card" style="border-color:var(--orange)">
-      <div class="section-label" style="color:var(--orange)">🧠 Good to Know</div>
+      <div class="section-label" style="color:var(--orange)">ðŸ§  Good to Know</div>
       <div style="font-size:13px;line-height:1.9;color:var(--muted)">
-        🔤 <strong style="color:var(--text)">W</strong> sounds like <strong style="color:var(--primary)">V</strong> — "Wasser" = "Vasser"<br>
-        🔤 <strong style="color:var(--text)">Z</strong> sounds like <strong style="color:var(--primary)">TS</strong> — "Zeit" = "TSait"<br>
-        🔤 <strong style="color:var(--text)">CH</strong> after i/e = soft "kh" — like ख but softer<br>
-        🔤 <strong style="color:var(--text)">Ü</strong> = say "ee" with rounded lips<br>
-        🔤 <strong style="color:var(--text)">Ö</strong> = say "e" with rounded lips<br>
-        🔤 <strong style="color:var(--text)">SCH</strong> = "sh" as in "shoe"<br>
-        <span style="color:var(--primary);margin-top:6px;display:block">✅ German is phonetic — what you see is what you say!</span>
+        ðŸ”¤ <strong style="color:var(--text)">W</strong> sounds like <strong style="color:var(--primary)">V</strong> â€” "Wasser" = "Vasser"<br>
+        ðŸ”¤ <strong style="color:var(--text)">Z</strong> sounds like <strong style="color:var(--primary)">TS</strong> â€” "Zeit" = "TSait"<br>
+        ðŸ”¤ <strong style="color:var(--text)">CH</strong> after i/e = soft "kh" â€” like à¤– but softer<br>
+        ðŸ”¤ <strong style="color:var(--text)">Ãœ</strong> = say "ee" with rounded lips<br>
+        ðŸ”¤ <strong style="color:var(--text)">Ã–</strong> = say "e" with rounded lips<br>
+        ðŸ”¤ <strong style="color:var(--text)">SCH</strong> = "sh" as in "shoe"<br>
+        <span style="color:var(--primary);margin-top:6px;display:block">âœ… German is phonetic â€” what you see is what you say!</span>
       </div>
     </div>`});
 
   // Quick Drill page
   lessonPages.push({type:'drill', html:`
     <div class="drill-box">
-      <div class="drill-title">⚡ Quick Drill — Final Challenge</div>
+      <div class="drill-title">âš¡ Quick Drill â€” Final Challenge</div>
       <div class="drill-sub">3 Berlin scenarios. Answer in German. You've got this!</div>
       <div id="drillContent">
-        <button class="btn btn-gold" onclick="loadDrill()">Start Drill →</button>
+        <button class="btn btn-gold" onclick="loadDrill()">Start Drill â†’</button>
       </div>
     </div>
     <div style="text-align:center;padding:14px 0;color:var(--muted);font-size:13px">
-      ⏱️ Study 60 minutes → test unlocks automatically<br>
+      â±ï¸ Study 60 minutes â†’ test unlocks automatically<br>
       <span style="color:var(--orange);font-size:12px">Need 70% to pass and unlock next day</span>
     </div>`});
 
@@ -1105,8 +1105,8 @@ function renderLessonPage(){
     </div>
     ${page.html}
     <div class="lesson-nav">
-      <button class="btn btn-outline" onclick="prevLessonPage()" ${isFirst?'disabled style="opacity:0.3;cursor:default"':''}>← Back</button>
-      <button class="btn btn-gold" onclick="${isLast?'':'nextLessonPage()'}" ${isLast?'disabled style="opacity:0.5;cursor:default"':''}>${isLast?'✅ All done!':'Next →'}</button>
+      <button class="btn btn-outline" onclick="prevLessonPage()" ${isFirst?'disabled style="opacity:0.3;cursor:default"':''}>â† Back</button>
+      <button class="btn btn-gold" onclick="${isLast?'':'nextLessonPage()'}" ${isLast?'disabled style="opacity:0.5;cursor:default"':''}>${isLast?'âœ… All done!':'Next â†’'}</button>
     </div>`;
 
   document.getElementById('lessonContent').innerHTML=html;
@@ -1117,9 +1117,9 @@ function nextLessonPage(){ if(lessonPage<lessonPages.length-1){lessonPage++;rend
 function prevLessonPage(){ if(lessonPage>0){lessonPage--;renderLessonPage();} }
 function goToPage(i){ lessonPage=i; renderLessonPage(); }
 
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // VOICE VALIDATION WITH AI FEEDBACK
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function startVoiceValidation(sid, targetText, type){
   const btnId = type==='word' ? `micWord_${sid}` : `micPhrase_${sid}`;
   const btn = document.getElementById(btnId);
@@ -1128,22 +1128,22 @@ function startVoiceValidation(sid, targetText, type){
 
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){
-    resultEl.innerHTML='<div class="mic-result heard">⚠️ Speech recognition needs Chrome or Edge.</div>';
+    resultEl.innerHTML='<div class="mic-result heard">âš ï¸ Speech recognition needs Chrome or Edge.</div>';
     return;
   }
 
   if(btn.classList.contains('listening')){
     try{if(recognition)recognition.stop();}catch(e){}
-    btn.textContent='🎤 Say it';
+    btn.textContent='ðŸŽ¤ Say it';
     btn.classList.remove('listening');
     return;
   }
 
   // First play audio so they hear it
   speakGerman(targetText);
-  btn.textContent='🔴 Listening...';
+  btn.textContent='ðŸ”´ Listening...';
   btn.classList.add('listening');
-  resultEl.innerHTML='<div class="mic-result heard">🔊 Listen first... mic opens in a moment</div>';
+  resultEl.innerHTML='<div class="mic-result heard">ðŸ”Š Listen first... mic opens in a moment</div>';
 
   const delay = targetText.split(' ').length * 500 + 800;
 
@@ -1158,17 +1158,17 @@ function startVoiceValidation(sid, targetText, type){
     r.onresult=(e)=>{
       const heard=e.results[0][0].transcript.trim();
       const score=similarityScore(heard, targetText);
-      btn.textContent='🎤 Say it';
+      btn.textContent='ðŸŽ¤ Say it';
       btn.classList.remove('listening');
       validatePronunciationWithAI(sid, targetText, heard, score, resultEl);
     };
     r.onerror=(e)=>{
-      btn.textContent='🎤 Say it';
+      btn.textContent='ðŸŽ¤ Say it';
       btn.classList.remove('listening');
-      resultEl.innerHTML=`<div class="mic-result heard">⚠️ ${e.error==='no-speech'?'Nothing heard — try again!':'Mic error: '+e.error}</div>`;
+      resultEl.innerHTML=`<div class="mic-result heard">âš ï¸ ${e.error==='no-speech'?'Nothing heard â€” try again!':'Mic error: '+e.error}</div>`;
     };
     r.onend=()=>{
-      btn.textContent='🎤 Say it';
+      btn.textContent='ðŸŽ¤ Say it';
       btn.classList.remove('listening');
     };
     r.start();
@@ -1178,9 +1178,9 @@ function startVoiceValidation(sid, targetText, type){
 async function validatePronunciationWithAI(sid, target, heard, score, resultEl){
   // Show immediate score while AI thinks
   const quick = score>=0.85?'great':score>=0.55?'close':'wrong';
-  const quickIcon = score>=0.85?'✅':score>=0.55?'🟡':'❌';
+  const quickIcon = score>=0.85?'âœ…':score>=0.55?'ðŸŸ¡':'âŒ';
   resultEl.innerHTML=`<div class="mic-result ${quick}">
-    ${quickIcon} You said: "<em>${esc(heard)}</em>" — checking...
+    ${quickIcon} You said: "<em>${esc(heard)}</em>" â€” checking...
   </div>`;
 
   const prompt=`German pronunciation feedback for a Delhi IT professional learning German in Berlin.
@@ -1197,31 +1197,31 @@ Give SHORT feedback (3 lines max):
 Return JSON only: {"rating":"great|close|wrong","verdict":"one line verdict","tip":"pronunciation tip","trick":"memory trick"}`;
 
   try{
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:prompt}],max_tokens:300})});
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,messages:[{role:'user',content:prompt}],max_tokens:300})});
     const data=await res.json();
     const raw=data.content?.[0]?.text||'';
     const r=extractJSON(raw);
     const cls=r.rating==='great'?'great':r.rating==='close'?'close':'wrong';
-    const icon=r.rating==='great'?'✅':r.rating==='close'?'🟡':'❌';
+    const icon=r.rating==='great'?'âœ…':r.rating==='close'?'ðŸŸ¡':'âŒ';
     resultEl.innerHTML=`
       <div class="mic-result ${cls}">
         ${icon} <strong>${esc(r.verdict)}</strong><br>
-        ${r.tip?`<span style="font-size:12px;opacity:0.85">📢 ${esc(r.tip)}</span><br>`:''}
-        ${r.trick?`<span style="font-size:12px;color:var(--orange)">💡 ${esc(r.trick)}</span>`:''}
-        <div style="margin-top:6px;font-size:12px;opacity:0.7">You said: "<em>${esc(heard)}</em>" · Target: "<strong>${esc(target)}</strong>"</div>
+        ${r.tip?`<span style="font-size:12px;opacity:0.85">ðŸ“¢ ${esc(r.tip)}</span><br>`:''}
+        ${r.trick?`<span style="font-size:12px;color:var(--orange)">ðŸ’¡ ${esc(r.trick)}</span>`:''}
+        <div style="margin-top:6px;font-size:12px;opacity:0.7">You said: "<em>${esc(heard)}</em>" Â· Target: "<strong>${esc(target)}</strong>"</div>
       </div>`;
   }catch(e){
     const cls=score>=0.85?'great':score>=0.55?'close':'wrong';
     resultEl.innerHTML=`<div class="mic-result ${cls}">
-      ${score>=0.85?'✅ Good pronunciation!':score>=0.55?'🟡 Close — try once more!':'❌ Keep practicing!'}<br>
-      <span style="font-size:12px">You said: "<em>${esc(heard)}</em>" · Target: "<strong>${esc(target)}</strong>"</span>
+      ${score>=0.85?'âœ… Good pronunciation!':score>=0.55?'ðŸŸ¡ Close â€” try once more!':'âŒ Keep practicing!'}<br>
+      <span style="font-size:12px">You said: "<em>${esc(heard)}</em>" Â· Target: "<strong>${esc(target)}</strong>"</span>
     </div>`;
   }
 }
 
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // INTERACTIVE EXERCISES
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 async function checkExercise(id, word, meaning){
   const input=document.getElementById('exInput_'+id);
   const feedback=document.getElementById('exFeedback_'+id);
@@ -1230,7 +1230,7 @@ async function checkExercise(id, word, meaning){
 
   feedback.style.display='block';
   feedback.className='exercise-feedback loading';
-  feedback.textContent='Checking your answer... ⏳';
+  feedback.textContent='Checking your answer... â³';
 
   const prompt=`You are a German language teacher. A student learning German (from Delhi, living in Berlin, IT security professional) wrote this sentence using the word "${word}" (meaning: ${meaning}):
 
@@ -1245,36 +1245,36 @@ Return JSON only: {"rating":"good|close|wrong","feedback":"your feedback here","
 
   try{
     checkRateLimit();
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5',max_tokens:300,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,max_tokens:300,messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
     let raw=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
     const result=extractJSON(raw);
     feedback.className='exercise-feedback '+(result.rating==='good'?'good':result.rating==='close'?'ok':'retry');
-    feedback.innerHTML=`${result.rating==='good'?'✅':result.rating==='close'?'🟡':'❌'} ${esc(result.feedback)}${result.corrected?`<br><strong>Corrected:</strong> ${esc(result.corrected)}`:''}`;
+    feedback.innerHTML=`${result.rating==='good'?'âœ…':result.rating==='close'?'ðŸŸ¡':'âŒ'} ${esc(result.feedback)}${result.corrected?`<br><strong>Corrected:</strong> ${esc(result.corrected)}`:''}`;
   }catch(e){
     feedback.className='exercise-feedback ok';
-    feedback.textContent='Could not check right now — but keep practicing! The attempt counts. 💪';
+    feedback.textContent='Could not check right now â€” but keep practicing! The attempt counts. ðŸ’ª';
   }
 }
 
 async function loadScenario(id, phrase, meaning){
   const promptEl=document.getElementById('scenarioPrompt_'+id);
-  promptEl.innerHTML='<span style="color:var(--muted);font-size:13px">Loading scenario... ⏳</span>';
+  promptEl.innerHTML='<span style="color:var(--muted);font-size:13px">Loading scenario... â³</span>';
 
   const day=userProgress.day||1;
-  const prompt=`Give ONE very short Berlin daily-life scenario (1 sentence) where someone would use the German phrase "${phrase}" (${meaning}). Make it realistic and slightly funny — reference a Berlin place (REWE, U-Bahn, Jobcenter, Alexanderplatz, etc.) or compare to Delhi (CP, DTC bus, auto-wala). Return JSON only: {"scenario":"scenario text here"}`;
+  const prompt=`Give ONE very short Berlin daily-life scenario (1 sentence) where someone would use the German phrase "${phrase}" (${meaning}). Make it realistic and slightly funny â€” reference a Berlin place (REWE, U-Bahn, Jobcenter, Alexanderplatz, etc.) or compare to Delhi (CP, DTC bus, auto-wala). Return JSON only: {"scenario":"scenario text here"}`;
 
   try{
     checkRateLimit();
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5',max_tokens:150,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,max_tokens:150,messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
     let raw=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
     const result=extractJSON(raw);
-    promptEl.innerHTML=`<strong style="color:var(--orange)">📍 Scenario:</strong> ${esc(result.scenario)}<br><span style="color:var(--muted);font-size:12px;margin-top:4px;display:block">Respond using: <strong style="color:var(--gold)">${esc(phrase)}</strong></span>`;
+    promptEl.innerHTML=`<strong style="color:var(--orange)">ðŸ“ Scenario:</strong> ${esc(result.scenario)}<br><span style="color:var(--muted);font-size:12px;margin-top:4px;display:block">Respond using: <strong style="color:var(--gold)">${esc(phrase)}</strong></span>`;
     document.getElementById('exInput_'+id).classList.remove('hidden');
     document.getElementById('exBtn_'+id).classList.remove('hidden');
   }catch(e){
-    promptEl.innerHTML=`<strong style="color:var(--orange)">📍 Scenario:</strong> You're at the Jobcenter in Berlin and need to use this phrase. How do you say it?`;
+    promptEl.innerHTML=`<strong style="color:var(--orange)">ðŸ“ Scenario:</strong> You're at the Jobcenter in Berlin and need to use this phrase. How do you say it?`;
     document.getElementById('exInput_'+id).classList.remove('hidden');
     document.getElementById('exBtn_'+id).classList.remove('hidden');
   }
@@ -1288,34 +1288,34 @@ async function checkScenario(id, phrase){
 
   feedback.style.display='block';
   feedback.className='exercise-feedback loading';
-  feedback.textContent='Checking... ⏳';
+  feedback.textContent='Checking... â³';
 
   const prompt=`German language teacher feedback. Student tried to use "${phrase}" in a response. Their answer: "${answer}". Was the phrase used correctly? Give 2-line feedback. Return JSON: {"rating":"good|close|wrong","feedback":"short feedback with encouragement"}`;
 
   try{
     checkRateLimit();
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5',max_tokens:200,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,max_tokens:200,messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
     let raw=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
     const result=extractJSON(raw);
     feedback.className='exercise-feedback '+(result.rating==='good'?'good':result.rating==='close'?'ok':'retry');
-    feedback.innerHTML=`${result.rating==='good'?'✅':result.rating==='close'?'🟡':'❌'} ${esc(result.feedback)}`;
+    feedback.innerHTML=`${result.rating==='good'?'âœ…':result.rating==='close'?'ðŸŸ¡':'âŒ'} ${esc(result.feedback)}`;
   }catch(e){
     feedback.className='exercise-feedback ok';
-    feedback.textContent='Good attempt! Keep practicing. 💪';
+    feedback.textContent='Good attempt! Keep practicing. ðŸ’ª';
   }
 }
 
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // QUICK DRILL
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let drillData=[];
 let drillIndex=0;
 let drillScore=0;
 
 async function loadDrill(){
   if(!currentLesson)return;
-  document.getElementById('drillContent').innerHTML='<div style="color:var(--muted);font-size:13px">Generating scenarios... ⏳</div>';
+  document.getElementById('drillContent').innerHTML='<div style="color:var(--muted);font-size:13px">Generating scenarios... â³</div>';
 
   const words=currentLesson.words.slice(0,5).map(w=>`${w.de}=${w.en}`).join(', ');
   const prompt=`Create exactly 3 short Berlin real-life drill scenarios for an IT security professional from Delhi learning German. Each scenario requires using one of these words: ${words}.
@@ -1329,7 +1329,7 @@ Return JSON only:
 
   try{
     checkRateLimit();
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5',max_tokens:500,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,max_tokens:500,messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
     let raw=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
     drillData=extractJSON(raw).drills;
@@ -1344,8 +1344,8 @@ function renderDrill(){
   if(drillIndex>=drillData.length){
     document.getElementById('drillContent').innerHTML=`
       <div class="drill-score">
-      ${drillScore===3?'🏆':drillScore>=2?'⭐':'💪'} Drill complete! Score: ${drillScore}/3
-        ${drillScore===3?"— Perfect! You're ready for Berlin! 🇩🇪":drillScore>=2?'— Great effort! Almost there!':'— Keep practicing — you\'ll nail it!'}
+      ${drillScore===3?'ðŸ†':drillScore>=2?'â­':'ðŸ’ª'} Drill complete! Score: ${drillScore}/3
+        ${drillScore===3?"â€” Perfect! You're ready for Berlin! ðŸ‡©ðŸ‡ª":drillScore>=2?'â€” Great effort! Almost there!':'â€” Keep practicing â€” you\'ll nail it!'}
       </div>
       <button class="btn btn-outline" style="display:block;margin:10px auto 0" onclick="loadDrill()">Try Again</button>`;
     return;
@@ -1356,10 +1356,10 @@ function renderDrill(){
       <div class="drill-scenario-q">
         <span style="color:var(--muted);font-size:12px">Situation ${drillIndex+1} of 3</span><br>
         ${esc(d.situation)}<br>
-        <span style="color:var(--muted);font-size:12px;margin-top:4px;display:block">💡 Hint: ${esc(d.hint)}</span>
+        <span style="color:var(--muted);font-size:12px;margin-top:4px;display:block">ðŸ’¡ Hint: ${esc(d.hint)}</span>
       </div>
       <input class="drill-input" id="drillInput" placeholder="Type your answer in German..." onkeydown="if(event.key==='Enter')checkDrill('${d.targetWord.replace(/'/g,"\\'")}')"/>
-      <button class="btn btn-gold btn-sm" onclick="checkDrill('${d.targetWord.replace(/'/g,"\\'")}')">Submit →</button>
+      <button class="btn btn-gold btn-sm" onclick="checkDrill('${d.targetWord.replace(/'/g,"\\'")}')">Submit â†’</button>
       <div class="drill-result" id="drillResult"></div>
     </div>`;
   document.getElementById('drillInput').focus();
@@ -1373,23 +1373,23 @@ async function checkDrill(targetWord){
 
   result.style.display='block';
   result.className='drill-result checking';
-  result.textContent='Checking... ⏳';
+  result.textContent='Checking... â³';
   input.disabled=true;
 
   const prompt=`Student answered a German drill. Target word: "${targetWord}". Their answer: "${answer}". Did they correctly use the word? Return JSON: {"correct":true/false,"feedback":"one encouraging line"}`;
 
   try{
     checkRateLimit();
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5',max_tokens:150,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,max_tokens:150,messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
     let raw=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
     const r=extractJSON(raw);
     if(r.correct)drillScore++;
     result.className='drill-result '+(r.correct?'pass':'fail');
-    result.innerHTML=`${r.correct?'✅':'❌'} ${esc(r.feedback)}`;
+    result.innerHTML=`${r.correct?'âœ…':'âŒ'} ${esc(r.feedback)}`;
   }catch(e){
     result.className='drill-result pass';
-    result.textContent='✅ Good attempt! Moving on...';
+    result.textContent='âœ… Good attempt! Moving on...';
     drillScore++;
   }
   setTimeout(()=>{drillIndex++;renderDrill();},1800);
@@ -1397,7 +1397,7 @@ async function checkDrill(targetWord){
 
 function openTest(){
   if(document.getElementById('tabBtnTest').classList.contains('locked')){
-    alert('Bhai! Pehle 60 minute padho. Timer chal raha hai upar. ⏱️\n\nKoi shortcut nahi — jaise Jobcenter mein queue nahi skip hoti! 😄');return;
+    alert('Bhai! Pehle 60 minute padho. Timer chal raha hai upar. â±ï¸\n\nKoi shortcut nahi â€” jaise Jobcenter mein queue nahi skip hoti! ðŸ˜„');return;
   }
   const day=userProgress.day||1;
   const tr=userProgress.testResults||{};
@@ -1407,15 +1407,15 @@ function openTest(){
 }
 
 async function startTest(){
-  if(!currentLesson){document.getElementById('testContent').innerHTML='<div class="card"><p>Please load the lesson first — go to the Lesson tab.</p></div>';return;}
+  if(!currentLesson){document.getElementById('testContent').innerHTML='<div class="card"><p>Please load the lesson first â€” go to the Lesson tab.</p></div>';return;}
   testQuestions=[];currentTestQ=0;testScore=0;testCompleted=false;
   document.getElementById('testContent').innerHTML=`
     <div class="test-intro">
-      <div class="test-intro-title">🎯 Day ${currentLesson.day} Test — You must pass to continue!</div>
+      <div class="test-intro-title">ðŸŽ¯ Day ${currentLesson.day} Test â€” You must pass to continue!</div>
       <div class="test-intro-sub">10 MCQ questions. <strong>You need 7/10 (70%)</strong> to unlock Day ${(currentLesson.day||1)+1}.<br>
-      Fail? Same day dobara — like a driving test — no shame in retrying! 😄</div>
+      Fail? Same day dobara â€” like a driving test â€” no shame in retrying! ðŸ˜„</div>
     </div>
-    <div class="card" style="text-align:center"><div class="spinner"></div><div style="color:var(--muted);font-size:14px;margin-top:12px">Generating questions... 🤔</div></div>`;
+    <div class="card" style="text-align:center"><div class="spinner"></div><div style="color:var(--muted);font-size:14px;margin-top:12px">Generating questions... ðŸ¤”</div></div>`;
 
   const prompt=`Generate exactly 10 MCQ test questions for this German lesson.
 
@@ -1424,13 +1424,13 @@ Words: ${currentLesson.words.map(w=>w.de+'='+w.en).join(', ')}
 Phrases: ${currentLesson.phrases.map(p=>p.de).join(', ')}
 
 Question mix:
-- Q1-4: "What does [German] mean?" → choose English
-- Q5-7: "How do you say [English] in German?" → choose German
+- Q1-4: "What does [German] mean?" â†’ choose English
+- Q5-7: "How do you say [English] in German?" â†’ choose German
 - Q8-9: Fill in the blank in a German sentence
-- Q10: Scenario — "Which phrase would you use when [situation in Berlin]?"
+- Q10: Scenario â€” "Which phrase would you use when [situation in Berlin]?"
 
 Return ONLY pure JSON:
-{"questions":[{"q":"question text","options":["A","B","C","D"],"answer":0,"explanation":"short funny explanation — Berlin or Delhi reference"}]}
+{"questions":[{"q":"question text","options":["A","B","C","D"],"answer":0,"explanation":"short funny explanation â€” Berlin or Delhi reference"}]}
 
 Rules:
 - answer is 0-indexed
@@ -1440,16 +1440,16 @@ Rules:
 
   try{
     checkRateLimit();
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5',max_tokens:2000,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,max_tokens:2000,messages:[{role:'user',content:prompt}]})});
     if(!res.ok)throw new Error('API '+res.status);
     const data=await res.json();
     let raw=data.content?.[0]?.text||'';
-    // OWASP A08 – Validate and sanitise before use
+    // OWASP A08 â€“ Validate and sanitise before use
     const parsed=safeParseTest(raw);
     testQuestions=parsed.questions;
     renderTestQ();
   }catch(e){
-    // OWASP A09 – Safe error message only
+    // OWASP A09 â€“ Safe error message only
     document.getElementById('testContent').innerHTML=`<div class="card"><p style="color:var(--red)">${safeError('test')}</p></div>`;
   }
 }
@@ -1484,10 +1484,10 @@ function answerQ(chosen){
   if(right)testScore++;
   document.getElementById('testFeedback').innerHTML=`
     <div class="test-feedback ${right?'correct':'wrong'}">
-      ${right?'✅ Correct!':'❌ Not quite...'} ${q.explanation}
+      ${right?'âœ… Correct!':'âŒ Not quite...'} ${q.explanation}
     </div>
     <div class="btn-row" style="justify-content:center;margin-top:12px">
-      <button class="btn btn-gold" onclick="nextTestQ()">${currentTestQ+1<testQuestions.length?'Next →':'See Results 🎯'}</button>
+      <button class="btn btn-gold" onclick="nextTestQ()">${currentTestQ+1<testQuestions.length?'Next â†’':'See Results ðŸŽ¯'}</button>
     </div>`;
 }
 
@@ -1514,28 +1514,28 @@ async function showTestResult(score,total,fromSaved){
 
   const nextDay=(userProgress.day||1);
   const passMsgs=[
-    `🎉 <strong>FIRST CLASS!</strong> ${score}/${total} — absolutely nailed it! Day ${nextDay} unlocked. Berlin's IT jobs are calling! 💪 💪`,
-    `🚀 <strong>Outstanding!</strong> ${pct}% — Berlin's IT companies will want to meet you. Keep this energy!`,
-    `🌟 <strong>Shabash!</strong> ${score}/${total} correct. Delhi's finest, crushing German in Berlin! 😎 😎`
+    `ðŸŽ‰ <strong>FIRST CLASS!</strong> ${score}/${total} â€” absolutely nailed it! Day ${nextDay} unlocked. Berlin's IT jobs are calling! ðŸ’ª ðŸ’ª`,
+    `ðŸš€ <strong>Outstanding!</strong> ${pct}% â€” Berlin's IT companies will want to meet you. Keep this energy!`,
+    `ðŸŒŸ <strong>Shabash!</strong> ${score}/${total} correct. Delhi's finest, crushing German in Berlin! ðŸ˜Ž ðŸ˜Ž`
   ];
   const failMsgs=[
-    `😅 <strong>Arre yaar...</strong> ${score}/${total} — A little more practice needed. Even CP Metro confuses everyone at first! Same day again — you've got this! 💪`,
-    `🤔 <strong>${pct}% — Almost!</strong> 70% chahiye tha. Review the lesson and listen to the phrases again. Like a DTC driver — keep going! 🇩🇪 🇩🇪`,
-    `😄 <strong>Not quite!</strong> ${score}/${total} — Berlin needs patience (even the trains are late). Try again! 🚇 🚇`
+    `ðŸ˜… <strong>Arre yaar...</strong> ${score}/${total} â€” A little more practice needed. Even CP Metro confuses everyone at first! Same day again â€” you've got this! ðŸ’ª`,
+    `ðŸ¤” <strong>${pct}% â€” Almost!</strong> 70% chahiye tha. Review the lesson and listen to the phrases again. Like a DTC driver â€” keep going! ðŸ‡©ðŸ‡ª ðŸ‡©ðŸ‡ª`,
+    `ðŸ˜„ <strong>Not quite!</strong> ${score}/${total} â€” Berlin needs patience (even the trains are late). Try again! ðŸš‡ ðŸš‡`
   ];
 
   const msg=passed?passMsgs[Math.floor(Math.random()*passMsgs.length)]:failMsgs[Math.floor(Math.random()*failMsgs.length)];
   document.getElementById('testContent').innerHTML=`
     <div class="card">
       <div class="test-result">
-        <div class="test-result-emoji">${passed?'🎉':'😅'}</div>
-        <div class="test-result-title" style="color:${passed?'var(--green)':'var(--orange)'}">${passed?'PASS! Well done!':'Not Yet — You Can Do It!'}</div>
+        <div class="test-result-emoji">${passed?'ðŸŽ‰':'ðŸ˜…'}</div>
+        <div class="test-result-title" style="color:${passed?'var(--green)':'var(--orange)'}">${passed?'PASS! Well done!':'Not Yet â€” You Can Do It!'}</div>
         <div class="test-result-score" style="color:${passed?'var(--green)':'var(--orange)'}">${score}/${total}</div>
-        <div style="font-size:20px;margin-bottom:10px;color:var(--muted)">${pct}% ${passed?'✅':'— need 70%'}</div>
+        <div style="font-size:20px;margin-bottom:10px;color:var(--muted)">${pct}% ${passed?'âœ…':'â€” need 70%'}</div>
         <div class="test-result-msg">${msg}</div>
         ${passed
-          ?`<button class="btn btn-green" onclick="loadNextDay()" style="margin:0 auto">Start Day ${nextDay} →</button>`
-          :`<button class="btn btn-gold" onclick="retryDay()" style="margin:0 auto">Try Again 💪</button>`
+          ?`<button class="btn btn-green" onclick="loadNextDay()" style="margin:0 auto">Start Day ${nextDay} â†’</button>`
+          :`<button class="btn btn-gold" onclick="retryDay()" style="margin:0 auto">Try Again ðŸ’ª</button>`
         }
       </div>
     </div>`;
@@ -1546,7 +1546,7 @@ function retryDay(){
   document.getElementById('sessionBar').style.width='0%';
   document.getElementById('sessionTime').textContent='0 / '+sessionTarget+' min';
   const tb=document.getElementById('tabBtnTest');
-  tb.classList.add('locked');tb.textContent='🎯 Take Test';tb.style.color='';tb.style.borderColor='';
+  tb.classList.add('locked');tb.textContent='ðŸŽ¯ Take Test';tb.style.color='';tb.style.borderColor='';
   document.getElementById('extendBar').style.display='none';
   testCompleted=false;
   clearInterval(sessionTimer);startTimer();
@@ -1558,7 +1558,7 @@ function loadNextDay(){
   document.getElementById('sessionBar').style.width='0%';
   document.getElementById('sessionTime').textContent='0 / '+sessionTarget+' min';
   const tb=document.getElementById('tabBtnTest');
-  tb.classList.add('locked');tb.textContent='🎯 Take Test';tb.style.color='';tb.style.borderColor='';
+  tb.classList.add('locked');tb.textContent='ðŸŽ¯ Take Test';tb.style.color='';tb.style.borderColor='';
   document.getElementById('extendBar').style.display='none';
   testCompleted=false;
   const day=userProgress.day||1;
@@ -1567,18 +1567,18 @@ function loadNextDay(){
   clearInterval(sessionTimer);startTimer();
   loadLesson(day);
   chatHistory=[];
-  document.getElementById('chatBox').innerHTML=`<div class="msg ai">🎉 New day! Day ${day} — ${DAY_TOPICS[(day-1)%DAY_TOPICS.length]}. What shall we learn? Ask me anything! 😄</div>`;
+  document.getElementById('chatBox').innerHTML=`<div class="msg ai">ðŸŽ‰ New day! Day ${day} â€” ${DAY_TOPICS[(day-1)%DAY_TOPICS.length]}. What shall we learn? Ask me anything! ðŸ˜„</div>`;
   switchTab('lesson',document.getElementById('tabBtnLesson'));
 }
 
 async function sendChat(){
   const input=document.getElementById('chatInput');
   let msg=input.value.trim();if(!msg)return;
-  // OWASP A07 – Cap input length
+  // OWASP A07 â€“ Cap input length
   if(msg.length>500){msg=msg.slice(0,500);}
   input.value='';
   appendMsg(msg,'user');
-  // OWASP A03 – Store raw text in history, not HTML
+  // OWASP A03 â€“ Store raw text in history, not HTML
   chatHistory.push({role:'user',content:msg});
   // Cap history to last 20 messages to prevent token abuse
   if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
@@ -1587,7 +1587,7 @@ async function sendChat(){
   const topic=DAY_TOPICS[(day-1)%DAY_TOPICS.length];
   const sys=`You are a funny, warm German tutor for two IT security professionals from New Delhi now living in Berlin. They lost their jobs and urgently need German. 10+ years IT security experience each.
 
-Current lesson: Day ${day} — ${topic}
+Current lesson: Day ${day} â€” ${topic}
 ${currentLesson?`Words covered: ${currentLesson.words.map(w=>w.de+'='+w.en).join(', ')}`:''}
 
 Style rules:
@@ -1595,19 +1595,19 @@ Style rules:
 - Mix English naturally with occasional Hinglish (bhai, yaar, ek dum, arre)
 - Use Berlin references (U-Bahn, REWE, Jobcenter, Kreuzberg, BVG delays)
 - Use Delhi comparisons (CP, DTC bus, auto-wala, chai break, Noida traffic)
-- Keep responses SHORT — 4-5 lines max
+- Keep responses SHORT â€” 4-5 lines max
 - Always teach: German word [pronunciation] = English meaning, then example
 - Gently correct any German mistakes with humor
 - IT security context whenever relevant (DSGVO, SOC, Firewall, NIS2)
-- They're stressed about jobs — make German feel achievable, not scary`;
+- They're stressed about jobs â€” make German feel achievable, not scary`;
 
   try{
     checkRateLimit();
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5',max_tokens:500,system:sys,messages:chatHistory})});
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({max_tokens:500,system:sys,messages:chatHistory})});
     if(!res.ok)throw new Error('API '+res.status);
     const data=await res.json();
     const reply=data.content?.[0]?.text||'Kuch problem aa gayi. Try again!';
-    // OWASP A07 – Cap reply length
+    // OWASP A07 â€“ Cap reply length
     const safeReply=reply.slice(0,2000);
     loading.remove();appendMsg(safeReply,'ai');
     chatHistory.push({role:'assistant',content:safeReply});
@@ -1619,7 +1619,7 @@ function appendMsg(text,type){
   const box=document.getElementById('chatBox');
   const div=document.createElement('div');div.className='msg '+type;
   if(type==='user'){
-    // OWASP A03 – User input: always textContent, never innerHTML
+    // OWASP A03 â€“ User input: always textContent, never innerHTML
     div.textContent=text;
   } else {
     // AI responses: allow limited formatting but escape first
@@ -1637,9 +1637,9 @@ function switchTab(name,el){
   if(name==='speak')renderSpeakTab();
 }
 
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // SPEECH RECOGNITION ENGINE
-// ═══════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let recognition=null;
 let currentMicBtn=null;
 let currentMicTarget='';
@@ -1661,7 +1661,7 @@ function startListening(btnEl, targetText, resultElId){
   // Stop any existing
   if(recognition){try{recognition.stop();}catch(e){}}
   if(currentMicBtn&&currentMicBtn!==btnEl){
-    currentMicBtn.textContent='🎤 Say it';
+    currentMicBtn.textContent='ðŸŽ¤ Say it';
     currentMicBtn.classList.remove('listening');
   }
 
@@ -1672,7 +1672,7 @@ function startListening(btnEl, targetText, resultElId){
   currentMicTarget=targetText;
   currentMicResultEl=document.getElementById(resultElId);
 
-  btnEl.textContent='🔴 Listening...';
+  btnEl.textContent='ðŸ”´ Listening...';
   btnEl.classList.add('listening');
 
   // Speak first so they know what to say
@@ -1690,25 +1690,25 @@ function startListening(btnEl, targetText, resultElId){
   };
 
   recognition.onerror=(e)=>{
-    btnEl.textContent='🎤 Say it';
+    btnEl.textContent='ðŸŽ¤ Say it';
     btnEl.classList.remove('listening');
     if(currentMicResultEl){
-      if(e.error==='no-speech') currentMicResultEl.innerHTML='😶 Kuch suna nahi... dobara try karo bhai!';
-      else if(e.error==='not-allowed') currentMicResultEl.innerHTML='🚫 Mic permission do! Browser settings mein jaake allow karo.';
-      else currentMicResultEl.innerHTML=`⚠️ Error: ${e.error}. Dobara try karo.`;
+      if(e.error==='no-speech') currentMicResultEl.innerHTML='ðŸ˜¶ Kuch suna nahi... dobara try karo bhai!';
+      else if(e.error==='not-allowed') currentMicResultEl.innerHTML='ðŸš« Mic permission do! Browser settings mein jaake allow karo.';
+      else currentMicResultEl.innerHTML=`âš ï¸ Error: ${e.error}. Dobara try karo.`;
       currentMicResultEl.className='mic-result heard';
     }
   };
 
   recognition.onend=()=>{
-    btnEl.textContent='🎤 Say it';
+    btnEl.textContent='ðŸŽ¤ Say it';
     btnEl.classList.remove('listening');
   };
 }
 
 function normalize(s){
   return s.toLowerCase()
-    .replace(/[äÄ]/g,'a').replace(/[öÖ]/g,'o').replace(/[üÜ]/g,'u').replace(/ß/g,'ss')
+    .replace(/[Ã¤Ã„]/g,'a').replace(/[Ã¶Ã–]/g,'o').replace(/[Ã¼Ãœ]/g,'u').replace(/ÃŸ/g,'ss')
     .replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
 }
 
@@ -1741,13 +1741,13 @@ function processSpeechResult(alternatives, target, resultElId){
   let html='';
   if(bestScore>=0.9){
     speakScores.correct++;
-    html=`<div class="mic-result great">✅ <strong>Ek dum sahi!</strong> You said: "${bestHeard}" — Perfect pronunciation! 🎉</div>`;
+    html=`<div class="mic-result great">âœ… <strong>Ek dum sahi!</strong> You said: "${bestHeard}" â€” Perfect pronunciation! ðŸŽ‰</div>`;
   } else if(bestScore>=0.6){
-    html=`<div class="mic-result close">🟡 <strong>Almost!</strong> You said: "<em>${bestHeard}</em>"<br>Target: <strong>${target}</strong><br>👂 Close enough — try once more for perfection!</div>`;
+    html=`<div class="mic-result close">ðŸŸ¡ <strong>Almost!</strong> You said: "<em>${bestHeard}</em>"<br>Target: <strong>${target}</strong><br>ðŸ‘‚ Close enough â€” try once more for perfection!</div>`;
   } else if(bestScore>=0.3){
-    html=`<div class="mic-result wrong">❌ You said: "<em>${bestHeard}</em>"<br>Target: <strong>${target}</strong><br>💡 Tip: Listen again 🔊 then say it slowly. Jaise CP mein directions poochhe — ek ek word!</div>`;
+    html=`<div class="mic-result wrong">âŒ You said: "<em>${bestHeard}</em>"<br>Target: <strong>${target}</strong><br>ðŸ’¡ Tip: Listen again ðŸ”Š then say it slowly. Jaise CP mein directions poochhe â€” ek ek word!</div>`;
   } else {
-    html=`<div class="mic-result wrong">😅 Heard: "<em>${bestHeard||'nothing clear'}</em>"<br>Target: <strong>${target}</strong><br>🔊 Listen first, then try again. German pronunciation alag hoti hai — especially ch, ü, ö!</div>`;
+    html=`<div class="mic-result wrong">ðŸ˜… Heard: "<em>${bestHeard||'nothing clear'}</em>"<br>Target: <strong>${target}</strong><br>ðŸ”Š Listen first, then try again. German pronunciation alag hoti hai â€” especially ch, Ã¼, Ã¶!</div>`;
   }
 
   // Score pips
@@ -1767,7 +1767,7 @@ function processSpeechResult(alternatives, target, resultElId){
 
 function renderSpeakTab(){
   if(!currentLesson){
-    document.getElementById('speakContent').innerHTML='<div class="card"><p style="color:var(--muted)">Lesson tab mein pehle jaao — lesson load hone do. Phir yahan aao! 🎤</p></div>';
+    document.getElementById('speakContent').innerHTML='<div class="card"><p style="color:var(--muted)">Lesson tab mein pehle jaao â€” lesson load hone do. Phir yahan aao! ðŸŽ¤</p></div>';
     return;
   }
   speakScores={correct:0,attempts:0};
@@ -1776,27 +1776,27 @@ function renderSpeakTab(){
 
   let html=`
     <div class="card" style="border-color:var(--blue)">
-      <div class="card-title">🎤 How it works</div>
+      <div class="card-title">ðŸŽ¤ How it works</div>
       <div style="font-size:13px;line-height:1.8;color:var(--muted)">
-        1. Click <strong style="color:var(--gold)">🔊 Listen</strong> — hear the correct German pronunciation<br>
-        2. Click <strong style="color:var(--blue)">🎤 Say it</strong> — app listens (mic opens automatically after audio)<br>
-        3. See instant feedback — ✅ Perfect / 🟡 Almost / ❌ Try again<br>
-        <span style="color:var(--orange)">⚠️ Works best on Chrome or Edge. Allow mic when browser asks!</span>
+        1. Click <strong style="color:var(--gold)">ðŸ”Š Listen</strong> â€” hear the correct German pronunciation<br>
+        2. Click <strong style="color:var(--blue)">ðŸŽ¤ Say it</strong> â€” app listens (mic opens automatically after audio)<br>
+        3. See instant feedback â€” âœ… Perfect / ðŸŸ¡ Almost / âŒ Try again<br>
+        <span style="color:var(--orange)">âš ï¸ Works best on Chrome or Edge. Allow mic when browser asks!</span>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title">🗣️ Words — Repeat After Hearing</div>
+      <div class="card-title">ðŸ—£ï¸ Words â€” Repeat After Hearing</div>
       ${currentLesson.words.map((w,i)=>`
         <div style="padding:14px 0;border-bottom:1px solid var(--border)">
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
             <div>
               <div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:var(--gold)">${w.de}</div>
-              <div style="font-size:12px;color:var(--muted);margin-top:2px">${w.pron} &nbsp;·&nbsp; ${w.en}</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px">${w.pron} &nbsp;Â·&nbsp; ${w.en}</div>
             </div>
             <div style="display:flex;gap:8px;align-items:center">
-              <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.de.replace(/'/g,"\\'")}')">🔊 Listen</button>
-              <button class="mic-btn" id="micBtn_w${i}" onclick="startListening(this,'${w.de.replace(/'/g,"\\'")}','micRes_w${i}')">🎤 Say it</button>
+              <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.de.replace(/'/g,"\\'")}')">ðŸ”Š Listen</button>
+              <button class="mic-btn" id="micBtn_w${i}" onclick="startListening(this,'${w.de.replace(/'/g,"\\'")}','micRes_w${i}')">ðŸŽ¤ Say it</button>
             </div>
           </div>
           <div id="micRes_w${i}"></div>
@@ -1804,29 +1804,29 @@ function renderSpeakTab(){
     </div>
 
     <div class="card">
-      <div class="card-title">🗣️ Phrases — Say the Full Phrase</div>
+      <div class="card-title">ðŸ—£ï¸ Phrases â€” Say the Full Phrase</div>
       ${currentLesson.phrases.map((p,i)=>`
         <div style="padding:14px 0;border-bottom:1px solid var(--border)">
           <div style="font-size:15px;font-weight:600;margin-bottom:4px">${p.de}</div>
           <div style="font-size:12px;color:var(--muted);margin-bottom:10px">${p.en}</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-outline btn-sm" onclick="speakGerman('${p.de.replace(/'/g,"\\'")}')">🔊 Listen</button>
-            <button class="mic-btn" id="micBtn_p${i}" onclick="startListening(this,'${p.de.replace(/'/g,"\\'")}','micRes_p${i}')">🎤 Say it</button>
+            <button class="btn btn-outline btn-sm" onclick="speakGerman('${p.de.replace(/'/g,"\\'")}')">ðŸ”Š Listen</button>
+            <button class="mic-btn" id="micBtn_p${i}" onclick="startListening(this,'${p.de.replace(/'/g,"\\'")}','micRes_p${i}')">ðŸŽ¤ Say it</button>
           </div>
           <div id="micRes_p${i}"></div>
         </div>`).join('')}
     </div>
 
     <div class="card" style="border-color:var(--green)">
-      <div class="card-title" style="color:var(--green)">💡 Pronunciation Tips for Hindi Speakers</div>
+      <div class="card-title" style="color:var(--green)">ðŸ’¡ Pronunciation Tips for Hindi Speakers</div>
       <div style="font-size:13px;line-height:1.9;color:var(--muted)">
-        🔤 <strong style="color:var(--text)">W</strong> sounds like <strong style="color:var(--gold)">V</strong> — "Wasser" = "Vasser" (not like English W)<br>
-        🔤 <strong style="color:var(--text)">Z</strong> sounds like <strong style="color:var(--gold)">TS</strong> — "Zeit" = "TSait"<br>
-        🔤 <strong style="color:var(--text)">CH</strong> after i/e = soft "sh/kh" — "ich" = "ikh" (like खा but softer)<br>
-        🔤 <strong style="color:var(--text)">Ü</strong> = say "ee" but round lips like "oo" — no Hindi equivalent, practice!<br>
-        🔤 <strong style="color:var(--text)">Ö</strong> = say "e" but round lips — like a surprised "eh?"<br>
-        🔤 <strong style="color:var(--text)">R</strong> = slightly guttural, throat — not the rolled Hindi R<br>
-        <span style="color:var(--orange)">Good news: German is more phonetic than English — jo dikhta hai, wahi bolta hai! 😄</span>
+        ðŸ”¤ <strong style="color:var(--text)">W</strong> sounds like <strong style="color:var(--gold)">V</strong> â€” "Wasser" = "Vasser" (not like English W)<br>
+        ðŸ”¤ <strong style="color:var(--text)">Z</strong> sounds like <strong style="color:var(--gold)">TS</strong> â€” "Zeit" = "TSait"<br>
+        ðŸ”¤ <strong style="color:var(--text)">CH</strong> after i/e = soft "sh/kh" â€” "ich" = "ikh" (like à¤–à¤¾ but softer)<br>
+        ðŸ”¤ <strong style="color:var(--text)">Ãœ</strong> = say "ee" but round lips like "oo" â€” no Hindi equivalent, practice!<br>
+        ðŸ”¤ <strong style="color:var(--text)">Ã–</strong> = say "e" but round lips â€” like a surprised "eh?"<br>
+        ðŸ”¤ <strong style="color:var(--text)">R</strong> = slightly guttural, throat â€” not the rolled Hindi R<br>
+        <span style="color:var(--orange)">Good news: German is more phonetic than English â€” jo dikhta hai, wahi bolta hai! ðŸ˜„</span>
       </div>
     </div>`;
 
@@ -1844,12 +1844,12 @@ window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();
 
 async function saveProgress(){
   if(!currentUser)return;
-  // OWASP A02 – Always use hashed key, never raw PIN
+  // OWASP A02 â€“ Always use hashed key, never raw PIN
   await storageSet(await pKey(currentUser.name,currentUser.pin),userProgress);
 }
 
 function logout(){
-  // OWASP A07 – Clear session fully on logout
+  // OWASP A07 â€“ Clear session fully on logout
   sessionStorage.removeItem('dj2_sess');
   currentUser=null;
   userProgress=null;
@@ -1860,3 +1860,5 @@ function logout(){
 </script>
 </body>
 </html>
+
+

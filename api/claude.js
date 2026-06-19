@@ -39,18 +39,24 @@ module.exports = async (req, res) => {
     }
     messages.push(...body.messages);
 
+    const groqBody = {
+      model: 'llama-3.3-70b-versatile',
+      max_tokens: Math.min(body.max_tokens || 1000, 2000),
+      temperature: 0.8,
+      messages
+    };
+    // Enable JSON mode when caller requests it (for lesson/exercise generation)
+    if (body.json_mode) {
+      groqBody.response_format = { type: 'json_object' };
+    }
+
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`
       },
-      body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
-        max_tokens: Math.min(body.max_tokens || 1000, 2000),
-        temperature: 0.8,
-        messages
-      })
+      body: JSON.stringify(groqBody)
     });
 
     if (!response.ok) {
