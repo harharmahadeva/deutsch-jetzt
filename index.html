@@ -420,6 +420,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="header">
     <div class="logo">🗣️ Speako</div>
     <div class="header-right">
+      <button id="muteBtn" onclick="toggleMute()" title="Mute sounds" style="padding:6px 10px;background:transparent;border:1px solid var(--border2);border-radius:99px;font-size:14px;cursor:pointer;transition:all 0.2s;line-height:1">🔔</button>
       <div class="streak">🔥 <span id="streakCount">0</span></div>
       <div class="user-name" id="headerName"></div>
       <button class="logout-btn" onclick="logout()">⏻ <span class="lbl">Logout</span></button>
@@ -1394,6 +1395,7 @@ Return JSON only: {"rating":"great|close|wrong","verdict":"one line verdict","ti
     const r=extractJSON(raw);
     const cls=r.rating==='great'?'great':r.rating==='close'?'close':'wrong';
     const icon=r.rating==='great'?'✅':r.rating==='close'?'🟡':'❌';
+    if(r.rating==='great')sfxCorrect();else if(r.rating==='close')sfxTap();else sfxWrong();
     resultEl.innerHTML=`
       <div class="mic-result ${cls}">
         ${icon} <strong>${esc(r.verdict)}</strong><br>
@@ -1450,6 +1452,7 @@ Return JSON only: {"rating":"good|close|wrong","feedback":"your feedback here","
     const result=extractJSON(raw);
     feedback.className='exercise-feedback '+(result.rating==='good'?'good':result.rating==='close'?'ok':'retry');
     feedback.innerHTML=`${result.rating==='good'?'✅':result.rating==='close'?'🟡':'❌'} ${esc(result.feedback)}${result.corrected?`<br><strong>Corrected:</strong> ${esc(result.corrected)}`:''}`;
+    if(result.rating==='good')sfxCorrect();else if(result.rating==='close')sfxTap();else sfxWrong();
   }catch(e){
     feedback.className='exercise-feedback ok';
     feedback.textContent='Could not check right now — but keep practicing! The attempt counts. 💪';
@@ -1583,7 +1586,7 @@ async function checkDrill(targetWord){
     const data=await res.json();
     let raw=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
     const r=extractJSON(raw);
-    if(r.correct)drillScore++;
+    if(r.correct){drillScore++;sfxCorrect();}else{sfxWrong();}
     result.className='drill-result '+(r.correct?'pass':'fail');
     result.innerHTML=`${r.correct?'✅':'❌'} ${esc(r.feedback)}`;
   }catch(e){
@@ -1680,7 +1683,7 @@ function answerQ(chosen){
   document.querySelectorAll('.test-opt')[q.answer].classList.add('correct');
   const right=chosen===q.answer;
   if(!right)document.querySelectorAll('.test-opt')[chosen].classList.add('wrong');
-  if(right)testScore++;
+  if(right){testScore++;sfxCorrect();}else{sfxWrong();}
   document.getElementById('testFeedback').innerHTML=`
     <div class="test-feedback ${right?'correct':'wrong'}">
       ${right?'✅ Correct!':'❌ Not quite...'} ${q.explanation}
@@ -1696,6 +1699,7 @@ async function showTestResult(score,total,fromSaved){
   testCompleted=true;
   const pct=Math.round((score/total)*100);
   const passed=pct>=70;
+  if(!fromSaved){if(passed)sfxCongrats();else sfxWrong();}
   const day=userProgress.day||1;
   if(!fromSaved){
     if(!userProgress.testResults)userProgress.testResults={};
@@ -2056,6 +2060,39 @@ function logout(){
   if(sessionTimer)clearInterval(sessionTimer);
   location.reload();
 }
+
+// ── Sound engine (Web Audio API — no files needed) ──
+let _sfxCtx=null, _muted=localStorage.getItem('speako_mute')==='1';
+function _ctx(){if(!_sfxCtx)_sfxCtx=new(window.AudioContext||window.webkitAudioContext)();return _sfxCtx;}
+function _beep(freq,dur,type='sine',vol=0.18,delay=0){
+  if(_muted)return;
+  try{
+    const c=_ctx(),o=c.createOscillator(),g=c.createGain();
+    o.connect(g);g.connect(c.destination);
+    o.type=type;o.frequency.value=freq;
+    g.gain.setValueAtTime(0,c.currentTime+delay);
+    g.gain.linearRampToValueAtTime(vol,c.currentTime+delay+0.01);
+    g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+delay+dur);
+    o.start(c.currentTime+delay);o.stop(c.currentTime+delay+dur+0.05);
+  }catch(e){}
+}
+function sfxCorrect(){_beep(523,0.1);_beep(659,0.1,undefined,undefined,0.1);_beep(784,0.18,undefined,undefined,0.2);}
+function sfxWrong(){_beep(300,0.12,'sawtooth',0.12);_beep(220,0.2,'sawtooth',0.1,0.14);}
+function sfxCongrats(){[523,659,784,1047].forEach((f,i)=>_beep(f,0.15,'sine',0.15,i*0.1));}
+function sfxTap(){_beep(880,0.05,'sine',0.07);}
+
+function toggleMute(){
+  _muted=!_muted;
+  localStorage.setItem('speako_mute',_muted?'1':'0');
+  const btn=document.getElementById('muteBtn');
+  if(btn)btn.textContent=_muted?'🔕':'🔔';
+  if(!_muted)sfxTap();
+}
+// Init mute icon on load
+window.addEventListener('DOMContentLoaded',()=>{
+  const btn=document.getElementById('muteBtn');
+  if(btn)btn.textContent=_muted?'🔕':'🔔';
+});
 </script>
 <script>
 if('serviceWorker' in navigator){
