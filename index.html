@@ -431,7 +431,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
       <div class="hero-greeting" id="heroGreeting">Good morning</div>
       <div class="hero-name" id="heroName">Welcome back!</div>
       <div class="hero-chips">
-        <div class="hero-chip">🗣️ German</div>
+        <div class="hero-chip" id="heroLangChip">🗣️ German</div>
         <div class="hero-chip" id="heroDayChip">Day 1</div>
         <div class="hero-chip">🔥 <span id="heroStreak">0</span> streak</div>
       </div>
@@ -454,7 +454,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 
     <div class="day-progress">
       <div class="dp-header">
-        <div class="dp-title">Your German Journey 🗺️</div>
+        <div class="dp-title" id="journeyTitle">Your German Journey 🗺️</div>
         <div class="dp-day" id="currentDayLabel">Day 1</div>
       </div>
       <div class="dp-dots" id="dayDots"></div>
@@ -923,10 +923,15 @@ function showApp(){
   safeText(document.getElementById('currentDayLabel'),'Day '+day);
   // hero section
   const hr=new Date().getHours();
-  const greet=hr<5?'Gute Nacht':hr<12?'Guten Morgen':hr<17?'Guten Tag':'Guten Abend';
+  const isNL2=(currentUser?.lang==='nl');
+  safeText(document.getElementById('heroLangChip'), isNL2?'🗣️ Dutch':'🗣️ German');
+  safeText(document.getElementById('journeyTitle'), isNL2?'Your Dutch Journey 🗺️':'Your German Journey 🗺️');
+  const greet=isNL2
+    ?(hr<5?'Goedenacht':hr<12?'Goedemorgen':hr<17?'Goedemiddag':'Goedenavond')
+    :(hr<5?'Gute Nacht':hr<12?'Guten Morgen':hr<17?'Guten Tag':'Guten Abend');
   safeText(document.getElementById('heroGreeting'),greet);
   safeText(document.getElementById('heroName'),dname+'!');
-  safeText(document.getElementById('heroDayChip'),'Day '+day+' of 60');
+  safeText(document.getElementById('heroDayChip'),(isNL2?'Dag':'Day')+' '+day+' of '+TOTAL_DAYS());
   safeText(document.getElementById('heroStreak'),userProgress.streak||1);
   renderDayDots();
   updateMotBanner();
@@ -939,10 +944,17 @@ function updateMotBanner(){
   const done=(userProgress.completedDays||[]).length;
   const streak=userProgress.streak||1;
   const msgs=[
-    `🗣️ <strong>Willkommen!</strong> Every word you learn today brings you one step closer to speaking German with confidence. Let's begin!`,
-    `🔥 <strong>Day ${day} — ${streak} day streak!</strong> You're building a real habit. Consistency is everything. Keep going!`,
-    `🚀 <strong>${done} days complete!</strong> German is clicking. Each lesson makes the next one easier. Stay with it!`,
-    `🎯 <strong>${streak} days strong!</strong> You started. You showed up. That already puts you ahead of most. Weiter so! 💪`,
+    ...(currentUser?.lang==='nl'?[
+      `🗣️ <strong>Welkom!</strong> Every word you learn today brings you one step closer to passing your inburgeringsexamen. Let's begin!`,
+      `🔥 <strong>Dag ${day} — ${streak} dag streak!</strong> You're building a real habit. Consistency is everything. Ga zo door!`,
+      `🚀 <strong>${done} dagen klaar!</strong> Dutch is clicking. Each lesson makes the next one easier. Blijf zo doorgaan!`,
+      `🎯 <strong>${streak} dagen sterk!</strong> You started. You showed up. That already puts you ahead of most. Goed bezig! 💪`,
+    ]:[
+      `🗣️ <strong>Willkommen!</strong> Every word you learn today brings you one step closer to speaking German with confidence. Let's begin!`,
+      `🔥 <strong>Day ${day} — ${streak} day streak!</strong> You're building a real habit. Consistency is everything. Keep going!`,
+      `🚀 <strong>${done} days complete!</strong> German is clicking. Each lesson makes the next one easier. Stay with it!`,
+      `🎯 <strong>${streak} days strong!</strong> You started. You showed up. That already puts you ahead of most. Weiter so! 💪`,
+    ]),
   ];
   document.getElementById('motBanner').innerHTML=msgs[Math.min(Math.floor(done/5),msgs.length-1)];
 }
