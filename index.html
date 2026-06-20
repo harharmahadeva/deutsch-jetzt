@@ -1296,8 +1296,8 @@ function renderLessonPage(){
     </div>
     ${page.html}
     <div class="lesson-nav">
-      <button class="btn btn-outline" onclick="prevLessonPage()" ${isFirst?'disabled style="opacity:0.3;cursor:default"':''}>← Back</button>
-      <button class="btn btn-gold" onclick="${isLast?'':'nextLessonPage()'}" ${isLast?'disabled style="opacity:0.5;cursor:default"':''}>${isLast?'✅ All done!':'Next →'}</button>
+      <button class="btn btn-outline" onclick="prevLessonPage()" ${isFirst?'disabled style="opacity:0.3;cursor:default"':''}>Back</button>
+      <button class="btn btn-gold" onclick="${isLast?'':'nextLessonPage()'}" ${isLast?'disabled style="opacity:0.5;cursor:default"':''}>${isLast?'✅ Done!':'Next'}</button>
     </div>`;
 
   document.getElementById('lessonContent').innerHTML=html;
