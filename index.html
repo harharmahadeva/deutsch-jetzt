@@ -1181,10 +1181,16 @@ function renderLesson(lesson){
           <div class="word-funny" style="margin-top:6px;font-size:12px">💡 ${w.funny}</div>
         </div>
 
-        <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
-          <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.de.replace(/'/g,"\\'")}')">🔊 Word</button>
-          <button class="mic-btn" id="micWord_${sid}" onclick="startVoiceValidation('${sid}','${w.de.replace(/'/g,"\\'")}','word')">🎤 Say it</button>
-          <button class="btn btn-outline btn-sm" id="exToggle_${sid}" onclick="toggleExercise('${sid}','${w.de.replace(/'/g,"\\'")}')">✍️ Try it</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+          <button onclick="speakGerman('${w.de.replace(/'/g,"\\'")}')}" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:var(--primary);font-size:11px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .2s" onmousedown="this.style.background='rgba(99,102,241,0.25)'" onmouseup="this.style.background='rgba(99,102,241,0.12)'">
+            <span style="font-size:22px">🔊</span>Listen
+          </button>
+          <button id="micWord_${sid}" onclick="startVoiceValidation('${sid}','${w.de.replace(/'/g,"\\'")}','word')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .2s" onmousedown="this.style.background='rgba(16,185,129,0.25)'" onmouseup="this.style.background='rgba(16,185,129,0.12)'">
+            <span style="font-size:22px">🎤</span>Say it
+          </button>
+          <button id="exToggle_${sid}" onclick="toggleExercise('${sid}','${w.de.replace(/'/g,"\\'")}')}" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:var(--gold);font-size:11px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .2s" onmousedown="this.style.background='rgba(245,158,11,0.25)'" onmouseup="this.style.background='rgba(245,158,11,0.12)'">
+            <span style="font-size:22px">✍️</span>Try it
+          </button>
         </div>
         <div id="voiceResult_${sid}"></div>
 
