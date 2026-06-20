@@ -1332,17 +1332,13 @@ function startVoiceValidation(sid, targetText, type){
     return;
   }
 
-  // First play audio so they hear it
-  speakGerman(targetText);
   btn.textContent='🔴 Listening...';
   btn.classList.add('listening');
-  resultEl.innerHTML='<div class="mic-result heard">🔊 Listen first... mic opens in a moment</div>';
-
-  const delay = targetText.split(' ').length * 500 + 800;
+  resultEl.innerHTML='<div class="mic-result heard">🎤 Speak now...</div>';
 
   setTimeout(()=>{
     const r = new SR();
-    r.lang='de-DE';
+    r.lang=currentUser?.lang==='nl'?'nl-NL':'de-DE';
     r.continuous=false;
     r.interimResults=false;
     r.maxAlternatives=3;
