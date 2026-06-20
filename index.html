@@ -1183,13 +1183,13 @@ function renderLesson(lesson){
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
-          <button onclick="speakGerman('${w.de.replace(/'/g,"\\'")}')}" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:var(--primary);font-size:11px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .2s" onmousedown="this.style.background='rgba(99,102,241,0.25)'" onmouseup="this.style.background='rgba(99,102,241,0.12)'">
+          <button onclick="speakWord('${w.de.replace(/'/g,"\\'")}');sfxTap()" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:var(--primary);font-size:11px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .2s" onmousedown="this.style.background='rgba(99,102,241,0.25)'" onmouseup="this.style.background='rgba(99,102,241,0.12)'">
             <span style="font-size:22px">🔊</span>Listen
           </button>
           <button id="micWord_${sid}" onclick="startVoiceValidation('${sid}','${w.de.replace(/'/g,"\\'")}','word')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .2s" onmousedown="this.style.background='rgba(16,185,129,0.25)'" onmouseup="this.style.background='rgba(16,185,129,0.12)'">
             <span style="font-size:22px">🎤</span>Say it
           </button>
-          <button id="exToggle_${sid}" onclick="toggleExercise('${sid}','${w.de.replace(/'/g,"\\'")}')}" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:var(--gold);font-size:11px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .2s" onmousedown="this.style.background='rgba(245,158,11,0.25)'" onmouseup="this.style.background='rgba(245,158,11,0.12)'">
+          <button id="exToggle_${sid}" onclick="toggleExercise('${sid}','${w.de.replace(/'/g,"\\'")}');" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:var(--gold);font-size:11px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .2s" onmousedown="this.style.background='rgba(245,158,11,0.25)'" onmouseup="this.style.background='rgba(245,158,11,0.12)'">
             <span style="font-size:22px">✍️</span>Try it
           </button>
         </div>
@@ -2039,10 +2039,14 @@ function renderSpeakTab(){
 function speakGerman(text){
   if(!window.speechSynthesis)return;
   window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);u.lang='de-DE';u.rate=0.85;
-  const v=window.speechSynthesis.getVoices();const dv=v.find(x=>x.lang.startsWith('de'));if(dv)u.voice=dv;
+  const isNL=currentUser?.lang==='nl';
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=isNL?'nl-NL':'de-DE';u.rate=0.85;
+  const v=window.speechSynthesis.getVoices();
+  const dv=v.find(x=>x.lang.startsWith(isNL?'nl':'de'));if(dv)u.voice=dv;
   window.speechSynthesis.speak(u);
 }
+function speakWord(text){speakGerman(text);}
 window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();
 
 async function saveProgress(){
