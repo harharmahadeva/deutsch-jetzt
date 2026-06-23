@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -504,7 +504,7 @@ let sessionMinutes=0, sessionTarget=60, sessionTimer=null;
 let chatHistory=[], currentLesson=null;
 let testQuestions=[], currentTestQ=0, testScore=0, testCompleted=false;
 
-const TOTAL_DAYS=()=>(currentUser?.lang==='nl'?45:60);
+const TOTAL_DAYS=()=>60;
 // A2-structured curriculum — Goethe A2 / TELC A2 aligned
 // Grammar point per day drives 60% of lesson; vocabulary 40%
 const DAY_TOPICS=[
@@ -580,64 +580,7 @@ const DAY_TOPICS=[
 ];
 
 // ─────────────────────────────────────────────
-// DUTCH COURSE — 45 days, Inburgering A2 / KNM aligned
-// Mirrors the Android NL_LESSONS structure (Days 1-25)
-// Days 26-45 = advanced scenarios + exam prep
-// ─────────────────────────────────────────────
-const DAY_TOPICS_NL=[
-  // WEEK 1 — Foundation: first words, pronunciation, basic phrases
-  "Dag 1 | Eerste Woorden — Hallo, Doei, Ja, Nee, Dank je, Alsjeblieft",
-  "Dag 2 | Getallen & Namen — Een t/m Tien, Ik, Jij, Naam, introductions",
-  "Dag 3 | Hoe gaat het? — Goed, Slecht, Moe, Hongerig, Oké, Super",
-  "Dag 4 | Om je heen — Water, Koffie, Brood, Huis, Auto, Telefoon",
-  "Dag 5 | Tijd en Plaats — Vandaag, Morgen, Hier, Daar, Nu, Later",
-  "Dag 6 | Op het werk — Werk, Kantoor, Vergadering, Baas, Collega, E-mail",
-  "Dag 7 | Week 1 Herhaling — review all first words, pronunciation focus",
-  // WEEK 2 — Daily life (Inburgering core topics)
-  "Dag 8 | Familie — Vader, Moeder, Kind, Broer, Zus, Gezin",
-  "Dag 9 | Gezondheid — Dokter, Ziekenhuis, Medicijn, Pijn, Ziek, Apotheek",
-  "Dag 10 | Wonen — Huren, Kamer, Sleutel, Buren, Gemeente, Contract",
-  "Dag 11 | Boodschappen — Supermarkt, Betalen, Kassabon, Korting, Vers, Kopen",
-  "Dag 12 | Vervoer — Trein, Bus, Fiets, Station, Rijbewijs, Chipkaart",
-  "Dag 13 | Werk en Inkomen — Salaris, Vakantie, Belasting, Solliciteren, UWV, Loon",
-  "Dag 14 | Week 2 Herhaling — review inburgering daily life vocabulary",
-  // WEEK 3 — Society and government (Inburgering KNM core)
-  "Dag 15 | Onderwijs — School, Leraar, Diploma, Inschrijven, Kinderopvang, Lessen",
-  "Dag 16 | Overheid — Paspoort, Stemmen, Wet, Rechten, Plichten, Beleid",
-  "Dag 17 | Geld en Bank — Rekening, Pinnen, Lening, Sparen, Huur, Toeslagen",
-  "Dag 18 | De Stad — Links, Rechts, Rechtdoor, Postkantoor, Bibliotheek, Kruispunt",
-  "Dag 19 | Kleding en Weer — Regen, Zon, Jas, Schoenen, Graden, Seizoen",
-  "Dag 20 | Nederlandse Waarden — Tolerantie, Gelijkheid, Vrijheid, Respect, Integratie, Burgerschap (KNM)",
-  "Dag 21 | Week 3 Herhaling — review society, government and values vocabulary",
-  // WEEK 4 — Spreken scenarios (speaking practice)
-  "Dag 22 | Bij de Dokter — Afspraak, Huisarts, Recept, Klachten, Verzekering, Bloeddruk",
-  "Dag 23 | Bij de Gemeente — Aanvragen, Formulier, ID-bewijs, Uittreksel, Loket, Wachttijd",
-  "Dag 24 | Solliciteren — CV, Motivatiebrief, Ervaring, Opleiding, Referentie, Proeftijd",
-  "Dag 25 | Week 4 Herhaling — review all scenario vocabulary",
-  // WEEK 5 — Grammar foundations (present tense, verbs, sentences)
-  "Dag 26 | Grammar: Tegenwoordige Tijd — present tense verbs, ik/jij/hij/wij conjugation",
-  "Dag 27 | Grammar: de/het — Dutch articles, common gender vs neuter nouns",
-  "Dag 28 | Grammar: Zinsbouw — basic Dutch word order, subject-verb-object",
-  "Dag 29 | Grammar: Vraagzinnen — question words Wie/Wat/Waar/Wanneer/Hoe/Waarom",
-  "Dag 30 | Grammar: Ontkenning — niet vs geen, negation in Dutch",
-  "Dag 31 | Grammar: Modale Werkwoorden — kunnen, moeten, willen, mogen, zullen",
-  "Dag 32 | Week 5 Herhaling — grammar consolidation, sentence building practice",
-  // WEEK 6 — Advanced communication and A2 exam skills
-  "Dag 33 | Gezin en Relaties — describing family, relationships, household responsibilities",
-  "Dag 34 | Gezondheidszorg — navigating Dutch healthcare, huisarts, zorgverzekering",
-  "Dag 35 | Wonen en Huren — rental process, housing rights, woningcorporatie",
-  "Dag 36 | Grammar: Verleden Tijd — past tense with hebben/zijn, veelgebruikte werkwoorden",
-  "Dag 37 | Werk & Sollicitatie — job interview language, LinkedIn in Dutch, netwerken",
-  "Dag 38 | Formulieren Invullen — filling in Dutch government forms, common abbreviations",
-  "Dag 39 | Week 6 Herhaling — advanced vocabulary review + grammar",
-  // WEEK 7 — Inburgeringsexamen preparation (all 4 skills)
-  "Dag 40 | Examen: Lezen — reading comprehension strategies, signboards, instructions",
-  "Dag 41 | Examen: Luisteren — listening to announcements, dialogues, instructions",
-  "Dag 42 | Examen: Schrijven — writing a simple letter or email in Dutch (80 words)",
-  "Dag 43 | Examen: Spreken — speaking scenarios (Oplossingsgerichte Gesprekken, OGO)",
-  "Dag 44 | KNM: Kennis van de Nederlandse Maatschappij — civic knowledge mock test",
-  "Dag 45 | Afstuderen — graduation day, full A2 review, Je bent klaar voor inburgering! 🎓"
-];
+
 
 // ═══════════════════════════════════
 // OWASP A03 – XSS: Central sanitiser
@@ -846,8 +789,7 @@ window.onload=async()=>{
 // ═══════════════════════════════════
 const ACCOUNTS=[
   {name:'manra',   pin:'7860', displayName:'Manisha', lang:'de'},
-  {name:'nikra',   pin:'5511', displayName:'Nikhil',  lang:'de'},
-  {name:'sharmsa', pin:'1990', displayName:'Sakshi',  lang:'nl'}
+  {name:'nikra',   pin:'5511', displayName:'Nikhil',  lang:'de'}
 ];
 
 async function isValidAccount(name, pin){
@@ -925,15 +867,12 @@ function showApp(){
   safeText(document.getElementById('currentDayLabel'),'Day '+day);
   // hero section
   const hr=new Date().getHours();
-  const isNL2=(currentUser?.lang==='nl');
-  safeText(document.getElementById('heroLangChip'), isNL2?'🗣️ Dutch':'🗣️ German');
-  safeText(document.getElementById('journeyTitle'), isNL2?'Your Dutch Journey 🗺️':'Your German Journey 🗺️');
-  const greet=isNL2
-    ?(hr<5?'Goedenacht':hr<12?'Goedemorgen':hr<17?'Goedemiddag':'Goedenavond')
-    :(hr<5?'Gute Nacht':hr<12?'Guten Morgen':hr<17?'Guten Tag':'Guten Abend');
+  safeText(document.getElementById('heroLangChip'), '🗣️ German');
+  safeText(document.getElementById('journeyTitle'), 'Your German Journey 🗺️');
+  const greet=hr<5?'Gute Nacht':hr<12?'Guten Morgen':hr<17?'Guten Tag':'Guten Abend';
   safeText(document.getElementById('heroGreeting'),greet);
   safeText(document.getElementById('heroName'),dname+'!');
-  safeText(document.getElementById('heroDayChip'),(isNL2?'Dag':'Day')+' '+day+' of '+TOTAL_DAYS());
+  safeText(document.getElementById('heroDayChip'),'Day '+day+' of '+TOTAL_DAYS());
   safeText(document.getElementById('heroStreak'),userProgress.streak||1);
   renderDayDots();
   updateMotBanner();
@@ -946,17 +885,10 @@ function updateMotBanner(){
   const done=(userProgress.completedDays||[]).length;
   const streak=userProgress.streak||1;
   const msgs=[
-    ...(currentUser?.lang==='nl'?[
-      `🗣️ <strong>Welkom!</strong> Every word you learn today brings you one step closer to passing your inburgeringsexamen. Let's begin!`,
-      `🔥 <strong>Dag ${day} — ${streak} dag streak!</strong> You're building a real habit. Consistency is everything. Ga zo door!`,
-      `🚀 <strong>${done} dagen klaar!</strong> Dutch is clicking. Each lesson makes the next one easier. Blijf zo doorgaan!`,
-      `🎯 <strong>${streak} dagen sterk!</strong> You started. You showed up. That already puts you ahead of most. Goed bezig! 💪`,
-    ]:[
-      `🗣️ <strong>Willkommen!</strong> Every word you learn today brings you one step closer to speaking German with confidence. Let's begin!`,
-      `🔥 <strong>Day ${day} — ${streak} day streak!</strong> You're building a real habit. Consistency is everything. Keep going!`,
-      `🚀 <strong>${done} days complete!</strong> German is clicking. Each lesson makes the next one easier. Stay with it!`,
-      `🎯 <strong>${streak} days strong!</strong> You started. You showed up. That already puts you ahead of most. Weiter so! 💪`,
-    ]),
+    `🗣️ <strong>Willkommen!</strong> Every word you learn today brings you one step closer to speaking German with confidence. Let's begin!`,
+    `🔥 <strong>Day ${day} — ${streak} day streak!</strong> You're building a real habit. Consistency is everything. Keep going!`,
+    `🚀 <strong>${done} days complete!</strong> German is clicking. Each lesson makes the next one easier. Stay with it!`,
+    `🎯 <strong>${streak} days strong!</strong> You started. You showed up. That already puts you ahead of most. Weiter so! 💪`,
   ];
   document.getElementById('motBanner').innerHTML=msgs[Math.min(Math.floor(done/5),msgs.length-1)];
 }
@@ -1001,52 +933,10 @@ function unlockTest(){
 
 async function loadLesson(day){
   currentLesson=null;
-  const isNL=(currentUser?.lang==='nl');
-  const topics=isNL?DAY_TOPICS_NL:DAY_TOPICS;
-  const totalDays=isNL?45:60;
-  const topic=topics[(day-1)%topics.length]||( isNL?'Advanced Dutch':'Advanced German');
-  document.getElementById('lessonContent').innerHTML=`<div class="lesson-loading"><div class="spinner"></div><div>Generating ${isNL?'Dag':'Day'} ${day} lesson... hang tight! 🍛</div></div>`;
+  const topic=DAY_TOPICS[(day-1)%DAY_TOPICS.length]||'Advanced German';
+  document.getElementById('lessonContent').innerHTML=`<div class="lesson-loading"><div class="spinner"></div><div>Generating Day ${day} lesson... hang tight! 🍛</div></div>`;
 
-  const prompt=isNL?
-`You are a structured Dutch tutor for an IT professional from New Delhi now living in the Netherlands. Goal: reach Inburgeringsexamen A2 / KNM standard in 45 days. Warm, memorable humor — but accuracy comes first.
-
-Generate Dag ${day} of 45 Dutch lesson on: "${topic}"
-
-LEVEL RULES (strictly enforced):
-- Days 1-7: A1 absolute basics — isolated words only, no full sentences in examples
-- Days 8-21: A1→A2 — Inburgering daily life topics, simple present tense sentences
-- Days 22-25: A2 scenarios — Spreken (speaking) practice: dokter, gemeente, sollicitatie
-- Days 26-32: A2 grammar — present tense, de/het, word order, question words, negation, modal verbs
-- Days 33-39: A2 advanced — healthcare, housing, job applications, forms, past tense
-- Days 40-44: Exam prep — Lezen, Luisteren, Schrijven, Spreken, KNM mock
-- Day 45: Graduation — full review
-
-GRAMMAR POINT (mandatory):
-- Explain the specific Dutch grammar concept for day ${day} in simple English
-- Clear rule, 2-3 example sentences, common mistake to avoid
-- Days 1-7: grammar field still required but keep it simple (e.g. Dutch pronunciation rule)
-
-VOCABULARY RULES:
-- Words must match the Inburgering A2 / NT2 word lists
-- For NOUNS only: prefix with de or het (e.g. "de fiets", "het huis"). For verbs, adjectives, greetings, adverbs, pronouns — NO article prefix, just the bare word (e.g. "hallo", "goed", "ik", "lopen")
-- Pronunciation guide using approximate English sounds (Dutch G = KH, Dutch IJ = AY, V = F/V, W = V)
-- Example sentences use realistic Dutch daily-life situations (Albert Heijn, NS trein, gemeente, huisarts)
-
-TONE: Like a brilliant desi didi who passed her inburgering exam. Humor through Delhi+Amsterdam comparisons.
-Delhi: CP, DTC bus, auto-wala, chai, Chandni Chowk, jugaad, "yaar"
-Amsterdam/NL: Albert Heijn, NS trein, OV-chipkaart, gemeente, huisarts, fiets, stroopwafel, gezellig, Randstad
-
-Return ONLY valid JSON (no markdown, no backticks):
-{"day":${day},"topic":"${topic}","funnyIntro":"2 sentences — Delhi+Amsterdam humor, set up why today's topic matters for inburgering","grammar":{"rule":"Clear one-sentence Dutch grammar rule","explanation":"2-3 sentences with logic behind it","examples":["Dutch sentence 1 — English translation","Dutch sentence 2 — English translation","Dutch sentence 3 — English translation"],"mistake":"Most common error and how to avoid it"},"words":[{"de":"Dutch word with de/het if noun","pron":"[sounds-like-english]","en":"meaning","example_de":"Dutch daily-life sentence","example_en":"translation","funny":"Delhi/Amsterdam memory hook"}],"phrases":[{"de":"Dutch phrase","en":"meaning","funny":"when to use — real inburgering situation"}],"berlinTip":"Practical Netherlands survival tip (gemeente, zorgverzekering, OV, etc.) linked to today's topic","jobTip":"Job hunting in NL tip — IT sector, Dutch workplace culture, LinkedIn NL"}
-
-STRICT RULES:
-- Exactly 8 words (NT2 A2 level)
-- Exactly 6 phrases
-- grammar field REQUIRED — no exceptions
-- All example sentences grammatically correct Dutch
-- Inburgering/KNM angle where relevant (rechten, plichten, Nederlandse waarden, participatie)
-- Pure JSON only`
-:
+  const prompt=
 `You are a structured A2 German tutor for two IT security professionals from New Delhi living in Berlin. Your goal: get them to Goethe/TELC A2 standard. Warm, memorable humor — but grammar and vocabulary precision come first.
 
 Generate a Day ${day} A2-aligned German lesson on: "${topic}"
@@ -1338,7 +1228,7 @@ function startVoiceValidation(sid, targetText, type){
 
   setTimeout(()=>{
     const r = new SR();
-    r.lang=currentUser?.lang==='nl'?'nl-NL':'de-DE';
+    r.lang='de-DE';
     r.continuous=false;
     r.interimResults=false;
     r.maxAlternatives=3;
@@ -2036,11 +1926,10 @@ function renderSpeakTab(){
 function speakGerman(text){
   if(!window.speechSynthesis)return;
   window.speechSynthesis.cancel();
-  const isNL=currentUser?.lang==='nl';
   const u=new SpeechSynthesisUtterance(text);
-  u.lang=isNL?'nl-NL':'de-DE';u.rate=0.85;
+  u.lang='de-DE';u.rate=0.85;
   const v=window.speechSynthesis.getVoices();
-  const dv=v.find(x=>x.lang.startsWith(isNL?'nl':'de'));if(dv)u.voice=dv;
+  const dv=v.find(x=>x.lang.startsWith('de'));if(dv)u.voice=dv;
   window.speechSynthesis.speak(u);
 }
 function speakWord(text){speakGerman(text);}
