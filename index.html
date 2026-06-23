@@ -41,19 +41,6 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   radial-gradient(ellipse 500px 400px at 85% 85%,rgba(168,85,247,0.22) 0%,transparent 70%),
   radial-gradient(ellipse 400px 300px at 60% 40%,rgba(13,148,136,0.08) 0%,transparent 70%);}
 
-.demo-ribbon{display:none!important;}
-.demo-modal-overlay{display:none!important;}
-
-.demo-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.9);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;}
-.demo-modal{background:var(--card);border:1px solid rgba(139,92,246,0.4);border-radius:20px;padding:32px;max-width:500px;width:100%;box-shadow:0 0 60px rgba(139,92,246,0.2);}
-.demo-modal-badge{display:inline-block;background:rgba(139,92,246,0.15);color:var(--violet);border:1px solid rgba(139,92,246,0.3);border-radius:99px;padding:4px 14px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
-.demo-modal-title{font-family:"Outfit",sans-serif;font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--blue-b),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px;}
-.demo-modal-body{font-size:13px;color:var(--text2);line-height:1.9;margin-bottom:20px;}
-.demo-modal-body strong{color:var(--text);}
-.demo-modal-body ul{padding-left:18px;margin-top:6px;}
-.demo-modal-body ul li{margin-bottom:3px;}
-.demo-modal-accept{width:100%;background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:"Space Grotesk",sans-serif;transition:all 0.2s;box-shadow:0 4px 20px rgba(59,130,246,0.3);}
-.demo-modal-accept:hover{transform:translateY(-1px);}
 
 /* ── DISCLAIMER SCREEN ── */
 #disclaimerScreen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 24px 120px;background:linear-gradient(160deg,#0F0C29 0%,#302B63 55%,#1D4ED8 100%);position:relative;z-index:1;overflow-y:auto;}
@@ -281,32 +268,6 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 </head>
 <body>
 
-<!-- ── DEMO DISCLAIMER MODAL (shown once on first visit) ── -->
-<div class="demo-modal-overlay" id="demoModal">
-  <div class="demo-modal">
-    <div class="demo-modal-badge">⚠️ Prototype / Demo</div>
-    <div class="demo-modal-title">This is a Demo Application — Not a Commercial Product</div>
-    <div class="demo-modal-body">
-      <strong>Please read before continuing:</strong>
-      <ul>
-        <li>This is a <strong>proof-of-concept prototype</strong> built for testing and evaluation purposes only.</li>
-        <li>It is <strong>not a finished product</strong> and is not intended for commercial use or public distribution.</li>
-        <li>AI-generated lesson content may contain <strong>errors, inaccuracies, or mistranslations</strong>. Always verify with a qualified German teacher.</li>
-        <li>This app is <strong>not affiliated with</strong> Anthropic, Google, or any language learning platform.</li>
-        <li>Progress is stored <strong>locally in your browser only</strong>. No data is sent to any server other than the AI API for lesson generation.</li>
-        <li>Use of this demo is entirely <strong>at your own risk</strong>. The creator accepts no liability for any issues arising from use.</li>
-        <li>This app uses the <strong>Google Gemini API</strong> for content generation. Usage is subject to <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer" style="color:#c4b5fd">Google AI Terms of Service</a>.</li>
-      </ul>
-    </div>
-    <button class="demo-modal-accept" onclick="acceptDemo()">I understand — this is a demo. Let me in! 🇩🇪</button>
-  </div>
-</div>
-
-<!-- ── STICKY DEMO RIBBON (always visible) ── -->
-<div class="demo-ribbon" id="demoRibbon">
-  ⚠️ DEMO / PROTOTYPE — Not a commercial product. AI content may contain errors. For testing purposes only.
-  <a onclick="document.getElementById('demoModal').style.display='flex'" tabindex="0">Read disclaimer</a>
-</div>
 
 <div id="loadingScreen" class="loading-screen" style="position:fixed;inset:0;z-index:500;background:var(--black)">
   <div class="spinner"></div>
@@ -492,7 +453,8 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     <div class="disclaimer-footer">
       🗣️ <strong>Speako</strong> — Personal language learning app.<br>
       AI-generated content may occasionally contain errors. Progress stored locally in your browser only.<br>
-      No user data is collected or shared.
+      No user data is collected or shared.<br>
+      <a onclick="showDisclaimer()" style="color:var(--violet);cursor:pointer;font-size:11px">View disclaimer</a>
     </div>
 
   </div>
@@ -738,25 +700,19 @@ async function storageSet(k,v){
 // OWASP A02 – Keys use hashed PIN, never raw
 async function pKey(n,p){return `dj2_p:${n.toLowerCase().trim()}:${await hashPin(p)}`;}
 
-// ── DEMO DISCLAIMER ──
-function acceptDemo(){
-  localStorage.setItem('dj2_disclaimer','1');
-  document.getElementById('demoModal').style.display='none';
-}
-
 function acceptDisclaimer(){
   localStorage.setItem('speako_disc','1');
   document.getElementById('disclaimerScreen').classList.add('hidden');
   document.getElementById('loginScreen').classList.remove('hidden');
 }
 
+function showDisclaimer(){
+  document.getElementById('appScreen').style.display='none';
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('disclaimerScreen').classList.remove('hidden');
+}
+
 window.onload=async()=>{
-  // Show disclaimer modal on every first visit (or if not yet accepted)
-  if(!localStorage.getItem('dj2_disclaimer')){
-    document.getElementById('demoModal').style.display='flex';
-  } else {
-    document.getElementById('demoModal').style.display='none';
-  }
   const s=sessionStorage.getItem('dj2_sess');
   if(s){
     try{
