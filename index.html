@@ -1068,8 +1068,8 @@ function renderLesson(lesson){
         <div class="word-example" style="margin-bottom:10px">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
             <div style="flex:1;min-width:0">
-              <div style="font-size:13px"><strong>${w.example_de}</strong></div>
-              <div style="color:var(--muted);font-size:12px;margin-top:2px">${w.example_en}</div>
+              <div style="font-size:13px;font-style:italic;color:var(--primary)">💬 ${w.example_de}</div>
+              ${lesson.day<=10?`<div style="font-size:12px;color:var(--muted);margin-top:3px">🇬🇧 ${w.example_en}</div>`:''}
             </div>
             <button class="btn btn-outline btn-sm" onclick="speakGerman('${w.example_de.replace(/'/g,"\\'")}')">🔊</button>
           </div>
@@ -1114,8 +1114,8 @@ function renderLesson(lesson){
             <div class="word-en" style="font-size:17px">${w.en}</div>
           </div>
           <div class="word-example" style="margin-bottom:10px;border-left-color:var(--cyan)">
-            <div style="font-size:13px"><strong>${w.example_de}</strong></div>
-            <div style="color:var(--muted);font-size:12px;margin-top:2px">${w.example_en}</div>
+            <div style="font-size:13px;font-style:italic;color:var(--primary)">💬 ${w.example_de}</div>
+            ${lesson.day<=10?`<div style="font-size:12px;color:var(--muted);margin-top:3px">🇬🇧 ${w.example_en}</div>`:''}
             <div class="word-funny" style="margin-top:6px;font-size:12px">💡 ${w.funny}</div>
           </div>
           <div style="display:flex;gap:8px;justify-content:center">

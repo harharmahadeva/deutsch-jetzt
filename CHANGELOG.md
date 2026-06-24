@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0] - 2026-06-24
+### Changed
+- **Bilingual sentence scaffold** — word card example sentences now show an English translation line (🇬🇧) for Days 1–10 only; Day 11+ shows German sentence only
+  - Applies to both vocab words and spaced-repetition review words
+  - Example sentence rendered in italic accent color (💬) for visual clarity
+  - Matches Android app v1.6.6 and Dutch PWA scaffolding logic
+
 ## [1.4.0] - 2026-06-24
 ### Added
 - **Sprechen module** — Goethe A2 Sprechen practice in the Exam Prep tab
