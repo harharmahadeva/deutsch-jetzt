@@ -211,6 +211,10 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .drill-sub{font-size:13px;color:var(--text2);margin-bottom:16px;}
 .drill-scenario{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:16px;margin-bottom:12px;}
 .drill-scenario-q{font-size:14px;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.5;}
+.exam-section-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
+.exam-section-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:2px;}
+.exam-section-sub{font-size:11px;color:var(--muted);}
+.exam-back-btn{font-size:12px;color:var(--primary);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:8px;white-space:nowrap;}
 .drill-result{padding:10px 13px;border-radius:10px;font-size:13px;line-height:1.6;display:none;}
 .drill-result.pass{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:#6ee7b7;}
 .drill-result.fail{background:var(--red-g);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;}
@@ -553,6 +557,8 @@ const DAY_TOPICS=[
 // OWASP A03 – XSS: Central sanitiser
 // Escapes all untrusted strings before DOM insertion
 // ═══════════════════════════════════
+function shuffleArray(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
 function esc(str){
   if(typeof str!=='string')return '';
   return str
@@ -840,7 +846,20 @@ function showApp(){
   safeText(document.getElementById('heroStreak'),userProgress.streak||1);
   renderDayDots();
   updateMotBanner();
-  loadLesson(day);
+  const done=(userProgress.completedDays||[]).length;
+  if(done>=60){
+    document.getElementById('lessonContent').innerHTML=`
+      <div class="card" style="border-color:rgba(52,201,122,.4);text-align:center;background:linear-gradient(135deg,rgba(52,201,122,.12),rgba(34,197,94,.06))">
+        <div style="padding:36px 20px 28px">
+          <div style="font-size:52px;margin-bottom:14px">🎓</div>
+          <div style="font-size:22px;font-weight:900;color:var(--green);margin-bottom:6px">60-Tage-Kurs abgeschlossen!</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Du hast alle Wörter gelernt. Jetzt bist du bereit für die Prüfung!</div>
+          <button class="btn btn-gold" onclick="switchTab('exam',document.getElementById('tabBtnExam'));renderExamTab()" style="padding:14px 28px">🎓 Zur Prüfungsvorbereitung →</button>
+        </div>
+      </div>`;
+  } else {
+    loadLesson(day);
+  }
   startTimer();
 }
 
@@ -894,6 +913,18 @@ function unlockTest(){
   tb.style.color='var(--gold)';
   tb.style.borderColor='var(--gold)';
 }
+
+const DAY_MODULE_MAP={
+  1:'Wortschatz',2:'Wortschatz',3:'Grammatik',4:'Grammatik',5:'Wortschatz',6:'Grammatik',7:'Aussprache',
+  8:'Wortschatz',9:'Wortschatz',10:'Sprechen',11:'Grammatik',12:'Wortschatz',13:'Grammatik',14:'Wortschatz',
+  15:'Grammatik',16:'Wortschatz',17:'Wortschatz',18:'Grammatik',19:'Wortschatz',20:'Wortschatz',21:'Wortschatz',
+  22:'Grammatik',23:'Wortschatz',24:'Wortschatz',25:'Grammatik',26:'Wortschatz',27:'Grammatik',28:'Wortschatz',
+  29:'Grammatik',30:'Wortschatz',31:'Wortschatz',32:'Grammatik',33:'Grammatik',34:'Grammatik',35:'Grammatik',
+  36:'Wortschatz',37:'Wortschatz',38:'Grammatik',39:'Grammatik',40:'Wortschatz',41:'Grammatik',42:'Grammatik',
+  43:'Lesen',44:'Hören',45:'Schreiben',46:'Sprechen',47:'Lesen',48:'Hören',49:'Schreiben',50:'Sprechen',
+  51:'Mock Exam',52:'Mock Exam',53:'Mock Exam',54:'Mock Exam',55:'Wortschatz',56:'Wortschatz',
+  57:'Mock Exam',58:'Mock Exam',59:'Mock Exam',60:'Mock Exam'
+};
 
 async function loadLesson(day){
   currentLesson=null;
@@ -974,9 +1005,10 @@ function renderLesson(lesson){
   lessonPage=0;
 
   // Page 0 — Intro
+  const _mod=DAY_MODULE_MAP[lesson.day]||'';
   lessonPages.push({type:'intro', html:`
     <div class="card">
-      <div class="section-label">Day ${lesson.day} <span class="section-badge">${lesson.topic}</span></div>
+      <div class="section-label">Day ${lesson.day} <span class="section-badge">${lesson.topic}</span>${_mod?` <span style="font-size:10px;background:rgba(91,141,238,0.15);color:var(--primary);border-radius:6px;padding:2px 8px;font-weight:700;letter-spacing:.3px">🎯 ${_mod}</span>`:''}</div>
       <div style="font-size:14px;line-height:1.8;background:var(--surface);padding:14px;border-radius:10px;border-left:3px solid var(--orange)">
         😄 ${lesson.funnyIntro}
       </div>
@@ -1190,7 +1222,7 @@ function renderLessonPage(){
     ${page.html}
     <div class="lesson-nav">
       <button class="btn btn-outline" onclick="prevLessonPage()" ${isFirst?'disabled style="opacity:0.3;cursor:default"':''}>Back</button>
-      <button class="btn btn-gold" onclick="${isLast?'':'nextLessonPage()'}" ${isLast?'disabled style="opacity:0.5;cursor:default"':''}>${isLast?'✅ Done!':'Next'}</button>
+      <button class="btn btn-gold" onclick="${isLast?'showLessonComplete()':'nextLessonPage()'}">${isLast?'✅ Fertig — Quiz →':'Next'}</button>
     </div>`;
 
   document.getElementById('lessonContent').innerHTML=html;
@@ -1200,6 +1232,172 @@ function renderLessonPage(){
 function nextLessonPage(){ if(lessonPage<lessonPages.length-1){lessonPage++;renderLessonPage();} }
 function prevLessonPage(){ if(lessonPage>0){lessonPage--;renderLessonPage();} }
 function goToPage(i){ lessonPage=i; renderLessonPage(); }
+
+// ═══════════════════════════════════
+// READING CARDS + MINI-QUIZ
+// ═══════════════════════════════════
+const READING_CARDS={
+  15:{text:'In Deutschland muss man sich beim Einwohnermeldeamt anmelden. Das Anmeldeformular heißt "Wohnungsgeberbestätigung". Man braucht dieses Formular vom Vermieter. Die Anmeldung ist Pflicht innerhalb von zwei Wochen nach dem Einzug.',q:'Wie heißt das Formular für die Anmeldung?',opts:['Personalausweis','Wohnungsgeberbestätigung','Mietvertrag','Aufenthaltserlaubnis'],ans:1},
+  16:{text:'Das Jobcenter hilft Menschen, die keine Arbeit haben. Man kann dort Beratung bekommen und einen Integrationskurs beantragen. Der Kurs ist kostenlos. Man muss vorher einen Termin vereinbaren.',q:'Was kann man beim Jobcenter beantragen?',opts:['Einen Pass','Einen Integrationskurs','Eine Wohnung','Einen Arzttermin'],ans:1},
+  17:{text:'In Deutschland gibt es die gesetzliche Krankenversicherung (GKV) und die private Krankenversicherung (PKV). Als Angestellter ist man meistens in der GKV versichert. Man zahlt monatliche Beiträge. Bei einem Arzttermin zeigt man die Versicherungskarte.',q:'Was zeigt man dem Arzt bei einem Besuch?',opts:['Den Reisepass','Den Personalausweis','Die Versicherungskarte','Den Mietvertrag'],ans:2},
+  18:{text:'Sehr geehrte Mieter, am Donnerstag, den 20. Juni findet eine Hausversammlung statt. Uhrzeit: 19:00 Uhr. Ort: Keller des Hauses. Thema: neue Müllregeln. Bitte kommen Sie pünktlich. — Ihre Hausverwaltung',q:'Wann findet die Hausversammlung statt?',opts:['Mittwoch um 18 Uhr','Donnerstag um 19 Uhr','Freitag um 20 Uhr','Samstag um 18 Uhr'],ans:1},
+  19:{text:'Stellenangebot: Wir suchen einen IT-Techniker für 40 Stunden pro Woche. Anforderungen: B2-Deutschkenntnisse, 3 Jahre Berufserfahrung. Gehalt: nach Tarif. Bewerbung per E-Mail an jobs@techfirma.de bis zum 30. Juni.',q:'Welche Deutschkenntnisse werden verlangt?',opts:['A2','B1','B2','C1'],ans:2},
+  20:{text:'Der öffentliche Nahverkehr in Berlin besteht aus U-Bahn, S-Bahn, Tram und Bus. Das Ticket gilt für alle Verkehrsmittel. Eine Monatskarte kostet 86 Euro im AB-Bereich. Man muss das Ticket immer entwerten.',q:'Was kostet eine Monatskarte im AB-Bereich?',opts:['76 Euro','82 Euro','86 Euro','90 Euro'],ans:2},
+  21:{text:'Anrufbeantworter: "Hallo, hier ist Dr. Müller. Ihr Laborergebnis ist völlig normal. Sie brauchen keinen weiteren Termin. Aber trinken Sie mehr Wasser und schlafen Sie ausreichend. Gute Besserung!"',q:'Wie sind die Laborergebnisse?',opts:['Nicht gut','Normal','Sehr schlecht','Unklar'],ans:1},
+  22:{text:'Bewerbungstipp: Schreiben Sie Ihren Lebenslauf auf Deutsch im Europass-Format. Fügen Sie ein Bewerbungsfoto hinzu. Das Anschreiben sollte maximal eine Seite lang sein. Nennen Sie Ihre wichtigsten Erfahrungen und Kenntnisse.',q:'Wie lang soll das Anschreiben maximal sein?',opts:['Zwei Seiten','Eine Seite','Drei Seiten','Eine halbe Seite'],ans:1},
+  23:{text:'Achtung: Ihr Konto ist überzogen. Der aktuelle Kontostand beträgt minus 150 Euro. Bitte überweisen Sie Geld auf Ihr Konto bis zum 25. des Monats. Bei Fragen rufen Sie uns an: 030-123456.',q:'Wie viel ist das Konto überzogen?',opts:['100 Euro','125 Euro','150 Euro','200 Euro'],ans:2},
+  24:{text:'VHS-Deutschkurse: A1 bis B2. Kurse beginnen immer am ersten Montag im Monat. Anmeldung online oder persönlich. Kosten: 150 Euro pro Kurs. Förderung über das Jobcenter möglich — fragen Sie vorher nach.',q:'Wann beginnen die Kurse?',opts:['Am ersten Montag im Monat','Am ersten Dienstag','Am 15. des Monats','Immer freitags'],ans:0},
+  25:{text:'Wichtiger Hinweis: Die Mülltonnen müssen am Abend vor der Abholung auf die Straße gestellt werden. Restmüll: schwarze Tonne. Papier: blaue Tonne. Gelber Sack für Verpackungen. Biomüll: grüne Tonne.',q:'Welche Farbe hat die Tonne für Papier?',opts:['Schwarz','Grün','Gelb','Blau'],ans:3},
+};
+
+function buildMiniQuiz(words){
+  const pool=words.filter(w=>w.de&&w.en);
+  if(pool.length<2)return[];
+  const picks=shuffleArray(pool).slice(0,Math.min(3,pool.length));
+  return picks.map(correct=>{
+    const others=shuffleArray(pool.filter(w=>w.de!==correct.de)).slice(0,3);
+    while(others.length<3)others.push(pool[others.length%pool.length]);
+    const opts=shuffleArray([correct,...others.slice(0,3)]);
+    return{prompt:correct.en,options:opts.map(o=>o.de),answer:opts.findIndex(o=>o.de===correct.de)};
+  });
+}
+
+function showLessonComplete(){
+  const day=userProgress?.day||1;
+  const card=READING_CARDS[day];
+  if(card){
+    showReadingCard(card);
+  } else {
+    const words=currentLesson?.words||[];
+    const quiz=buildMiniQuiz(words);
+    if(quiz.length>0) showMiniQuiz(quiz,0,0);
+    else showLessonCompletionCard();
+  }
+}
+
+function showReadingCard(card){
+  document.getElementById('lessonContent').innerHTML=`
+    <div >
+      <div class="card" style="margin-bottom:10px">
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(91,141,238,0.12);border:1px solid rgba(91,141,238,0.25);border-radius:99px;padding:4px 12px;margin-bottom:12px">
+          <span style="font-size:13px">📖</span>
+          <span style="font-size:11px;font-weight:700;color:var(--primary);letter-spacing:.5px;text-transform:uppercase">Lies das!</span>
+        </div>
+        <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Text</div>
+        <div style="font-size:15px;color:var(--text);line-height:1.8;margin-bottom:16px">${esc(card.text)}</div>
+        <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Frage</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px">${esc(card.q)}</div>
+        <div style="display:flex;flex-direction:column;gap:8px" id="rcOpts">
+          ${card.opts.map((opt,i)=>`
+            <button class="btn btn-outline" style="text-align:left;padding:11px 14px;font-size:13px;justify-content:flex-start"
+              onclick="answerReadingCard(${i},${card.ans})">
+              ${esc(opt)}
+            </button>`).join('')}
+        </div>
+        <div id="rcNext" class="hidden" style="margin-top:14px">
+          <button class="btn btn-gold" style="width:100%;padding:13px" onclick="startReadingCardQuiz()">Weiter zum Quiz 🧠</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function answerReadingCard(chosen,correct){
+  const opts=document.getElementById('rcOpts');
+  if(!opts||opts.dataset.answered)return;
+  opts.dataset.answered='1';
+  [...opts.children].forEach((btn,i)=>{
+    btn.disabled=true;
+    if(i===correct)btn.style.cssText+=';border-color:var(--green);color:var(--green);background:rgba(52,201,122,.1)';
+    if(i===chosen&&chosen!==correct)btn.style.cssText+=';border-color:var(--red);color:var(--red);background:rgba(224,92,92,.1)';
+  });
+  if(chosen===correct)sfxCorrect();else sfxTap();
+  document.getElementById('rcNext').classList.remove('hidden');
+}
+
+function startReadingCardQuiz(){
+  const words=currentLesson?.words||[];
+  const quiz=buildMiniQuiz(words);
+  if(quiz.length>0) showMiniQuiz(quiz,0,0);
+  else showLessonCompletionCard();
+}
+
+function showMiniQuiz(quiz,qIdx,score){
+  if(qIdx>=quiz.length){showMiniQuizResult(score,quiz.length);return;}
+  const q=quiz[qIdx];
+  document.getElementById('lessonContent').innerHTML=`
+    <div >
+      <div class="card" style="border-color:rgba(91,141,238,.25)">
+        <div style="padding:16px 16px 0;display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Mini-Quiz · ${qIdx+1}/${quiz.length}</div>
+          <div style="font-size:12px;font-weight:700;color:var(--green)">${score}/${qIdx} richtig</div>
+        </div>
+        <div style="padding:20px 16px 10px">
+          <div style="font-size:13px;color:var(--muted);margin-bottom:6px">Was bedeutet das auf Deutsch?</div>
+          <div style="font-size:20px;font-weight:800;color:var(--text);margin-bottom:20px">${esc(q.prompt)}</div>
+          <div style="display:flex;flex-direction:column;gap:8px" id="mqOpts">
+            ${q.options.map((opt,i)=>`
+              <button class="btn btn-outline" style="text-align:left;padding:12px 16px;font-size:14px;justify-content:flex-start"
+                onclick="answerMiniQuiz(${JSON.stringify(quiz)},${qIdx},${score},${i},${q.answer})">
+                ${esc(opt)}
+              </button>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function answerMiniQuiz(quiz,qIdx,score,chosen,correct){
+  const isRight=chosen===correct;
+  const newScore=score+(isRight?1:0);
+  const opts=document.getElementById('mqOpts');
+  if(opts){
+    [...opts.children].forEach((btn,i)=>{
+      btn.disabled=true;
+      if(i===correct)btn.style.cssText+=';border-color:var(--green);color:var(--green);background:rgba(52,201,122,.1)';
+      if(i===chosen&&!isRight)btn.style.cssText+=';border-color:var(--red);color:var(--red);background:rgba(224,92,92,.1)';
+    });
+  }
+  if(isRight)sfxCorrect();else sfxTap();
+  setTimeout(()=>showMiniQuiz(quiz,qIdx+1,newScore),700);
+}
+
+function showMiniQuizResult(score,total){
+  const msg=score===total?'Perfekt! Alle Wörter gewusst! 🌟':score>=Math.ceil(total*0.67)?'Gut gemacht! Weiter üben. 👍':'Wörter wiederholen und nochmal versuchen. 💪';
+  const col=score===total?'var(--green)':score>=Math.ceil(total*0.67)?'var(--orange)':'var(--red)';
+  document.getElementById('lessonContent').innerHTML=`
+    <div >
+      <div class="card" style="border-color:rgba(52,201,122,.25);text-align:center;padding:28px 20px">
+        <div style="font-size:40px;margin-bottom:10px">${score===total?'🏆':score>=Math.ceil(total*0.67)?'👍':'📖'}</div>
+        <div style="font-size:28px;font-weight:900;color:${col};margin-bottom:4px">${score}/${total} richtig</div>
+        <div style="font-size:14px;color:var(--muted);margin-bottom:20px">${msg}</div>
+        <button class="btn btn-gold" style="width:100%;padding:14px" onclick="showLessonCompletionCard()">Tag abgeschlossen! ✅</button>
+      </div>
+    </div>`;
+}
+
+function showLessonCompletionCard(){
+  sfxCongrats();
+  const day=userProgress.day||1;
+  const mod=DAY_MODULE_MAP[day]||'';
+  document.getElementById('lessonContent').innerHTML=`
+    <div >
+      <div class="card" style="border-color:rgba(52,201,122,.25);text-align:center">
+        <div style="padding:32px 20px 24px">
+          <div style="font-size:48px;margin-bottom:12px">🎉</div>
+          <div style="font-size:20px;font-weight:800;color:var(--text);margin-bottom:6px">Tag ${day} abgeschlossen!</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Du hast heute neue Wörter und Phrasen gelernt. Weiter so!</div>
+          ${mod?`<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(91,141,238,0.1);border:1px solid rgba(91,141,238,0.25);border-radius:99px;padding:5px 14px;margin-bottom:16px;font-size:12px;font-weight:700;color:var(--primary)">🎯 Prüfungsmodul: ${esc(mod)}</div>`:''}
+          <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(52,201,122,.1);border:1px solid rgba(52,201,122,.25);border-radius:99px;padding:6px 16px;margin-bottom:24px">
+            <span style="color:var(--green);font-weight:700">+10 XP</span>
+          </div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-outline" onclick="lessonPage=0;renderLessonPage()">Lektion wiederholen</button>
+            <button class="btn btn-gold" onclick="switchTab('exam',document.getElementById('tabBtnExam'));renderExamTab()">Prüfungsvorbereitung →</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
 
 // ═══════════════════════════════════
 // VOICE VALIDATION WITH AI FEEDBACK
@@ -1981,6 +2179,277 @@ const EXAM_SKILLS={
 
 let examPracticeCache={};
 
+// ═══════════════════════════════════
+// SPRECHEN MODULE — Goethe A2 Sprechen
+// ═══════════════════════════════════
+const SPREKEN_TASKS=[
+  {type:'video',typeLabel:'📹 Video',scene:'Ein Mann steht am BVG-Automaten. Er wählt sein Ziel auf dem Bildschirm, bezahlt mit der Kreditkarte und nimmt sein Ticket. Dann geht er zur U-Bahn-Treppe.',q:'Beschreiben Sie, was der Mann macht.',example:'In diesem Video sehe ich einen Mann an einem BVG-Automaten. Er wählt sein Reiseziel auf dem Bildschirm aus und bezahlt mit seiner Kreditkarte. Dann nimmt er sein Ticket und geht zur U-Bahn-Treppe, um einzusteigen.'},
+  {type:'video',typeLabel:'📹 Video',scene:'Eine Frau ist beim Jobcenter. Sie gibt dem Mitarbeiter ihre Unterlagen. Sie füllt ein Formular aus und unterschreibt. Der Mitarbeiter gibt ihr eine Bestätigung.',q:'Beschreiben Sie die Situation im Video.',example:'In diesem Video besucht eine Frau das Jobcenter. Sie übergibt dem Mitarbeiter ihre Unterlagen und füllt ein Formular aus. Nach dem Unterschreiben bekommt sie eine Bestätigung. Das ist ein typischer Besuch beim Jobcenter.'},
+  {type:'video',typeLabel:'📹 Video',scene:'Eine Familie steht an der REWE-Kasse. Die Mutter legt die Waren auf das Band. Der Vater bezahlt kontaktlos mit dem Handy. Die Kinder helfen beim Einpacken.',q:'Beschreiben Sie, was die Familie macht.',example:'In diesem Video sehe ich eine Familie beim Einkaufen im REWE. Die Mutter legt die Einkäufe auf das Kassenband. Der Vater bezahlt mit seinem Handy. Die Kinder helfen dabei, die Sachen einzupacken.'},
+  {type:'video',typeLabel:'📹 Video',scene:'Ein Arzt sitzt einem Patienten gegenüber. Der Arzt hört aufmerksam zu, macht sich Notizen und schreibt dann ein Rezept aus.',q:'Beschreiben Sie die Situation beim Arzt.',example:'In diesem Video sehe ich eine Arztpraxis. Der Patient erklärt seine Beschwerden und der Arzt hört aufmerksam zu und macht Notizen. Am Ende schreibt der Arzt ein Rezept aus.'},
+  {type:'1foto',typeLabel:'🖼️ 1 Foto',scene:'📸 Sie sehen ein Fahrrad, das an einem Laternenpfahl steht. Der Hinterreifen ist komplett platt. Die Straße ist nass.',q:'Beschreiben Sie das Foto. Was sehen Sie? Was ist das Problem?',example:'Auf dem Foto sehe ich ein Fahrrad an einem Laternenpfahl. Der Hinterreifen ist komplett platt — er hat keine Luft mehr. Die nasse Straße zeigt, dass es geregnet hat. Der Besitzer kann damit nicht fahren und muss den Reifen reparieren lassen.'},
+  {type:'1foto',typeLabel:'🖼️ 1 Foto',scene:'📸 Sie sehen eine volle U-Bahn-Station in Berlin. Viele Menschen warten auf den Zug. Es ist Hauptverkehrszeit. Einige Leute schauen auf ihr Handy.',q:'Beschreiben Sie das Foto.',example:'Auf dem Foto sehe ich eine belebte U-Bahn-Station in Berlin zur Hauptverkehrszeit. Viele Menschen warten auf den nächsten Zug. Einige Fahrgäste schauen auf ihr Handy. Die Station ist sehr voll, was typisch für den Berufsverkehr ist.'},
+  {type:'1foto',typeLabel:'🖼️ 1 Foto',scene:'📸 Sie sehen zwei Kollegen in einem modernen Büro. Sie sitzen an Computern und besprechen etwas. Es stehen Kaffeetassen auf dem Schreibtisch.',q:'Beschreiben Sie, was Sie auf dem Foto sehen.',example:'Auf dem Foto sehe ich zwei Kollegen in einem modernen Büro. Beide sitzen an ihren Computern und besprechen etwas Arbeitsbezogenes. Auf dem Schreibtisch stehen Kaffeetassen. Sie arbeiten offensichtlich gemeinsam an einem Projekt.'},
+  {type:'1foto',typeLabel:'🖼️ 1 Foto',scene:'📸 Sie sehen eine Familie beim Abendessen. Vater, Mutter und zwei Kinder sitzen am Tisch. Es stehen mehrere Schüsseln mit Essen auf dem Tisch.',q:'Beschreiben Sie die Situation auf dem Foto.',example:'Auf dem Foto sehe ich eine glückliche Familie beim gemeinsamen Abendessen. Der Vater, die Mutter und zwei Kinder sitzen am Esstisch. Auf dem Tisch stehen mehrere Schüsseln mit verschiedenen Speisen. Alle wirken fröhlich und entspannt.'},
+  {type:'2fotos',typeLabel:'🖼️🖼️ 2 Fotos',scene:'📸 Foto 1: Eine kleine Wohnung in Berlin-Mitte — wenige Zimmer, kein Balkon, aber nah am Zentrum und an der U-Bahn.\n📸 Foto 2: Ein Haus in einem Berliner Vorort — großer Garten, mehr Platz, aber weiter vom Zentrum entfernt.',q:'Vergleichen Sie die zwei Wohnungen. Was sind die Unterschiede?',example:'Auf dem ersten Foto sehe ich eine kleine Wohnung in Berlin-Mitte. Sie liegt sehr zentral und ist gut per U-Bahn erreichbar, hat aber wenig Platz. Auf dem zweiten Foto sehe ich ein Haus im Vorort mit einem großen Garten und viel mehr Platz, aber man braucht mehr Zeit in die Stadt. Für Berufstätige ist die Wohnung praktischer, für Familien ist das Haus vielleicht besser.'},
+  {type:'2fotos',typeLabel:'🖼️🖼️ 2 Fotos',scene:'📸 Foto 1: Ein Mann fährt an einem sonnigen Tag entspannt mit dem Fahrrad durch Berlin.\n📸 Foto 2: Eine Frau sitzt in einem Auto im Stau auf der Stadtautobahn. Sie wirkt gestresst.',q:'Vergleichen Sie die zwei Situationen.',example:'Auf dem ersten Foto fährt ein Mann entspannt mit dem Fahrrad durch Berlin bei schönem Wetter. Auf dem zweiten Foto sitzt eine Frau frustriert im Stau. Der Unterschied ist deutlich: Der Radfahrer ist schnell und entspannt. Die Autofahrerin verliert Zeit im Stau. In Berlin ist das Fahrrad oft die bessere Wahl.'},
+  {type:'2fotos',typeLabel:'🖼️🖼️ 2 Fotos',scene:'📸 Foto 1: Eine lebhafte Kneipe voller Menschen — Musik, Lachen, Geselligkeit.\n📸 Foto 2: Eine ruhige Bank in einem Berliner Park im Herbst — wenig Menschen, Blätter auf dem Boden.',q:'Vergleichen Sie die zwei Orte. Wo würden Sie lieber sein?',example:'Auf dem ersten Foto sehe ich eine lebhafte Kneipe mit Musik und fröhlichen Menschen. Auf dem zweiten Foto sehe ich eine ruhige Bank in einem Herbstpark. Die Kneipe ist gesellig aber laut. Der Park ist ruhig und schön aber vielleicht einsam. Nach einem stressigen Arbeitstag würde ich lieber im Park sitzen.'},
+  {type:'2fotos',typeLabel:'🖼️🖼️ 2 Fotos',scene:'📸 Foto 1: Ein Kind spielt draußen im Garten mit einem Ball.\n📸 Foto 2: Dasselbe Kind sitzt drinnen am Schreibtisch mit Schulbüchern.',q:'Vergleichen Sie die zwei Fotos. Was macht das Kind?',example:'Auf dem ersten Foto spielt ein Kind draußen aktiv mit einem Ball und hat Spaß. Auf dem zweiten Foto sitzt dasselbe Kind am Schreibtisch und macht Hausaufgaben. Die erste Situation ist Freizeit, die zweite ist Lernzeit. Beide sind wichtig für Kinder.'},
+  {type:'3fotos',typeLabel:'🖼️🖼️🖼️ 3 Fotos',scene:'📸 Foto 1: Ein Mann liegt krank im Bett mit einer Decke über sich.\n📸 Foto 2: Derselbe Mann ruft die Arztpraxis an, um einen Termin zu vereinbaren.\n📸 Foto 3: Der Mann steht in der Apotheke und bekommt eine Packung Medikamente.',q:'Beschreiben Sie die drei Fotos. Was ist die Geschichte?',example:'Auf dem ersten Foto liegt ein kranker Mann im Bett — er fühlt sich nicht gut. Auf dem zweiten Foto ruft er die Arztpraxis an, um einen Termin zu vereinbaren. Auf dem dritten Foto ist er in der Apotheke und holt seine Medikamente ab. Das ist ein typischer Ablauf, wenn man in Deutschland krank wird.'},
+  {type:'3fotos',typeLabel:'🖼️🖼️🖼️ 3 Fotos',scene:'📸 Foto 1: Eine Frau liest eine Stellenanzeige auf ihrem Smartphone.\n📸 Foto 2: Dieselbe Frau sitzt in einem Büro gegenüber einem Interviewer — Vorstellungsgespräch.\n📸 Foto 3: Die Frau sitzt an einem Schreibtisch mit Laptop — ihr erster Arbeitstag.',q:'Beschreiben Sie die Reihenfolge der Ereignisse.',example:'Auf dem ersten Foto sieht die Frau eine Stellenanzeige auf ihrem Handy und entscheidet sich zu bewerben. Auf dem zweiten Foto führt sie ein Vorstellungsgespräch. Auf dem dritten Foto sitzt sie an ihrem neuen Schreibtisch — sie wurde eingestellt. Das ist die Geschichte einer erfolgreichen Jobsuche.'},
+  {type:'3fotos',typeLabel:'🖼️🖼️🖼️ 3 Fotos',scene:'📸 Foto 1: Eine leere Wohnung — keine Möbel, kahle Wände.\n📸 Foto 2: Menschen tragen Kartons und Möbel in die Wohnung.\n📸 Foto 3: Ein gemütliches Wohnzimmer mit Sofa, Tisch, Pflanzen und Bildern.',q:'Was ist passiert? Beschreiben Sie die drei Fotos.',example:'Auf dem ersten Foto ist die Wohnung völlig leer. Auf dem zweiten Foto kommen Menschen mit Umzugskartons und Möbeln an — sie ziehen ein. Auf dem dritten Foto ist das Wohnzimmer vollständig eingerichtet und gemütlich. Das zeigt einen Umzug von Anfang bis Ende.'},
+  {type:'3fotos',typeLabel:'🖼️🖼️🖼️ 3 Fotos',scene:'📸 Foto 1: Gemüse, Nudeln und Gewürze liegen auf einer Küchentheke.\n📸 Foto 2: Eine Person steht am Herd und rührt in einem Topf.\n📸 Foto 3: Eine Familie sitzt am Tisch und isst gemeinsam.',q:'Beschreiben Sie die drei Fotos. Was ist die Geschichte?',example:'Auf dem ersten Foto sehe ich frische Zutaten auf der Küchentheke: Gemüse, Nudeln und Gewürze. Auf dem zweiten Foto kocht jemand am Herd. Auf dem dritten Foto isst die ganze Familie gemeinsam das Abendessen. Die Geschichte zeigt die Vorbereitung und das Kochen einer Mahlzeit, die mit einem schönen Familienessen endet.'},
+];
+
+let sprekenTimer=null;
+let sprekenState={};
+let sprekenRecognition=null;
+
+function stopSprekenRecognition(){
+  if(sprekenRecognition){try{sprekenRecognition.stop();}catch(e){}sprekenRecognition=null;}
+}
+
+function startSprekenRecognition(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR)return;
+  stopSprekenRecognition();
+  const r=new SR();
+  r.lang='de-DE';
+  r.continuous=true;
+  r.interimResults=true;
+  r.maxAlternatives=1;
+  sprekenRecognition=r;
+  r.onresult=(e)=>{
+    let interim='',final='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t=e.results[i][0].transcript;
+      if(e.results[i].isFinal)final+=t+' ';else interim+=t;
+    }
+    sprekenState.transcript=(sprekenState.transcript||'')+final;
+    const liveEl=document.getElementById('sprekenLive');
+    if(liveEl)liveEl.textContent=(sprekenState.transcript+interim).trim();
+  };
+  r.onerror=(e)=>{if(e.error==='no-speech'||e.error==='aborted')return;};
+  r.onend=()=>{if(sprekenState.started&&sprekenState.secondsLeft>0){try{r.start();}catch(e){}}};
+  r.start();
+}
+
+function scoreMatch(spoken,expected){
+  const sw=new Set(spoken.toLowerCase().split(/\W+/).filter(w=>w.length>2));
+  const ew=new Set(expected.toLowerCase().split(/\W+/).filter(w=>w.length>2));
+  if(ew.size===0)return 0;
+  const matches=[...sw].filter(w=>ew.has(w)).length;
+  return Math.min(100,Math.round(matches*100/ew.size));
+}
+
+function renderSprekenHome(){
+  const typeCols={video:'var(--blue)','1foto':'var(--green)','2fotos':'var(--violet)','3fotos':'var(--accent)'};
+  const typeCount={video:0,'1foto':0,'2fotos':0,'3fotos':0};
+  SPREKEN_TASKS.forEach(t=>typeCount[t.type]++);
+  document.getElementById('examContent').innerHTML=`
+    <div class="exam-section-hdr">
+      <div><div class="exam-section-title">🎤 Sprechen — Prüfungstraining</div>
+      <div class="exam-section-sub">Echtes Goethe A2 Format · 4 Aufgabentypen</div></div>
+      <button class="exam-back-btn" onclick="renderExamTab()">← Zurück</button>
+    </div>
+    <div style="background:rgba(168,85,247,0.07);border:1px solid rgba(168,85,247,0.2);border-radius:12px;padding:12px 16px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.7">
+      🎯 <strong style="color:var(--violet)">Goethe-Zertifikat A2 Sprechen</strong> — Teil 3: Über ein Thema sprechen. Sie sehen Bilder oder Videos und beschreiben, was Sie sehen. Sprechen Sie klar und vollständig auf Deutsch.
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      ${[['video','📹 Video','Was passiert?'],['1foto','🖼️ 1 Foto','Bild beschreiben'],['2fotos','🖼️🖼️ 2 Fotos','Vergleichen'],['3fotos','🖼️🖼️🖼️ 3 Fotos','Geschichte erzählen']].map(([type,label,desc])=>`
+      <div style="background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:14px 12px;border-top:3px solid ${typeCols[type]}">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px">${label}</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:6px">${desc}</div>
+        <div style="font-size:11px;font-weight:700;color:${typeCols[type]}">${typeCount[type]} Aufgaben</div>
+      </div>`).join('')}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button class="btn btn-outline" style="padding:14px" onclick="startSprekenPractice()">Üben<div style="font-size:10px;color:var(--text3);margin-top:3px">4 Aufgaben · 60s je</div></button>
+      <button class="btn btn-gold" style="padding:14px" onclick="startSprekenFullTest()">Vollständig<div style="font-size:10px;margin-top:3px;opacity:.8">16 Aufgaben · 35 min</div></button>
+    </div>`;
+}
+
+function startSprekenPractice(){
+  const queue=Object.keys({video:1,'1foto':1,'2fotos':1,'3fotos':1}).map(type=>{
+    const tasks=SPREKEN_TASKS.filter(t=>t.type===type);
+    return tasks[Math.floor(Math.random()*tasks.length)];
+  });
+  sprekenState={mode:'practice',queue,idx:0,score:0,timePerTask:60};
+  renderSprekenTask();
+}
+
+function startSprekenFullTest(){
+  sprekenState={mode:'test',queue:[...SPREKEN_TASKS],idx:0,score:0,timePerTask:90};
+  renderSprekenTask();
+}
+
+function renderSprekenTask(){
+  clearInterval(sprekenTimer);
+  stopSprekenRecognition();
+  const{queue,idx,timePerTask}=sprekenState;
+  if(idx>=queue.length){showSprekenResult();return;}
+  const task=queue[idx];
+  sprekenState.secondsLeft=timePerTask||60;
+  sprekenState.started=false;
+  sprekenState.transcript='';
+  const typeCols={video:'var(--blue)','1foto':'var(--green)','2fotos':'var(--violet)','3fotos':'var(--accent)'};
+  document.getElementById('examContent').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--card);border:1px solid var(--border2);border-radius:14px;margin-bottom:12px">
+      <div>
+        <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase">Aufgabe ${idx+1} von ${queue.length}</div>
+        <div style="font-size:13px;font-weight:700;color:${typeCols[task.type]||'var(--accent)'}">${task.typeLabel}</div>
+      </div>
+      <div style="font-size:22px;font-weight:900;color:var(--green)" id="sprekenTimerEl">${sprekenState.secondsLeft}s</div>
+    </div>
+    <div class="card" style="margin-bottom:10px;border-left:3px solid ${typeCols[task.type]||'var(--accent)'}">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Was Sie sehen:</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.8;white-space:pre-line">${esc(task.scene)}</div>
+    </div>
+    <div class="card" style="margin-bottom:14px">
+      <div style="font-size:15px;font-weight:700;color:var(--text);line-height:1.5">${esc(task.q)}</div>
+    </div>
+    <div id="sprekenControls">
+      <button class="btn btn-gold" style="width:100%;padding:16px;font-size:15px" onclick="startSprekenTimer()">BEGIN — Jetzt sprechen 🎤</button>
+      <div style="font-size:12px;color:var(--muted);text-align:center;margin-top:8px">Drücke BEGIN und sprich auf Deutsch</div>
+    </div>
+    <div id="sprekenLiveWrap" class="hidden" style="margin-top:10px;background:rgba(91,141,238,0.07);border:1px solid rgba(91,141,238,0.2);border-radius:12px;padding:12px 14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1s infinite"></span>
+        <span style="font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.5px">Live</span>
+      </div>
+      <div id="sprekenLive" style="font-size:13px;color:var(--text2);min-height:40px;line-height:1.7;font-style:italic">Du sprichst jetzt...</div>
+    </div>
+    <div id="sprekenAnswer" class="hidden"></div>`;
+}
+
+function startSprekenTimer(){
+  sprekenState.started=true;
+  document.getElementById('sprekenControls').innerHTML=`
+    <button class="btn" style="width:100%;padding:14px;background:var(--red);color:#fff;font-size:14px" onclick="stopSprekenTimer()">⏹ Fertig mit Sprechen</button>`;
+  document.getElementById('sprekenLiveWrap').classList.remove('hidden');
+  startSprekenRecognition();
+  sprekenTimer=setInterval(()=>{
+    sprekenState.secondsLeft--;
+    const el=document.getElementById('sprekenTimerEl');
+    if(el){
+      el.textContent=sprekenState.secondsLeft+'s';
+      el.style.color=sprekenState.secondsLeft<=10?'var(--red)':sprekenState.secondsLeft<30?'var(--orange)':'var(--green)';
+    }
+    if(sprekenState.secondsLeft<=0){clearInterval(sprekenTimer);sprekenState.started=false;stopSprekenRecognition();showSprekenExample();}
+  },1000);
+  sfxTap();
+}
+
+function stopSprekenTimer(){
+  clearInterval(sprekenTimer);
+  sprekenState.started=false;
+  stopSprekenRecognition();
+  showSprekenExample();
+}
+
+function showSprekenExample(){
+  const task=sprekenState.queue[sprekenState.idx];
+  const spoken=(sprekenState.transcript||'').trim();
+  const pct=scoreMatch(spoken,task.example);
+  const scoreCol=pct>=60?'var(--green)':pct>=30?'var(--orange)':'var(--red)';
+  const scoreLabel=pct>=60?'Ausgezeichnet! 🌟':pct>=30?'Ganz gut 👍':'Weiter üben 💪';
+  document.getElementById('sprekenControls').innerHTML='';
+  document.getElementById('sprekenLiveWrap').classList.add('hidden');
+  const ansEl=document.getElementById('sprekenAnswer');
+  ansEl.classList.remove('hidden');
+  ansEl.innerHTML=`
+    ${spoken?`
+    <div style="background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:12px 14px;margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Du hast gesagt:</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;font-style:italic">${esc(spoken)}</div>
+      <div style="margin-top:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <span style="font-size:11px;font-weight:700;color:${scoreCol}">${scoreLabel}</span>
+          <span style="font-size:13px;font-weight:900;color:${scoreCol}">${pct}%</span>
+        </div>
+        <div style="height:6px;background:var(--border2);border-radius:99px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:${scoreCol};border-radius:99px;transition:width .6s ease"></div>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px">Wortübereinstimmung mit Beispielantwort</div>
+      </div>
+    </div>`:''}
+    <div style="background:rgba(52,201,122,0.07);border:1px solid rgba(52,201,122,0.2);border-radius:12px;padding:14px 16px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">✅ Beispielantwort</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.8">${esc(task.example)}</div>
+      <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="speakGerman(${JSON.stringify(task.example)})">🔊 Beispiel anhören</button>
+    </div>
+    <button class="btn btn-gold" style="width:100%;padding:14px" onclick="nextSprekenTask()">
+      ${sprekenState.idx+1<sprekenState.queue.length?'Nächste Aufgabe →':'Ergebnisse sehen →'}
+    </button>`;
+  sprekenState.score=(sprekenState.score||0)+1;
+}
+
+function nextSprekenTask(){
+  sprekenState.idx++;
+  renderSprekenTask();
+}
+
+function showSprekenResult(){
+  clearInterval(sprekenTimer);
+  stopSprekenRecognition();
+  sfxCorrect();
+  document.getElementById('examContent').innerHTML=`
+    <div class="exam-section-hdr">
+      <div><div class="exam-section-title">🎤 Sprechen — Abgeschlossen!</div></div>
+      <button class="exam-back-btn" onclick="renderExamTab()">← Übersicht</button>
+    </div>
+    <div class="card" style="text-align:center;padding:28px 20px;margin-bottom:12px">
+      <div style="font-size:48px;margin-bottom:8px">🎤</div>
+      <div style="font-size:28px;font-weight:900;color:var(--green)">${sprekenState.queue.length}/${sprekenState.queue.length}</div>
+      <div style="font-size:14px;color:var(--muted);margin-top:6px">Alle ${sprekenState.queue.length} Aufgaben abgeschlossen!</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px">Vergleiche deine Antworten mit den Beispielen zur Verbesserung</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button class="btn btn-outline" style="padding:14px" onclick="startSprekenPractice()">Nochmal üben</button>
+      <button class="btn btn-gold" style="padding:14px" onclick="renderExamTab()">Zurück</button>
+    </div>`;
+}
+
+function showFragewoerterGids(){
+  const words=[
+    {de:'Was',     en:'What',          ex:'Was ist Ihre Adresse?'},
+    {de:'Wo',      en:'Where',         ex:'Wo wohnen Sie?'},
+    {de:'Wann',    en:'When',          ex:'Wann beginnt der Kurs?'},
+    {de:'Wer',     en:'Who',           ex:'Wer ist Ihr Hausarzt?'},
+    {de:'Warum',   en:'Why',           ex:'Warum lernen Sie Deutsch?'},
+    {de:'Welche/r/s', en:'Which',      ex:'Welche Versicherung haben Sie?'},
+    {de:'Wie viel/e', en:'How much/many', ex:'Wie viel kostet der Kurs?'},
+    {de:'Wie',     en:'How',           ex:'Wie fahren Sie zur Arbeit?'},
+    {de:'Darf',    en:'May / Am I allowed to', ex:'Darf ich ein Formular ausfüllen?'},
+    {de:'Muss',    en:'Must / Do I have to', ex:'Muss ich einen Termin machen?'},
+    {de:'Kann',    en:'Can',           ex:'Kann ich hier mit Karte zahlen?'},
+    {de:'Ist',     en:'Is (singular)', ex:'Ist das Büro am Montag offen?'},
+    {de:'Sind',    en:'Are (plural)',  ex:'Sind Kinder willkommen?'},
+    {de:'Hat',     en:'Has',           ex:'Hat die Bibliothek WLAN?'},
+  ];
+  document.getElementById('examContent').innerHTML=`
+    <div class="exam-section-hdr">
+      <div><div class="exam-section-title">🔍 Fragewörter-Guide</div><div class="exam-section-sub">Verstehe jede Prüfungsfrage</div></div>
+      <button class="exam-back-btn" onclick="renderExamTab()">← Zurück</button>
+    </div>
+    <div style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.6">
+      💡 Siehst du ein Wort nicht? Schau hier nach, bevor du antwortest — verstehe die Frage immer zuerst!
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="display:grid;grid-template-columns:100px 1fr;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:10px 14px;border-bottom:1px solid var(--border2);background:rgba(255,255,255,0.02)">
+        <div>Deutsch</div><div>Englisch · Beispiel</div>
+      </div>
+      ${words.map((w,i)=>`
+        <div style="display:grid;grid-template-columns:100px 1fr;padding:11px 14px;border-bottom:${i<words.length-1?'1px solid var(--border2)':'none'};align-items:start">
+          <div style="font-size:16px;font-weight:800;color:var(--violet)">${esc(w.de)}</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px">${esc(w.en)}</div>
+            <div style="font-size:11px;color:var(--muted);font-style:italic">${esc(w.ex)}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
 function renderExamTab(){
   const day=userProgress?.day||1;
   const el=document.getElementById('examContent');
@@ -2075,6 +2544,19 @@ function renderExamTab(){
         <button class="btn btn-gold" onclick="startFullMockExam()">🎓 Start Full Mock Test</button>
       </div>
       <div id="fullMockContent" style="margin-top:10px"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+      <div style="background:rgba(168,85,247,0.07);border:1px solid rgba(168,85,247,0.2);border-radius:14px;padding:14px 12px;cursor:pointer" onclick="renderSprekenHome()">
+        <div style="font-size:20px;margin-bottom:4px">🎤</div>
+        <div style="font-size:13px;font-weight:700;color:var(--violet)">Sprechen üben</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:2px">Fotos & Videos beschreiben</div>
+      </div>
+      <div style="background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.2);border-radius:14px;padding:14px 12px;cursor:pointer" onclick="showFragewoerterGids()">
+        <div style="font-size:20px;margin-bottom:4px">🔍</div>
+        <div style="font-size:13px;font-weight:700;color:var(--violet)">Fragewörter-Guide</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:2px">Verstehe jede Prüfungsfrage</div>
+      </div>
     </div>`;
 }
 

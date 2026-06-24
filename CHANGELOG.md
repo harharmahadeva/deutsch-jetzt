@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.4.0] - 2026-06-24
+### Added
+- **Sprechen module** — Goethe A2 Sprechen practice in the Exam Prep tab
+  - 16 tasks: 4 Video, 4 x 1 Foto, 4 x 2 Fotos, 4 x 3 Fotos — all with Berlin/German context
+  - 60s timer per task (90s in full test mode), live speech recognition (de-DE)
+  - Word-overlap scoring vs. example answer with visual progress bar
+  - Practice mode (4 tasks, one per type) and Full Test mode (all 16)
+- **Mini-quiz** — 3-question vocab quiz appears after completing each lesson day
+  - Pick the German word for an English prompt; 4 multiple-choice options
+  - Color-coded right/wrong feedback with 700ms delay before next question
+  - Score summary with emoji + German messages
+- **Reading cards** — German A2 reading comprehension for Days 15–25
+  - Real-world texts: Anmeldung, Jobcenter, Krankenversicherung, Hausversammlung, Stellenangebot, BVG, Arzttermin, Bewerbung, Konto, VHS, Mülltrennung
+  - Multiple-choice question per card; leads into mini-quiz on completion
+- **Fragewörter-Guide** — Question word reference card in Exam Prep tab
+  - 14 German question words (Was, Wo, Wann, Wer, Warum, Welche, Wie viel, Wie, Darf, Muss, Kann, Ist, Sind, Hat) with English and exam example
+- **Exam relevance tag** — Goethe A2 module label (Wortschatz / Grammatik / Lesen etc.) shown on lesson intro page
+- **DAY_MODULE_MAP** — maps all 60 days to Goethe A2 exam modules
+- **Day 60 completion banner** — replaces lesson with a congratulations card + link to Exam Prep when all 60 days are done
+### Changed
+- Lesson final page "Done!" button now triggers mini-quiz/reading card flow instead of being disabled
+- `shuffleArray()` utility function added (required by mini-quiz)
+- CSS: added `.exam-section-hdr`, `.exam-section-title`, `.exam-section-sub`, `.exam-back-btn` styles for sprechen/fragewörter screens
+
 ## [1.3.0] - 2026-06-24
 ### Added
 - **Exam Prep tab** — new 🎓 Exam Prep tab with full Goethe-Zertifikat A2 / TELC A2 exam structure
