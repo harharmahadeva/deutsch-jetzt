@@ -424,9 +424,10 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
     </div>
 
     <div class="tabs">
-      <div class="tab active" id="tabBtnLesson" onclick="switchTab('lesson',this)">📚 Today's Lesson</div>
+      <div class="tab active" id="tabBtnLesson" onclick="switchTab('lesson',this)">📚 Lesson</div>
       <div class="tab" id="tabBtnSpeak" onclick="switchTab('speak',this)">🎤 Speaking</div>
-      <div class="tab locked" id="tabBtnTest" onclick="openTest()">🎯 Take Test</div>
+      <div class="tab" id="tabBtnExam" onclick="switchTab('exam',this)">🎓 Exam Prep</div>
+      <div class="tab locked" id="tabBtnTest" onclick="openTest()">🎯 Test</div>
     </div>
 
     <div id="tab-lesson">
@@ -447,6 +448,10 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 
     <div id="tab-test" class="hidden">
       <div id="testContent"></div>
+    </div>
+
+    <div id="tab-exam" class="hidden">
+      <div id="examContent"></div>
     </div>
 
     <!-- FOOTER -->
@@ -471,74 +476,74 @@ const TOTAL_DAYS=()=>60;
 // Grammar point per day drives 60% of lesson; vocabulary 40%
 const DAY_TOPICS=[
   // WEEK 1 — Foundation: Pronunciation, Articles, Present Tense
-  "Day 1 | Greetings & Introductions — ich bin, du/Sie, formal vs informal",
-  "Day 2 | Numbers, Dates & Time — Zahlen 1-100, Uhrzeit, Datum",
-  "Day 3 | Grammar: der/die/das — noun genders, definite & indefinite articles",
-  "Day 4 | Grammar: Verb Conjugation Present — sein, haben, regular -en verbs",
-  "Day 5 | Family & Relationships — Familie, Beziehungen, possessive pronouns mein/dein",
-  "Day 6 | Daily Routine — Tagesablauf, separable verbs (aufstehen, anrufen, einkaufen)",
-  "Day 7 | Week 1 Review + A2 Checkpoint — revision of articles, verbs, greetings",
-  // WEEK 2 — Daily Life: Cases, Shopping, Transport
-  "Day 8 | Food & Ordering — Essen und Trinken, im Restaurant, im Café",
-  "Day 9 | Shopping & Prices — Supermarkt, Preise, im Geschäft",
-  "Day 10 | Clothes & Colors — Kleidung, Farben, im Kaufhaus",
-  "Day 11 | Grammar: Accusative Case — den/einen, direct object, masculine change",
-  "Day 12 | Home & Living — Wohnung, Zimmer, Miete, WG suchen",
-  "Day 13 | Directions & Public Transport — U-Bahn, S-Bahn, links/rechts, BVG",
-  "Day 14 | Week 2 Review — shopping scenarios, accusative practice",
-  // WEEK 3 — Communication: Modal Verbs, Dative, Appointments
-  "Day 15 | Grammar: Modal Verbs — können, müssen, wollen, dürfen, sollen, mögen",
-  "Day 16 | At the Doctor — beim Arzt, Körper, Beschwerden, Krankenversicherung",
-  "Day 17 | Weather & Seasons — Wetter, Jahreszeiten, es ist/es gibt",
-  "Day 18 | Grammar: Dative Case — dem/einem, indirect object, Präpositionen mit Dativ",
-  "Day 19 | Making Plans & Appointments — Verabredungen, Kalender, Termine",
-  "Day 20 | Telephone & Formal Language — am Telefon, per E-Mail, Sie-Form",
-  "Day 21 | Week 3 Review — modal verbs, dative, formal communication",
-  // WEEK 4 — Integration: Perfekt Tense, German System
-  "Day 22 | Grammar: Perfekt with haben — ich habe gemacht, regular & irregular",
-  "Day 23 | Grammar: Perfekt with sein — ich bin gegangen, movement & change verbs",
-  "Day 24 | German Bureaucracy — Anmeldung, Amt, Formulare, Ausweis",
-  "Day 25 | Banking & Finance — Konto, Überweisung, Girokonto, Sparkasse",
-  "Day 26 | Healthcare System — Krankenversicherung, Apotheke, Rezept",
-  "Day 27 | Housing & Renting — Mietvertrag, Nebenkosten, Kaution, Vermieter",
-  "Day 28 | Week 4 Review — Perfekt tense practice, bureaucracy vocab",
-  // WEEK 5 — Professional Life: Prepositions, Writing, IT Vocab
-  "Day 29 | Job Interview — Vorstellungsgespräch, Stärken/Schwächen, Bewerbung",
-  "Day 30 | Workplace Vocabulary — Büro, Kollegen, Besprechung, Feierabend",
-  "Day 31 | IT & Cybersecurity German — DSGVO, Firewall, Datenschutz, SOC, SIEM",
-  "Day 32 | Grammar: Two-Way Prepositions — an, auf, in, vor, über, unter, zwischen (Dativ/Akkusativ)",
-  "Day 33 | Professional Writing — E-Mail, Sehr geehrte/r, Mit freundlichen Grüßen",
-  "Day 34 | Grammar: Negation — nicht vs kein, niemand, nichts, niemals",
-  "Day 35 | Week 5 Review — IT vocab, prepositions, professional writing",
-  // WEEK 6 — Advanced Grammar: Adjectives, Subordinate Clauses
-  "Day 36 | Grammar: Adjective Endings — after der/die/das, after ein/eine, predicative",
-  "Day 37 | Grammar: Subordinate Clauses — weil, dass, wenn, ob, obwohl (verb-final)",
-  "Day 38 | Grammar: Comparative & Superlative — größer als, am größten, genauso wie",
-  "Day 39 | Grammar: Reflexive Verbs — sich vorstellen, sich freuen, sich erinnern",
-  "Day 40 | Grammar: Konjunktiv II — würde, hätte, wäre (polite requests, wishes)",
-  "Day 41 | German Culture & Work Values — Pünktlichkeit, Direktheit, Feierabend-Kultur",
-  "Day 42 | Week 6 Review — adjective endings, subordinate clauses, Konjunktiv II",
-  // WEEK 7 — A2 Exam Preparation: All 4 Skills
-  "Day 43 | Exam Skill: Lesen — reading comprehension strategies, skimming, scanning",
-  "Day 44 | Exam Skill: Hören — listening vocabulary, announcement types, instructions",
-  "Day 45 | Exam Skill: Schreiben — letter/email writing structure, formal vs informal",
-  "Day 46 | Exam Skill: Sprechen Teil 1 — sich vorstellen, über Alltag sprechen",
-  "Day 47 | Exam Skill: Sprechen Teil 2 — Bildbeschreibung, gemeinsam planen",
-  "Day 48 | Mock Lesen (A2 Reading Test) — practice texts, multiple choice, true/false",
-  "Day 49 | Mock Hören (A2 Listening Test) — practice dialogues, form-filling",
+  "Day 1 | Greetings & Introductions — ich bin, du/Sie, formal vs informal, Hallo/Tschüss",
+  "Day 2 | Numbers, Dates & Time — Zahlen 1-100, Uhrzeit, Datum, Wochentage",
+  "Day 3 | Grammar: der/die/das — noun genders, definite & indefinite articles, kein/keine",
+  "Day 4 | Grammar: Verb Conjugation Present — sein, haben, regular -en verbs, word order",
+  "Day 5 | Family & Relationships — Familie, Beziehungen, possessive pronouns mein/dein/sein/ihr",
+  "Day 6 | Daily Routine — Tagesablauf, separable verbs (aufstehen, anrufen, einkaufen, aufräumen)",
+  "Day 7 | Pronunciation — ä/ö/ü, ich-Laut vs ach-Laut, sch/st/sp, German R, long vs short vowels",
+  // WEEK 2 — Daily Life: Cases, Shopping, Appearance
+  "Day 8 | Food & Ordering — Essen und Trinken, im Restaurant, im Café, bestellen, bezahlen",
+  "Day 9 | Shopping & Prices — Supermarkt, Preise, im Geschäft, Sonderangebot, Kasse",
+  "Day 10 | Clothes, Colors & Appearance — Kleidung, Farben, Körperbeschreibung (groß/klein, Haare, Augen)",
+  "Day 11 | Grammar: Accusative Case — den/einen, direct object, masculine change + Akkusativ prepositions (durch/für/gegen/ohne/um)",
+  "Day 12 | Home & Living — Wohnung, Zimmer, Miete, WG suchen, Möbel, Nachbarn",
+  "Day 13 | Directions & Public Transport — U-Bahn, S-Bahn, links/rechts, BVG, Haltestelle, umsteigen",
+  "Day 14 | Hobbies & Leisure — Freizeit, Sport, Musik, Kino, Lesen, ins Museum gehen, joggen",
+  // WEEK 3 — Communication: Modal Verbs, Dative, Plans
+  "Day 15 | Grammar: Modal Verbs — können, müssen, wollen, dürfen, sollen, mögen + sentence structure",
+  "Day 16 | At the Doctor — beim Arzt, Körperteile, Beschwerden, Rezept, Krankenversicherung, Termin",
+  "Day 17 | Weather & Seasons — Wetter, Jahreszeiten, es ist/es gibt, Vorhersage, Klimawandel",
+  "Day 18 | Grammar: Dative Case — dem/einem, indirect object, Dativ prepositions (mit/bei/von/seit/nach/zu/aus/gegenüber)",
+  "Day 19 | Making Plans & Appointments — Verabredungen, Kalender, Termine, absagen, verschieben",
+  "Day 20 | Telephone & Formal Language — am Telefon, per E-Mail, Sie-Form, Nachricht hinterlassen",
+  "Day 21 | Celebrations & Events — Geburtstag, Einladung, feiern, Geschenk, Silvester, Hochzeit",
+  // WEEK 4 — Integration: Perfekt Tense, German Systems
+  "Day 22 | Grammar: Perfekt with haben — ich habe gemacht, regular & irregular past participles",
+  "Day 23 | Grammar: Perfekt with sein — ich bin gegangen, movement & change-of-state verbs",
+  "Day 24 | German Bureaucracy — Anmeldung, Amt, Formulare, Ausweis, Behörden, Warteschlange",
+  "Day 25 | Banking & Finance — Konto, Überweisung, Girokonto, Sparkasse, EC-Karte, Dauerauftrag",
+  "Day 26 | Healthcare System — Krankenversicherung, Apotheke, Rezept, Kassenarzt, AOK/TK",
+  "Day 27 | Housing & Renting — Mietvertrag, Nebenkosten, Kaution, Vermieter, Wohnungssuche, SCHUFA",
+  "Day 28 | School & Education — Schule, Klasse, Prüfung, Lehrer, Zeugnis, Kita, Kindergarten, Ausbildung",
+  // WEEK 5 — Professional Life: Prepositions, Writing, Travel
+  "Day 29 | Job Interview — Vorstellungsgespräch, Stärken/Schwächen, Bewerbung, Lebenslauf, Gehaltsvorstellung",
+  "Day 30 | Workplace Vocabulary — Büro, Kollegen, Besprechung, Feierabend, Überstunden, Homeoffice",
+  "Day 31 | Travel & Holiday — Urlaub, Flughafen, Hotel, buchen, Reise, Bahnhof, Koffer, Sehenswürdigkeiten",
+  "Day 32 | Grammar: Two-Way Prepositions — an, auf, in, vor, über, unter, zwischen, neben, hinter (Dativ/Akkusativ)",
+  "Day 33 | Professional Writing — E-Mail formal, Sehr geehrte/r, Mit freundlichen Grüßen, Bewerbungsbrief",
+  "Day 34 | Grammar: Negation — nicht vs kein, niemand, nichts, niemals, noch nicht, gar nicht",
+  "Day 35 | Grammar: Imperativ — command form (Geh! Komm! Nehmen Sie! Bitte!), formal + informal + wir-form",
+  // WEEK 6 — Advanced Grammar: Adjectives, Clauses, Präteritum
+  "Day 36 | Grammar: Adjective Endings — after der/die/das, after ein/eine, predicative, strong declension",
+  "Day 37 | Grammar: Subordinate Clauses — weil, dass, wenn, ob, obwohl, damit (verb-final word order)",
+  "Day 38 | Grammar: Comparative & Superlative — größer als, am größten, genauso wie, irregular forms",
+  "Day 39 | Grammar: Reflexive Verbs — sich vorstellen, sich freuen, sich erinnern, sich fühlen, sich bewerben",
+  "Day 40 | Grammar: Konjunktiv II — würde, hätte, wäre, könnte (polite requests, wishes, hypotheticals)",
+  "Day 41 | Grammar: Präteritum — war, hatte, konnte, musste, wollte, durfte (written past tense essentials)",
+  "Day 42 | Grammar: Infinitiv mit zu — Es ist wichtig, ... zu...; versuchen/vergessen/hoffen + zu-Infinitiv",
+  // WEEK 7 — A2 Exam Preparation: All 4 Skills (Goethe A2 aligned)
+  "Day 43 | Exam Skill: Lesen — Teil 1 (Anzeigen matching), Teil 2 (Mitteilungen true/false), Teil 3 (longer text)",
+  "Day 44 | Exam Skill: Hören — Teil 1 (Gespräche), Teil 2 (Ansagen), Teil 3 (Nachricht am Anrufbeantworter)",
+  "Day 45 | Exam Skill: Schreiben — Teil 1 (semi-formal reply ~30 words), Teil 2 (informal note ~30 words)",
+  "Day 46 | Exam Skill: Sprechen Teil 1 — sich vorstellen (5 things: Name, Herkunft, Wohnort, Beruf, Hobby)",
+  "Day 47 | Exam Skill: Sprechen Teil 2+3 — Bitten und Reagieren + Thema besprechen (Bildbeschreibung)",
+  "Day 48 | Mock Lesen (A2 Reading Test) — Anzeigen matching, Mitteilungen, longer text with multiple choice",
+  "Day 49 | Mock Hören (A2 Listening Test) — dialogues, public announcements, phone message form-filling",
   // WEEK 8 — Mock Exams & Consolidation
-  "Day 50 | Mock Schreiben (A2 Writing Test) — guided writing, 80-word email",
-  "Day 51 | Mock Sprechen (A2 Speaking Test) — role-play at the Amt, doctor, shop",
-  "Day 52 | Vocabulary Consolidation: Daily Life — all A2 topic groups reviewed",
-  "Day 53 | Vocabulary Consolidation: Professional — IT, office, job interview vocab",
-  "Day 54 | Grammar Consolidation: Cases — Nominativ, Akkusativ, Dativ review",
-  "Day 55 | Grammar Consolidation: Tenses — Präsens, Perfekt, Futur I (werden)",
-  "Day 56 | Full A2 Practice Test — Lesen + Hören + Schreiben + Sprechen",
-  // WEEK 9 — Final Push
-  "Day 57 | Common Errors & Corrections — false friends, case mistakes, word order",
-  "Day 58 | German Idioms & Fixed Expressions — Das ist mir Wurst, Daumen drücken",
-  "Day 59 | Berlin German & Culture — Berlinerisch, Kiez, Späti, Integration vocabulary",
-  "Day 60 | Graduation Day — full revision, A2 readiness check, Du bist bereit!"
+  "Day 50 | Mock Schreiben (A2 Writing Test) — semi-formal reply + informal message, 30 words each",
+  "Day 51 | Mock Sprechen (A2 Speaking Test) — self-intro + Bitten/Reagieren + Thema besprechen",
+  "Day 52 | Vocabulary Consolidation: Daily Life — Essen, Wohnen, Transport, Freizeit, Familie, Feste",
+  "Day 53 | Vocabulary Consolidation: Professional — Arbeit, Büro, Bewerbung, Schule, Reise, Gesundheit",
+  "Day 54 | Grammar Consolidation: Cases — Nominativ, Akkusativ, Dativ (full table + preposition groups)",
+  "Day 55 | Grammar Consolidation: Tenses — Präsens, Perfekt, Präteritum, Futur I (werden) + Konjunktiv II",
+  "Day 56 | Full A2 Practice Test — Lesen + Hören + Schreiben + Sprechen (timed, Goethe A2 format)",
+  // WEEK 9 — Final Push: Errors, Idioms, Readiness
+  "Day 57 | Common Errors & Corrections — false friends, case mistakes, word order, gender errors, da-compounds",
+  "Day 58 | German Idioms & Fixed Expressions — Das ist mir Wurst, Daumen drücken, alles klar, auf jeden Fall",
+  "Day 59 | Integration in Germany — Nachbarschaft, local services, integration vocabulary, German values",
+  "Day 60 | Graduation Day — full A2 revision, Goethe/TELC A2 readiness check, Du bist bereit! 🎓"
 ];
 
 // ─────────────────────────────────────────────
@@ -622,11 +627,14 @@ function safeParseLesson(raw){
       mistake:esc(obj.grammar.mistake||'')
     };
   } else { obj.grammar=null; }
-  obj.words=obj.words.slice(0,12).map(w=>({
-    de:esc(w.de||''), pron:esc(w.pron||''), en:esc(w.en||''),
+  const parseWord=w=>({
+    de:esc(w.de||''), pl:esc(w.pl||''), sep:!!w.sep,
+    pron:esc(w.pron||''), en:esc(w.en||''),
     example_de:esc(w.example_de||''), example_en:esc(w.example_en||''),
     funny:esc(w.funny||'')
-  }));
+  });
+  obj.words=obj.words.slice(0,20).map(parseWord);
+  obj.review_words=Array.isArray(obj.review_words)?obj.review_words.slice(0,3).map(parseWord):[];
   obj.phrases=obj.phrases.slice(0,10).map(p=>({
     de:esc(p.de||''), en:esc(p.en||''), funny:esc(p.funny||'')
   }));
@@ -892,16 +900,17 @@ async function loadLesson(day){
   const topic=DAY_TOPICS[(day-1)%DAY_TOPICS.length]||'Advanced German';
   document.getElementById('lessonContent').innerHTML=`<div class="lesson-loading"><div class="spinner"></div><div>Generating Day ${day} lesson... hang tight! 🍛</div></div>`;
 
+  const reviewWords=day>7?`\nSPACED REPETITION: Also include 3 "review_words" — pick 3 important words from any of Days 1-${day-1} that a learner should not forget. Same schema as words.`:'';
   const prompt=
-`You are a structured A2 German tutor for two IT security professionals from New Delhi living in Berlin. Your goal: get them to Goethe/TELC A2 standard. Warm, memorable humor — but grammar and vocabulary precision come first.
+`You are a structured A2 German tutor for two IT professionals from New Delhi living in Berlin. Your goal: get them to Goethe/TELC A2 standard. Warm, memorable humor — but grammar and vocabulary precision come first.
 
 Generate a Day ${day} A2-aligned German lesson on: "${topic}"
 
 LEVEL RULES (strictly enforced):
 - Days 1-14: A1 foundation — articles, basic verbs, present tense only
 - Days 15-28: A1→A2 bridge — modal verbs, accusative/dative, Perfekt
-- Days 29-42: A2 core — two-way prepositions, adjective endings, subordinate clauses, Konjunktiv II
-- Days 43-56: A2 exam prep — all four skills (Lesen/Hören/Schreiben/Sprechen), mock test vocabulary
+- Days 29-42: A2 core — two-way prepositions, adjective endings, subordinate clauses, Konjunktiv II, Imperativ, Präteritum
+- Days 43-56: A2 exam prep — all four Goethe A2 skills (Lesen/Hören/Schreiben/Sprechen), mock vocabulary
 - Days 57-60: Consolidation — common errors, idioms, exam readiness
 
 GRAMMAR POINT (mandatory for this day):
@@ -911,23 +920,25 @@ GRAMMAR POINT (mandatory for this day):
 
 VOCABULARY RULES:
 - Words must be from A1-A2 CEFR word lists relevant to the day's topic
-- Include gender (der/die/das) for all nouns
+- For NOUNS: include gender (der/die/das) AND plural form in "pl" field (e.g. "pl":"die Häuser")
+- For VERBS: set "sep":true if the verb is separable/trennbar (e.g. aufstehen, anrufen)
 - Pronunciation guide in square brackets using approximate English sounds
 - Example sentences must be realistic Berlin daily-life situations
+${reviewWords}
 
 TONE: Like a brilliant desi bhaiya who aced his Goethe A2. Humor through Delhi+Berlin comparisons, never at expense of clarity.
 Delhi: CP, DTC bus, auto-wala, chai, biryani, Chandni Chowk, jugaad, "bhai"
 Berlin: U-Bahn, BVG, REWE, Lidl, Jobcenter, Alexanderplatz, Kreuzberg, Döner, Späti
 
 Return ONLY valid JSON (no markdown, no backticks):
-{"day":${day},"topic":"${topic}","funnyIntro":"2 sentences — hook them with Delhi+Berlin humor, set up why today's grammar matters","grammar":{"rule":"Clear one-sentence grammar rule","explanation":"2-3 sentences explaining when and how to use it, with the logic behind it","examples":["German example sentence 1 — English translation","German example sentence 2 — English translation","German example sentence 3 — English translation"],"mistake":"The most common error learners make with this rule and how to avoid it"},"words":[{"de":"word with article if noun","pron":"[sounds-like-english]","en":"meaning","example_de":"Berlin-context sentence","example_en":"translation","funny":"Delhi/Berlin memory hook"}],"phrases":[{"de":"phrase","en":"meaning","funny":"when to use — real situation"}],"berlinTip":"Practical A2-level Berlin survival tip linked to today's grammar","jobTip":"IT security job hunting tip using today's grammar or vocabulary"}
+{"day":${day},"topic":"${topic}","funnyIntro":"2 sentences — hook them with Delhi+Berlin humor, set up why today's grammar matters","grammar":{"rule":"Clear one-sentence grammar rule","explanation":"2-3 sentences explaining when and how to use it, with the logic behind it","examples":["German sentence 1 — English translation","German sentence 2 — English translation","German sentence 3 — English translation"],"mistake":"The most common error learners make with this rule and how to avoid it"},"words":[{"de":"word with article if noun","pl":"plural form if noun, else omit","sep":false,"pron":"[sounds-like-english]","en":"meaning","example_de":"Berlin-context sentence","example_en":"translation","funny":"Delhi/Berlin memory hook"}],"review_words":[{"de":"word","pl":"plural if noun","sep":false,"pron":"[sounds]","en":"meaning","example_de":"sentence","example_en":"translation","funny":"hook"}],"phrases":[{"de":"phrase","en":"meaning","funny":"when to use — real situation"}],"berlinTip":"Practical A2-level Berlin survival tip linked to today's topic","jobTip":"Practical job-hunting in Berlin tip relevant to today's vocabulary"}
 
 STRICT RULES:
-- Exactly 8 words (A1-A2 CEFR level)
+- Exactly 15 words (A1-A2 CEFR level, varied: nouns, verbs, adjectives, adverbs)
 - Exactly 6 phrases
+- review_words: exactly 3 if day > 7, omit field if day <= 7
 - grammar field is REQUIRED — no exceptions
 - Every example sentence must be a complete, grammatically correct German sentence
-- IT/cybersecurity vocabulary angle where natural (DSGVO, Firewall, Datenschutz, SOC, Penetrationstest)
 - Pure JSON only — no text before or after`;
 
   try{
@@ -1014,6 +1025,10 @@ function renderLesson(lesson){
 
         <div style="text-align:center;padding:8px 0 6px">
           <div class="word-de">${w.de}</div>
+          <div style="display:flex;justify-content:center;gap:6px;margin:3px 0;flex-wrap:wrap">
+            ${w.pl?`<span style="font-size:11px;background:rgba(59,130,246,0.15);color:var(--blue-b);border-radius:6px;padding:2px 8px">Pl: ${w.pl}</span>`:''}
+            ${w.sep?`<span style="font-size:11px;background:rgba(168,85,247,0.15);color:var(--violet);border-radius:6px;padding:2px 8px">trennbar</span>`:''}
+          </div>
           <div class="word-pron" style="margin:4px 0">${w.pron}</div>
           <div class="word-en" style="font-size:17px">${w.en}</div>
         </div>
@@ -1049,6 +1064,36 @@ function renderLesson(lesson){
         </div>
       </div>`});
   });
+
+  // Review words (spaced repetition) — one card per word
+  if(lesson.review_words&&lesson.review_words.length){
+    lesson.review_words.forEach((w,i)=>{
+      const sid=`rw${i}`;
+      lessonPages.push({type:'review', html:`
+        <div class="card" style="border-color:var(--cyan)">
+          <div class="section-label" style="margin-bottom:8px;color:var(--cyan)">🔁 Review ${i+1}/${lesson.review_words.length} <span class="section-badge">From earlier</span></div>
+          <div style="text-align:center;padding:8px 0 6px">
+            <div class="word-de">${w.de}</div>
+            <div style="display:flex;justify-content:center;gap:6px;margin:3px 0;flex-wrap:wrap">
+              ${w.pl?`<span style="font-size:11px;background:rgba(59,130,246,0.15);color:var(--blue-b);border-radius:6px;padding:2px 8px">Pl: ${w.pl}</span>`:''}
+              ${w.sep?`<span style="font-size:11px;background:rgba(168,85,247,0.15);color:var(--violet);border-radius:6px;padding:2px 8px">trennbar</span>`:''}
+            </div>
+            <div class="word-pron" style="margin:4px 0">${w.pron}</div>
+            <div class="word-en" style="font-size:17px">${w.en}</div>
+          </div>
+          <div class="word-example" style="margin-bottom:10px;border-left-color:var(--cyan)">
+            <div style="font-size:13px"><strong>${w.example_de}</strong></div>
+            <div style="color:var(--muted);font-size:12px;margin-top:2px">${w.example_en}</div>
+            <div class="word-funny" style="margin-top:6px;font-size:12px">💡 ${w.funny}</div>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center">
+            <button onclick="speakWord('${w.de.replace(/'/g,"\\'")}');sfxTap()" class="btn btn-outline btn-sm">🔊 Listen</button>
+            <button id="micWord_${sid}" onclick="startVoiceValidation('${sid}','${w.de.replace(/'/g,"\\'")}','word')" class="mic-btn">🎤 Say it</button>
+          </div>
+          <div id="voiceResult_${sid}"></div>
+        </div>`});
+    });
+  }
 
   // One phrase per page
   lesson.phrases.forEach((p,i)=>{
@@ -1676,11 +1721,12 @@ function appendMsg(text,type){
 }
 
 function switchTab(name,el){
-  ['lesson','speak','test'].forEach(t=>document.getElementById('tab-'+t).classList.add('hidden'));
+  ['lesson','speak','test','exam'].forEach(t=>document.getElementById('tab-'+t).classList.add('hidden'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+name).classList.remove('hidden');
   if(el)el.classList.add('active');
   if(name==='speak')renderSpeakTab();
+  if(name==='exam')renderExamTab();
 }
 
 // ═══════════════════════════════════
@@ -1877,6 +1923,363 @@ function renderSpeakTab(){
     </div>`;
 
   document.getElementById('speakContent').innerHTML=html;
+}
+
+// ═══════════════════════════════════
+// EXAM PREP TAB
+// Goethe-Zertifikat A2 & TELC A2 aligned
+// ═══════════════════════════════════
+const EXAM_SKILLS={
+  lesen:{
+    icon:'📖', label:'Lesen', color:'var(--blue)', bg:'rgba(59,130,246,0.1)', time:'30 min',
+    overview:'3 parts. Read notices, ads and longer texts. No dictionary allowed.',
+    parts:[
+      {name:'Teil 1 — Anzeigen', desc:'5 short ads/notices. Match each to one of 8 headings. Tests: scanning for key words.'},
+      {name:'Teil 2 — Mitteilungen', desc:'5 short messages (emails, notices, signs). Decide: richtig / falsch / nicht im Text.'},
+      {name:'Teil 3 — Längerer Text', desc:'1 longer article or story (ca. 200 words). 5 multiple-choice questions (a/b/c).'}
+    ],
+    tips:['Read the questions BEFORE the text — know what you\'re looking for.','In Teil 1, eliminate headings as you use them.','In Teil 2, "nicht im Text" means the info is completely absent — don\'t guess from logic.','Underline key words in the question, then scan for them in the text.','False friends: "bekommen" = to get (not to become), "also" = so/therefore (not also).'],
+    schreibenTemplate:null
+  },
+  hoeren:{
+    icon:'🎧', label:'Hören', color:'var(--cyan)', bg:'rgba(6,182,212,0.1)', time:'~25 min',
+    overview:'3 parts. Listen to conversations, announcements and a phone message. Each recording played twice.',
+    parts:[
+      {name:'Teil 1 — Gespräche', desc:'5 short conversations (20-30 sec each). Choose the correct answer from 3 pictures or options. Key info is always stated clearly.'},
+      {name:'Teil 2 — Ansagen', desc:'1 public announcement (radio, station, event). 5 items — tick the correct information from 3 options each.'},
+      {name:'Teil 3 — Nachricht am Anrufbeantworter', desc:'1 phone message left on voicemail. Fill in 5 gaps in a form (name, time, place, number etc.).'}
+    ],
+    tips:['Read the options/form BEFORE pressing play — know what to listen for.','Numbers, times and dates are frequently tested — write them down immediately.','In Teil 3, the speaker spells out important words — listen for "Das schreibt man: ..."','Don\'t panic if you miss something — the recording plays twice.','Focus on stressed words — Germans stress the most important information.'],
+    schreibenTemplate:null
+  },
+  schreiben:{
+    icon:'✍️', label:'Schreiben', color:'var(--green)', bg:'rgba(34,197,94,0.1)', time:'30 min',
+    overview:'2 parts. Write short texts in reply to prompts. Total ~60-70 words.',
+    parts:[
+      {name:'Teil 1 — Semi-formal reply', desc:'Reply to an email, notice or invitation (~30-40 words). You must address 3 bullet-point prompts given. Use Sie-form or du depending on context.'},
+      {name:'Teil 2 — Informal message', desc:'Write a short message to a friend (~30 words) — e.g. cancelling plans, making a suggestion, giving information.'}
+    ],
+    tips:['Always address ALL 3 bullet points in Teil 1 — missing one costs marks.','Open formally: "Sehr geehrte/r..." and close: "Mit freundlichen Grüßen"','Open informally: "Liebe/r..." and close: "Viele Grüße" or "Bis bald"','Stay within the word limit — examiners note if you go far over.','Use connectors: weil, aber, deshalb, trotzdem, zuerst, dann, danach.'],
+    templates:[
+      {label:'Formal reply (Teil 1)',text:'Sehr geehrte/r [Name],\n\nvielen Dank für Ihre E-Mail / Einladung.\n\n[Punkt 1: Antwort...]\n[Punkt 2: Antwort...]\n[Punkt 3: Antwort...]\n\nMit freundlichen Grüßen\n[Ihr Name]'},
+      {label:'Informal message (Teil 2)',text:'Liebe/r [Name],\n\n[Hauptnachricht — 2-3 Sätze]\n\n[Vorschlag oder Frage]\n\nViele Grüße\n[Dein Name]'},
+      {label:'Cancel plans',text:'Liebe/r [Name],\n\nleider kann ich am [Tag] nicht kommen, weil ich [Grund]. Tut mir leid!\n\nKönnen wir uns [Alternative] treffen?\n\nViele Grüße\n[Dein Name]'}
+    ]
+  },
+  sprechen:{
+    icon:'🗣️', label:'Sprechen', color:'var(--violet)', bg:'rgba(168,85,247,0.1)', time:'15 min',
+    overview:'3 parts. Done with an examiner or in pairs. Short preparation time given before exam.',
+    parts:[
+      {name:'Teil 1 — Sich vorstellen', desc:'Introduce yourself. Say 5 things: Name · Herkunft · Wohnort · Beruf/Studium · Hobby. Each examiner/candidate does this in turn. ~1 minute each.'},
+      {name:'Teil 2 — Um etwas bitten und reagieren', desc:'Role-play with your partner or examiner. Make requests and respond to requests. Cards give you a situation — e.g. ask for help at a shop, make an appointment, ask for directions.'},
+      {name:'Teil 3 — Über ein Thema sprechen', desc:'Discuss a topic together based on a picture or keyword card. Plan something together (e.g. a party, a weekend trip). Use würde/könnte/sollte to make suggestions.'}
+    ],
+    tips:['Teil 1: Prepare your 5 sentences exactly — memorise them.','Use full sentences, not single words — always add a reason or detail.','If you don\'t understand: "Können Sie das bitte wiederholen?" or "Was bedeutet...?"','In Teil 3: make suggestions with "Wir könnten..." or "Vielleicht sollten wir..."','Speak slowly and clearly — fluency matters more than perfection.'],
+    selbstvostell:'Ich heiße [Name]. Ich komme aus [Stadt], Indien. Ich wohne jetzt in Berlin, in [Bezirk]. Ich bin [Beruf / IT-Sicherheitsexperte]. In meiner Freizeit [Hobby]. Ich lerne Deutsch, weil ich in Berlin arbeiten möchte.'
+  }
+};
+
+let examPracticeCache={};
+
+function renderExamTab(){
+  const day=userProgress?.day||1;
+  const el=document.getElementById('examContent');
+  el.innerHTML=`
+    <div class="card" style="border-color:var(--gold);margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="font-size:22px">🎓</div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:var(--gold)">Goethe-Zertifikat A2</div>
+          <div style="font-size:12px;color:var(--muted)">Official exam preparation — all 4 skills</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+        <div style="background:var(--surface);border-radius:10px;padding:10px">
+          <div style="color:var(--muted);margin-bottom:2px">Exam total time</div>
+          <div style="font-weight:600;color:var(--text)">~100 minutes</div>
+        </div>
+        <div style="background:var(--surface);border-radius:10px;padding:10px">
+          <div style="color:var(--muted);margin-bottom:2px">Pass mark</div>
+          <div style="font-weight:600;color:var(--green)">60% per skill</div>
+        </div>
+        <div style="background:var(--surface);border-radius:10px;padding:10px">
+          <div style="color:var(--muted);margin-bottom:2px">Skills</div>
+          <div style="font-weight:600;color:var(--text)">Lesen · Hören · Schreiben · Sprechen</div>
+        </div>
+        <div style="background:var(--surface);border-radius:10px;padding:10px">
+          <div style="color:var(--muted);margin-bottom:2px">Your progress</div>
+          <div style="font-weight:600;color:var(--blue)">Day ${day} of 60</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;padding:8px 12px;background:rgba(251,191,36,0.08);border-radius:10px;font-size:12px;color:var(--text2);line-height:1.6">
+        💡 <strong style="color:var(--gold)">Exam prep days:</strong> Days 43–51 cover all 4 skills with mock tests. Days 52–60 are full consolidation and practice tests.
+      </div>
+    </div>
+
+    ${Object.entries(EXAM_SKILLS).map(([key,skill])=>`
+    <div class="card" style="border-color:${skill.color};margin-bottom:10px" id="examCard_${key}">
+      <div onclick="toggleExamSkill('${key}')" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="font-size:24px">${skill.icon}</div>
+          <div>
+            <div style="font-weight:700;font-size:15px;color:${skill.color}">${skill.label}</div>
+            <div style="font-size:12px;color:var(--muted)">⏱ ${skill.time} &nbsp;·&nbsp; ${skill.overview.slice(0,50)}...</div>
+          </div>
+        </div>
+        <div id="examArrow_${key}" style="font-size:18px;color:var(--muted);transition:transform 0.2s">▼</div>
+      </div>
+      <div id="examDetail_${key}" class="hidden">
+        <div style="border-top:1px solid var(--border);margin:12px 0 10px"></div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:10px">${skill.overview}</div>
+
+        ${skill.parts.map(p=>`
+        <div style="background:var(--surface);border-radius:10px;padding:10px 12px;margin-bottom:8px;border-left:3px solid ${skill.color}">
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px">${p.name}</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.6">${p.desc}</div>
+        </div>`).join('')}
+
+        <div style="margin-top:12px;margin-bottom:8px">
+          <div style="font-size:11px;font-weight:700;color:${skill.color};text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">💡 Exam Strategies</div>
+          ${skill.tips.map(t=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--border2);font-size:12px;color:var(--text2)"><span style="color:${skill.color};flex-shrink:0">▸</span>${t}</div>`).join('')}
+        </div>
+
+        ${key==='schreiben'&&skill.templates?`
+        <div style="margin-top:12px">
+          <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">📝 Writing Templates</div>
+          ${skill.templates.map((t,i)=>`
+          <div style="background:var(--surface);border-radius:10px;padding:10px 12px;margin-bottom:8px">
+            <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px">${t.label}</div>
+            <pre style="font-size:12px;color:var(--text2);white-space:pre-wrap;line-height:1.7;font-family:inherit;margin:0">${t.text}</pre>
+          </div>`).join('')}
+        </div>`:''}
+
+        ${key==='sprechen'?`
+        <div style="margin-top:12px;background:var(--surface);border-radius:10px;padding:12px">
+          <div style="font-size:12px;font-weight:600;color:var(--violet);margin-bottom:8px">🎤 Teil 1 — Self-Introduction Template</div>
+          <pre style="font-size:13px;color:var(--text);white-space:pre-wrap;line-height:1.9;font-family:inherit;margin:0">${skill.selbstvostell}</pre>
+          <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="speakGerman('${skill.selbstvostell.replace(/\[.*?\]/g,'...').replace(/'/g,"\\'")}')">🔊 Hear example</button>
+        </div>`:''}
+
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-outline" style="border-color:${skill.color};color:${skill.color}" onclick="generateExamPractice('${key}')">⚡ Generate AI Practice</button>
+        </div>
+        <div id="examPractice_${key}" style="margin-top:10px"></div>
+      </div>
+    </div>`).join('')}
+
+    <div class="card" style="border-color:var(--gold);margin-top:4px">
+      <div style="text-align:center;padding:8px 0">
+        <div style="font-size:20px;margin-bottom:4px">🏆</div>
+        <div style="font-weight:700;font-size:15px;color:var(--gold);margin-bottom:4px">Full A2 Mock Test</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:12px">AI-generated practice covering all 4 skills in Goethe A2 format. ~20 min.</div>
+        <button class="btn btn-gold" onclick="startFullMockExam()">🎓 Start Full Mock Test</button>
+      </div>
+      <div id="fullMockContent" style="margin-top:10px"></div>
+    </div>`;
+}
+
+function toggleExamSkill(key){
+  const detail=document.getElementById('examDetail_'+key);
+  const arrow=document.getElementById('examArrow_'+key);
+  if(detail.classList.contains('hidden')){
+    detail.classList.remove('hidden');
+    arrow.style.transform='rotate(180deg)';
+  } else {
+    detail.classList.add('hidden');
+    arrow.style.transform='';
+  }
+}
+
+async function generateExamPractice(skill){
+  const el=document.getElementById('examPractice_'+skill);
+  if(examPracticeCache[skill]){el.innerHTML=examPracticeCache[skill];return;}
+  el.innerHTML=`<div class="lesson-loading"><div class="spinner"></div><div style="color:var(--muted);font-size:13px">Generating ${EXAM_SKILLS[skill].label} practice...</div></div>`;
+
+  const prompts={
+    lesen:`Generate a Goethe A2 Lesen practice exercise.
+
+Create ONE short reading text (80-120 words) on a topic suitable for A2 learners (daily life in Germany, notices, emails). Then generate 4 comprehension questions.
+
+Return ONLY valid JSON:
+{"title":"short title","text":"the German reading text","questions":[{"q":"question in English","options":["A: option","B: option","C: option"],"answer":0,"tip":"brief explanation"}]}
+
+Rules: A2 vocabulary only. Questions test key information, not inference. Pure JSON only.`,
+
+    hoeren:`Generate a Goethe A2 Hören practice exercise — simulate a short phone message (Nachricht am Anrufbeantworter).
+
+Create a realistic German phone message transcript (60-80 words) someone might leave on a voicemail. Then create a form with 4 gaps the listener must fill in.
+
+Return ONLY valid JSON:
+{"context":"who is calling whom and why (in English)","transcript":"the full German phone message text","form":[{"label":"field name in German","answer":"the correct answer from the message"}]}
+
+Rules: Include name, time/date, phone number, and one specific detail. A2 level German. Pure JSON only.`,
+
+    schreiben:`Generate a Goethe A2 Schreiben Teil 1 practice task.
+
+Create a realistic prompt: show an email/invitation someone received (40-50 words in German), then give 3 bullet-point things the learner must address in their reply.
+
+Then provide a model answer (~35 words).
+
+Return ONLY valid JSON:
+{"prompt_de":"the incoming email/notice in German","bullet_points":["point 1 in English","point 2 in English","point 3 in English"],"task_en":"Write a reply of about 30-40 words addressing all 3 points.","model_answer":"a model reply in German"}
+
+Rules: A2 vocabulary. Semi-formal register (Sie-form). Pure JSON only.`,
+
+    sprechen:`Generate a Goethe A2 Sprechen Teil 2 practice — "Um etwas bitten und reagieren".
+
+Create a realistic role-play scenario card for an A2 learner. Give the situation, what the learner must ask/say, and 4 useful phrases they could use.
+
+Then create a Sprechen Teil 3 topic card — a discussion topic with 4 sub-questions to discuss with a partner.
+
+Return ONLY valid JSON:
+{"teil2":{"situation":"describe the role-play situation in English","learner_role":"what the learner must do/ask","useful_phrases":[{"de":"German phrase","en":"English meaning"}]},"teil3":{"topic":"discussion topic in English","topic_de":"topic keyword in German","questions":["discussion question 1 in English","question 2","question 3","question 4"],"vocab":[{"de":"useful German word/phrase","en":"meaning"}]}}
+
+Rules: A2 level. Realistic Berlin/Germany situations. Pure JSON only.`
+  };
+
+  try{
+    checkRateLimit();
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,max_tokens:1500,messages:[{role:'user',content:prompts[skill]}]})});
+    if(!res.ok)throw new Error('API '+res.status);
+    const data=await res.json();
+    const raw=data.content?.[0]?.text||'';
+    const obj=extractJSON(raw);
+    const html=renderExamPracticeHtml(skill,obj);
+    examPracticeCache[skill]=html;
+    el.innerHTML=html;
+  }catch(e){
+    el.innerHTML=`<div style="color:var(--red);font-size:13px;padding:10px">⚠️ Could not generate practice. Check connection and try again.</div>`;
+  }
+}
+
+function renderExamPracticeHtml(skill,obj){
+  const s=EXAM_SKILLS[skill];
+  if(skill==='lesen'){
+    return `<div style="border:1px solid ${s.color};border-radius:12px;padding:14px;background:${s.bg}">
+      <div style="font-size:12px;font-weight:700;color:${s.color};margin-bottom:8px">📖 LESEN PRACTICE — ${esc(obj.title||'')}</div>
+      <div style="font-size:13px;line-height:1.8;color:var(--text);background:var(--surface);padding:12px;border-radius:10px;margin-bottom:12px">${esc(obj.text||'').replace(/\n/g,'<br>')}</div>
+      <div style="font-size:12px;font-weight:700;color:${s.color};margin-bottom:8px">Comprehension Questions</div>
+      ${(obj.questions||[]).map((q,i)=>`
+      <div style="background:var(--surface);border-radius:10px;padding:10px;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px">Q${i+1}: ${esc(q.q||'')}</div>
+        ${(q.options||[]).map((o,j)=>`<div style="font-size:12px;color:var(--text2);padding:3px 0">
+          ${j===q.answer?'<span style="color:var(--green);font-weight:700">✓ </span>':'<span style="color:var(--muted)">○ </span>'}${esc(o)}
+        </div>`).join('')}
+        <div style="font-size:11px;color:var(--muted);margin-top:5px;font-style:italic">💡 ${esc(q.tip||'')}</div>
+      </div>`).join('')}
+    </div>`;
+  }
+  if(skill==='hoeren'){
+    return `<div style="border:1px solid ${s.color};border-radius:12px;padding:14px;background:${s.bg}">
+      <div style="font-size:12px;font-weight:700;color:${s.color};margin-bottom:6px">🎧 HÖREN PRACTICE — Nachricht am Anrufbeantworter</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">${esc(obj.context||'')}</div>
+      <div style="font-size:13px;line-height:1.8;color:var(--text);background:var(--surface);padding:12px;border-radius:10px;margin-bottom:12px;border-left:3px solid ${s.color}">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px">📼 PHONE MESSAGE TRANSCRIPT:</div>
+        ${esc(obj.transcript||'').replace(/\n/g,'<br>')}
+        <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="speakGerman('${(obj.transcript||'').replace(/'/g,"\\'").replace(/"/g,'\\"')}')">🔊 Listen</button>
+      </div>
+      <div style="font-size:12px;font-weight:700;color:${s.color};margin-bottom:8px">Fill in the form:</div>
+      ${(obj.form||[]).map(f=>`
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">
+        <div style="color:var(--muted);flex:0 0 120px">${esc(f.label||'')}:</div>
+        <div style="color:var(--green);font-weight:600">${esc(f.answer||'')}</div>
+      </div>`).join('')}
+    </div>`;
+  }
+  if(skill==='schreiben'){
+    return `<div style="border:1px solid ${s.color};border-radius:12px;padding:14px;background:${s.bg}">
+      <div style="font-size:12px;font-weight:700;color:${s.color};margin-bottom:8px">✍️ SCHREIBEN PRACTICE — Teil 1</div>
+      <div style="font-size:13px;line-height:1.8;color:var(--text);background:var(--surface);padding:12px;border-radius:10px;margin-bottom:10px;border-left:3px solid ${s.color}">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px">📨 YOU RECEIVED:</div>
+        ${esc(obj.prompt_de||'').replace(/\n/g,'<br>')}
+      </div>
+      <div style="font-size:12px;font-weight:700;color:${s.color};margin-bottom:6px">Your reply must address:</div>
+      ${(obj.bullet_points||[]).map((b,i)=>`<div style="font-size:12px;padding:5px 0;color:var(--text2)"><span style="color:${s.color}">▸</span> ${esc(b)}</div>`).join('')}
+      <div style="font-size:12px;color:var(--muted);margin:10px 0 6px">${esc(obj.task_en||'')}</div>
+      <div style="background:var(--surface);border-radius:10px;padding:10px;margin-top:8px;border-left:3px solid var(--green)">
+        <div style="font-size:11px;color:var(--green);font-weight:700;margin-bottom:6px">✅ MODEL ANSWER:</div>
+        <div style="font-size:13px;line-height:1.8;color:var(--text)">${esc(obj.model_answer||'').replace(/\n/g,'<br>')}</div>
+      </div>
+    </div>`;
+  }
+  if(skill==='sprechen'){
+    const t2=obj.teil2||{};const t3=obj.teil3||{};
+    return `<div style="border:1px solid ${s.color};border-radius:12px;padding:14px;background:${s.bg}">
+      <div style="font-size:12px;font-weight:700;color:${s.color};margin-bottom:10px">🗣️ SPRECHEN PRACTICE</div>
+      <div style="background:var(--surface);border-radius:10px;padding:12px;margin-bottom:12px">
+        <div style="font-size:12px;font-weight:700;color:${s.color};margin-bottom:6px">Teil 2 — Um etwas bitten und reagieren</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:4px"><strong>Situation:</strong> ${esc(t2.situation||'')}</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:8px"><strong>Your role:</strong> ${esc(t2.learner_role||'')}</div>
+        <div style="font-size:11px;color:${s.color};font-weight:700;margin-bottom:6px">USEFUL PHRASES:</div>
+        ${(t2.useful_phrases||[]).map(p=>`
+        <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px">
+          <div style="font-weight:600;color:var(--text);flex:1">${esc(p.de||'')}</div>
+          <button class="btn btn-outline btn-sm" style="padding:2px 8px;font-size:11px" onclick="speakGerman('${(p.de||'').replace(/'/g,"\\'")}')">🔊</button>
+          <div style="color:var(--muted);flex:1">${esc(p.en||'')}</div>
+        </div>`).join('')}
+      </div>
+      <div style="background:var(--surface);border-radius:10px;padding:12px">
+        <div style="font-size:12px;font-weight:700;color:${s.color};margin-bottom:6px">Teil 3 — Thema: ${esc(t3.topic_de||'')}</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:8px">${esc(t3.topic||'')}</div>
+        ${(t3.questions||[]).map((q,i)=>`<div style="font-size:12px;padding:4px 0;color:var(--text2)"><span style="color:${s.color}">Q${i+1}:</span> ${esc(q)}</div>`).join('')}
+        ${(t3.vocab||[]).length?`<div style="margin-top:10px;font-size:11px;color:${s.color};font-weight:700;margin-bottom:5px">USEFUL VOCABULARY:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          ${(t3.vocab||[]).map(v=>`<span style="background:rgba(168,85,247,0.12);color:var(--violet);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer" onclick="speakGerman('${(v.de||'').replace(/'/g,"\\'")}')">🔊 ${esc(v.de||'')} = ${esc(v.en||'')}</span>`).join('')}
+        </div>`:''}
+      </div>
+    </div>`;
+  }
+  return '';
+}
+
+async function startFullMockExam(){
+  const el=document.getElementById('fullMockContent');
+  el.innerHTML=`<div class="lesson-loading"><div class="spinner"></div><div style="color:var(--muted);font-size:13px">Building your full A2 mock test...</div></div>`;
+  try{
+    checkRateLimit();
+    const prompt=`Generate a compact Goethe A2 full mock test with all 4 skills.
+
+Return ONLY valid JSON:
+{"lesen":{"text":"short German text 80 words","questions":[{"q":"Q in English","options":["A","B","C"],"answer":0}]},"hoeren":{"context":"situation in English","transcript":"German phone message 60 words","form":[{"label":"German label","answer":"answer"}]},"schreiben":{"prompt_de":"incoming German email 40 words","bullets":["task 1","task 2","task 3"],"model_answer":"model reply 35 words German"},"sprechen":{"vorstell_prompts":["5 things to say about yourself as prompts"],"teil2_situation":"role-play situation in English","teil3_topic_de":"topic keyword German","teil3_questions":["Q1","Q2","Q3"]}}
+
+A2 level only. Pure JSON.`;
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,max_tokens:2000,messages:[{role:'user',content:prompt}]})});
+    if(!res.ok)throw new Error('API '+res.status);
+    const data=await res.json();
+    const obj=extractJSON(data.content?.[0]?.text||'');
+    const l=obj.lesen||{};const h=obj.hoeren||{};const s=obj.schreiben||{};const sp=obj.sprechen||{};
+    el.innerHTML=`
+      <div style="border-top:1px solid var(--border);margin:12px 0"></div>
+      <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px">🏆 YOUR FULL A2 MOCK TEST</div>
+      <div style="background:rgba(59,130,246,0.08);border-left:3px solid var(--blue);border-radius:10px;padding:12px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px">📖 LESEN</div>
+        <div style="font-size:13px;line-height:1.8;color:var(--text);margin-bottom:8px">${esc(l.text||'').replace(/\n/g,'<br>')}</div>
+        ${(l.questions||[]).map((q,i)=>`<div style="font-size:12px;padding:6px 0;border-bottom:1px solid var(--border)"><strong>Q${i+1}:</strong> ${esc(q.q||'')} <br><span style="color:var(--green)">✓ ${esc((q.options||[])[q.answer]||'')}</span></div>`).join('')}
+      </div>
+      <div style="background:rgba(6,182,212,0.08);border-left:3px solid var(--cyan);border-radius:10px;padding:12px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:4px">🎧 HÖREN — ${esc(h.context||'')}</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:8px">${esc(h.transcript||'').replace(/\n/g,'<br>')}
+          <button class="btn btn-outline btn-sm" style="margin-left:8px" onclick="speakGerman('${(h.transcript||'').replace(/'/g,"\\'").replace(/"/g,'\\"')}')">🔊</button>
+        </div>
+        ${(h.form||[]).map(f=>`<div style="font-size:12px;padding:4px 0"><span style="color:var(--muted)">${esc(f.label||'')}:</span> <strong style="color:var(--green)">${esc(f.answer||'')}</strong></div>`).join('')}
+      </div>
+      <div style="background:rgba(34,197,94,0.08);border-left:3px solid var(--green);border-radius:10px;padding:12px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px">✍️ SCHREIBEN</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:6px">${esc(s.prompt_de||'').replace(/\n/g,'<br>')}</div>
+        ${(s.bullets||[]).map((b,i)=>`<div style="font-size:12px;color:var(--text2)">▸ ${esc(b)}</div>`).join('')}
+        <div style="margin-top:8px;padding:8px;background:var(--surface);border-radius:8px;font-size:12px;line-height:1.7"><strong style="color:var(--green)">Model:</strong> ${esc(s.model_answer||'').replace(/\n/g,'<br>')}</div>
+      </div>
+      <div style="background:rgba(168,85,247,0.08);border-left:3px solid var(--violet);border-radius:10px;padding:12px">
+        <div style="font-size:12px;font-weight:700;color:var(--violet);margin-bottom:6px">🗣️ SPRECHEN</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:4px"><strong>Teil 1 — Sich vorstellen:</strong></div>
+        ${(sp.vorstell_prompts||[]).map(p=>`<div style="font-size:12px;color:var(--text2);padding:2px 0">▸ ${esc(p)}</div>`).join('')}
+        <div style="font-size:12px;color:var(--text2);margin:8px 0 4px"><strong>Teil 2:</strong> ${esc(sp.teil2_situation||'')}</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:4px"><strong>Teil 3 — ${esc(sp.teil3_topic_de||'')}:</strong></div>
+        ${(sp.teil3_questions||[]).map((q,i)=>`<div style="font-size:12px;color:var(--text2)">Q${i+1}: ${esc(q)}</div>`).join('')}
+      </div>`;
+  }catch(e){
+    el.innerHTML=`<div style="color:var(--red);font-size:13px;padding:10px">⚠️ Could not generate mock test. Check connection and try again.</div>`;
+  }
 }
 
 function speakGerman(text){

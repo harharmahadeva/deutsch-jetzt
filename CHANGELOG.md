@@ -1,5 +1,38 @@
 # Changelog
 
+## [1.3.0] - 2026-06-24
+### Added
+- **Exam Prep tab** — new 🎓 Exam Prep tab with full Goethe-Zertifikat A2 / TELC A2 exam structure
+  - All 4 skills: Lesen, Hören, Schreiben, Sprechen — each with exam format, parts breakdown, time, strategies
+  - Schreiben: formal and informal writing templates built in
+  - Sprechen: Teil 1 self-introduction template with TTS playback
+  - AI-generated practice per skill (Lesen text + questions, Hören phone message + form, Schreiben prompt + model answer, Sprechen role-play + topic card)
+  - Full A2 Mock Test — all 4 skills in one AI-generated exercise
+- **Spaced repetition** — each lesson (Day 8+) now includes 3 review words from earlier days
+- **Plural forms** — all nouns now include plural form (die Häuser etc.) on word cards
+- **Separable verb badge** — trennbar verbs show a purple "trennbar" label on word cards
+### Changed
+- **60-day curriculum overhauled** — revised based on full Goethe A2 audit:
+  - Day 7: Pronunciation lesson (ä/ö/ü, ich-Laut vs ach-Laut, sch/st/sp, German R) — replaces Week 1 review
+  - Day 10: Enhanced with Körperbeschreibung (appearance vocab for Sprechen Bildbeschreibung)
+  - Day 11: Adds explicit Akkusativ-only prepositions (durch/für/gegen/ohne/um)
+  - Day 14: Hobbies & Leisure (Freizeit) — replaces Week 2 review
+  - Day 21: Celebrations & Events (Feste, Einladungen) — replaces Week 3 review
+  - Day 28: School & Education (Schule, Kita, Ausbildung) — replaces Week 4 review
+  - Day 31: Travel & Holiday (Urlaub, Flughafen, Hotel) — replaces standalone IT/Cybersecurity day
+  - Day 35: Grammar — Imperativ (command form) — replaces Week 5 review
+  - Day 41: Grammar — Präteritum (war, hatte, konnte, musste) — replaces Culture day (moved to Day 55)
+  - Day 42: Grammar — Infinitiv mit zu — replaces Week 6 review
+  - Days 43–44: Lesen/Hören updated to name exact Goethe A2 text types and audio formats
+- **AI lesson prompt improved**:
+  - Word count raised from 8 → 15 per lesson
+  - Word schema adds `pl` (plural) and `sep` (separable verb flag)
+  - Spaced repetition instruction added (3 review words from prior days)
+  - Removed forced IT/cybersecurity angle from strict rules
+  - Präteritum added to Day 29–42 level rules
+### Fixed
+- `safeParseLesson` now parses and sanitises `pl`, `sep`, and `review_words` fields
+
 ## [1.2.0] - 2026-06-23
 ### Fixed
 - Disclaimer screen now always shows on first visit for new users
