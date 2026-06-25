@@ -133,6 +133,10 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .dp-dot.done{background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.4);color:var(--green);}
 .dp-dot.current{background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-color:transparent;color:#fff;box-shadow:0 0 14px rgba(59,130,246,0.4);}
 .dp-dot.failed{background:var(--red-g);border-color:rgba(239,68,68,0.4);color:var(--red);}
+.week-strip{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--border2);}
+.ws-day{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;}
+.ws-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;box-sizing:border-box;transition:all .2s;}
+.ws-label{font-size:10px;font-weight:600;}
 
 .tabs{display:flex;gap:5px;margin-bottom:14px;background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:5px;}
 .tab{flex:1;text-align:center;padding:12px 10px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;color:var(--text3);border:1px solid transparent;min-height:44px;display:flex;align-items:center;justify-content:center;}
@@ -239,7 +243,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .exam-section-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
 .exam-section-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:2px;}
 .exam-section-sub{font-size:11px;color:var(--muted);}
-.exam-back-btn{font-size:12px;color:var(--primary);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:8px;white-space:nowrap;}
+.exam-back-btn{font-size:13px;font-weight:600;color:var(--primary);background:transparent;border:1px solid rgba(99,102,241,0.4);border-radius:8px;padding:6px 14px;cursor:pointer;white-space:nowrap;}
 .drill-result{padding:10px 13px;border-radius:10px;font-size:13px;line-height:1.6;display:none;}
 .drill-result.pass{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);color:#6ee7b7;}
 .drill-result.fail{background:var(--red-g);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;}
@@ -462,6 +466,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
         <div class="dp-day" id="currentDayLabel">Day 1</div>
       </div>
       <div class="dp-dots" id="dayDots"></div>
+      <div class="week-strip" id="weekStrip"></div>
     </div>
 
     <div class="dw-entry-card" onclick="showDailyWords()">
@@ -843,7 +848,7 @@ async function handleLogin(){
   // Load existing progress or create fresh
   let prog=await storageGet(pk);
   if(!prog){
-    prog={day:1,completedDays:[],failedDays:[],streak:1,lastDate:new Date().toDateString(),testResults:{}};
+    prog={day:1,completedDays:[],failedDays:[],streak:1,lastDate:new Date().toDateString(),testResults:{},studyDates:[]};
     await storageSet(pk,prog);
   }
   userProgress=prog;
@@ -891,6 +896,7 @@ function showApp(){
   safeText(document.getElementById('heroDayChip'),'Day '+day+' of '+TOTAL_DAYS());
   safeText(document.getElementById('heroStreak'),userProgress.streak||1);
   renderDayDots();
+  renderWeekStrip();
   updateMotBanner();
   const done=(userProgress.completedDays||[]).length;
   if(done>=60){
@@ -920,6 +926,34 @@ function updateMotBanner(){
     `🎯 <strong>${streak} days strong!</strong> You started. You showed up. That already puts you ahead of most. Weiter so! 💪`,
   ];
   document.getElementById('motBanner').innerHTML=msgs[Math.min(Math.floor(done/5),msgs.length-1)];
+}
+
+function renderWeekStrip(){
+  const labels=['M','D','M','D','F','S','S'];
+  const todayIdx=(new Date().getDay()+6)%7; // 0=Mon … 6=Sun
+  const studyDates=userProgress.studyDates||[];
+  // Get the date for each day of the current week (Mon–Sun)
+  const now=new Date();
+  const monOffset=(now.getDay()+6)%7; // days since Monday
+  const monday=new Date(now); monday.setDate(now.getDate()-monOffset);
+  let html='';
+  for(let i=0;i<7;i++){
+    const d=new Date(monday); d.setDate(monday.getDate()+i);
+    const done=studyDates.includes(d.toDateString());
+    const isToday=i===todayIdx;
+    const circleStyle=done
+      ?'background:#2563EB;border:none;color:#fff'
+      :isToday
+        ?'background:#EFF6FF;border:2px solid #2563EB;color:#2563EB'
+        :'background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text3)';
+    const labelStyle=done||isToday?'color:var(--primary);font-weight:700':'color:var(--text3);font-weight:600';
+    html+=`<div class="ws-day">
+      <div class="ws-circle" style="${circleStyle}">${done?'✓':labels[i]}</div>
+      <div class="ws-label" style="${labelStyle}">${labels[i]}</div>
+    </div>`;
+  }
+  const el=document.getElementById('weekStrip');
+  if(el)el.innerHTML=html;
 }
 
 function renderDayDots(){
@@ -1838,12 +1872,16 @@ async function showTestResult(score,total,fromSaved){
     userProgress.testResults[day]={score,total,passed,pct,date:new Date().toISOString()};
     if(passed){
       if(!(userProgress.completedDays||[]).includes(day))userProgress.completedDays=[...(userProgress.completedDays||[]),day];
+      const today=new Date().toDateString();
+      if(!userProgress.studyDates)userProgress.studyDates=[];
+      if(!userProgress.studyDates.includes(today))userProgress.studyDates.push(today);
       if(day<TOTAL_DAYS())userProgress.day=day+1;
     }else{
       if(!(userProgress.failedDays||[]).includes(day))userProgress.failedDays=[...(userProgress.failedDays||[]),day];
     }
     await saveProgress();
     renderDayDots();
+    renderWeekStrip();
     document.getElementById('currentDayLabel').textContent='Day '+(userProgress.day||1);
   }
 

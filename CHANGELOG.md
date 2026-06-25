@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.7.0] - 2026-06-25
+### Added
+- **Week strip** — M D M D F S S day circles in the progress card
+  - Today's day always highlighted: light blue fill + blue border ring, bold blue label
+  - Study days (lessons passed) shown as filled blue circles with ✓
+  - Non-study, non-today days shown in grey
+  - `studyDates` array added to user progress — populated on every test pass
+### Changed
+- **Back buttons** — `exam-back-btn` (Sprechen, Fragewörter screens) now renders as a proper outlined button (border + padding) instead of plain text
+
 ## [1.6.0] - 2026-06-25
 ### Added
 - **Tägliche Wörter** — standalone Daily Words practice module
