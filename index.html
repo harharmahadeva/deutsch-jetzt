@@ -211,6 +211,31 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .drill-sub{font-size:13px;color:var(--text2);margin-bottom:16px;}
 .drill-scenario{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:16px;margin-bottom:12px;}
 .drill-scenario-q{font-size:14px;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.5;}
+/* ── Daily Words module ── */
+#dwScreen{position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;display:none;}
+#dwScreen.active{display:block;}
+.dw-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--card);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:10;}
+.dw-header-title{font-size:16px;font-weight:800;color:var(--text);}
+.dw-back{background:none;border:none;font-size:22px;color:var(--primary);cursor:pointer;padding:4px 8px;border-radius:8px;}
+.dw-topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px;}
+.dw-topic-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:16px 12px;cursor:pointer;text-align:center;transition:border-color .15s;}
+.dw-topic-card:active{border-color:var(--primary);}
+.dw-topic-icon{font-size:28px;margin-bottom:6px;}
+.dw-topic-label{font-size:13px;font-weight:700;color:var(--text);}
+.dw-topic-count{font-size:11px;color:var(--muted);margin-top:2px;}
+.dw-word-wrap{padding:14px;}
+.dw-word-de{font-size:28px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;margin-bottom:4px;}
+.dw-word-pron{font-size:13px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:6px;}
+.dw-word-en{font-size:16px;font-weight:700;color:var(--text);text-align:center;margin-bottom:12px;}
+.dw-entry-card{background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(139,92,246,0.1));border:1px solid rgba(99,102,241,0.3);border-radius:14px;padding:14px 16px;cursor:pointer;margin-bottom:12px;display:flex;align-items:center;gap:12px;}
+.dw-entry-icon{font-size:26px;flex-shrink:0;}
+.dw-entry-text{flex:1;}
+.dw-entry-title{font-size:14px;font-weight:800;color:var(--primary);margin-bottom:2px;}
+.dw-entry-sub{font-size:11px;color:var(--muted);}
+.dw-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;}
+.dw-score-bar{height:5px;background:var(--border2);border-radius:99px;overflow:hidden;margin:6px 0 2px;}
+.dw-score-fill{height:100%;border-radius:99px;transition:width .5s ease;}
+/* ── end Daily Words ── */
 .exam-section-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
 .exam-section-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:2px;}
 .exam-section-sub{font-size:11px;color:var(--muted);}
@@ -360,6 +385,18 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   </div>
 </div>
 
+<!-- ══════════════════════════════════
+     DAILY WORDS SCREEN (overlay)
+     ══════════════════════════════════ -->
+<div id="dwScreen">
+  <div class="dw-header">
+    <button class="dw-back" onclick="hideDailyWords()">←</button>
+    <div class="dw-header-title" id="dwHeaderTitle">🗣️ Tägliche Wörter</div>
+    <div style="width:38px"></div>
+  </div>
+  <div id="dwContent"></div>
+</div>
+
 <div id="loginScreen" class="hidden">
   <div class="login-box">
     <div class="login-badge">🗣️ Language Learning</div>
@@ -425,6 +462,15 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
         <div class="dp-day" id="currentDayLabel">Day 1</div>
       </div>
       <div class="dp-dots" id="dayDots"></div>
+    </div>
+
+    <div class="dw-entry-card" onclick="showDailyWords()">
+      <div class="dw-entry-icon">🗣️</div>
+      <div class="dw-entry-text">
+        <div class="dw-entry-title">Tägliche Wörter</div>
+        <div class="dw-entry-sub">Arbeit · Krankenhaus · Bahnhof · Supermarkt · mehr</div>
+      </div>
+      <div style="font-size:20px;color:var(--muted)">›</div>
     </div>
 
     <div class="tabs">
@@ -2775,6 +2821,319 @@ function speakGerman(text){
 }
 function speakWord(text){speakGerman(text);}
 window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();
+
+// ═══════════════════════════════════════════════════
+// TÄGLICHE WÖRTER — Daily Words Module
+// ═══════════════════════════════════════════════════
+const DW_TOPICS=[
+  {id:'arbeit',icon:'💼',label:'Arbeit',words:[
+    {de:'die Bewerbung',pron:'[be-VAIR-boong]',en:'job application',ex:'Ich habe heute eine Bewerbung abgeschickt.'},
+    {de:'das Gehalt',pron:'[ge-HALT]',en:'salary',ex:'Mein Gehalt wird am Ende des Monats überwiesen.'},
+    {de:'die Überstunden',pron:'[ÜH-ber-shtoon-den]',en:'overtime hours',ex:'Diese Woche mache ich viele Überstunden.'},
+    {de:'die Probezeit',pron:'[PRO-be-tsait]',en:'probationary period',ex:'Die Probezeit dauert sechs Monate.'},
+    {de:'der Kollege',pron:'[ko-LAY-ge]',en:'colleague',ex:'Mein Kollege hilft mir mit dem Bericht.'},
+    {de:'die Kündigung',pron:'[KÜN-di-goong]',en:'dismissal / resignation',ex:'Er hat eine Kündigung vom Chef bekommen.'},
+    {de:'das Vorstellungsgespräch',pron:'[for-SHTEL-oongs-ge-shprekh]',en:'job interview',ex:'Das Vorstellungsgespräch ist morgen um 10 Uhr.'},
+    {de:'der Vertrag',pron:'[fer-TRAK]',en:'contract',ex:'Ich habe heute meinen Vertrag unterschrieben.'},
+    {de:'die Abteilung',pron:'[ab-TAI-loong]',en:'department',ex:'Ich arbeite in der IT-Abteilung.'},
+    {de:'der Urlaub',pron:'[OOR-laup]',en:'vacation / annual leave',ex:'Ich nehme nächste Woche Urlaub.'},
+    {de:'die Besprechung',pron:'[be-SHPREKH-oong]',en:'meeting',ex:'Die Besprechung beginnt um 9 Uhr.'},
+    {de:'das Homeoffice',pron:'[HOME-oh-fis]',en:'working from home',ex:'Montags arbeite ich im Homeoffice.'},
+  ]},
+  {id:'krankenhaus',icon:'🏥',label:'Krankenhaus',words:[
+    {de:'der Termin',pron:'[ter-MEEN]',en:'appointment',ex:'Ich habe einen Termin beim Arzt um 14 Uhr.'},
+    {de:'das Wartezimmer',pron:'[VAR-te-tsim-mer]',en:'waiting room',ex:'Bitte warten Sie im Wartezimmer.'},
+    {de:'das Rezept',pron:'[re-TSEPT]',en:'prescription',ex:'Der Arzt gibt mir ein Rezept für Antibiotika.'},
+    {de:'der Blutdruck',pron:'[BLOOT-drook]',en:'blood pressure',ex:'Mein Blutdruck ist heute zu hoch.'},
+    {de:'die Überweisung',pron:'[ü-ber-VAI-zoong]',en:'referral',ex:'Ich brauche eine Überweisung zum Spezialisten.'},
+    {de:'die Notaufnahme',pron:'[NOTE-auf-na-me]',en:'emergency room',ex:'Er wurde sofort in die Notaufnahme gebracht.'},
+    {de:'die Versicherungskarte',pron:'[fer-ZIKH-e-roonks-kar-te]',en:'insurance card',ex:'Bitte zeigen Sie Ihre Versicherungskarte.'},
+    {de:'die Beschwerden',pron:'[be-SHVAYR-den]',en:'symptoms / complaints',ex:'Welche Beschwerden haben Sie?'},
+    {de:'die Untersuchung',pron:'[oon-ter-ZOOKH-oong]',en:'examination',ex:'Der Arzt macht eine gründliche Untersuchung.'},
+    {de:'das Fieber',pron:'[FEE-ber]',en:'fever',ex:'Ich habe Fieber und Kopfschmerzen.'},
+    {de:'die Apotheke',pron:'[a-po-TAY-ke]',en:'pharmacy',ex:'Die nächste Apotheke ist um die Ecke.'},
+    {de:'krankschreiben',pron:'[KRANK-shrai-ben]',en:'to sign off sick',ex:'Der Arzt hat mich für drei Tage krankgeschrieben.'},
+  ]},
+  {id:'bahnhof',icon:'🚂',label:'Bahnhof & Zug',words:[
+    {de:'das Gleis',pron:'[GLAIS]',en:'platform / track',ex:'Der Zug fährt von Gleis 5 ab.'},
+    {de:'die Abfahrt',pron:'[AB-fart]',en:'departure',ex:'Die Abfahrt ist um 8:42 Uhr.'},
+    {de:'die Ankunft',pron:'[AN-koonft]',en:'arrival',ex:'Die Ankunft in München ist um 12:15 Uhr.'},
+    {de:'die Verspätung',pron:'[fer-SHPAY-toong]',en:'delay',ex:'Der Zug hat 20 Minuten Verspätung.'},
+    {de:'umsteigen',pron:'[OOM-shtai-gen]',en:'to change trains',ex:'In Frankfurt müssen wir umsteigen.'},
+    {de:'die Fahrkarte',pron:'[FAR-kar-te]',en:'train ticket',ex:'Ich kaufe eine Fahrkarte am Automaten.'},
+    {de:'der Bahnsteig',pron:'[BAN-shtaig]',en:'platform (numbered)',ex:'Bitte gehen Sie zu Bahnsteig 3.'},
+    {de:'die Reservierung',pron:'[re-zer-VEER-oong]',en:'seat reservation',ex:'Haben Sie eine Reservierung?'},
+    {de:'die Monatskarte',pron:'[MO-nats-kar-te]',en:'monthly pass',ex:'Mit der Monatskarte fahre ich überall im AB-Bereich.'},
+    {de:'der Schaffner',pron:'[SHAF-ner]',en:'train conductor',ex:'Der Schaffner kontrolliert die Fahrkarten.'},
+    {de:'die Schranke',pron:'[SHRAN-ke]',en:'barrier / gate',ex:'Halten Sie Ihr Ticket an die Schranke.'},
+    {de:'der Intercity',pron:'[IN-ter-si-tee]',en:'intercity train (IC)',ex:'Der Intercity fährt stündlich nach Hamburg.'},
+  ]},
+  {id:'bus',icon:'🚌',label:'Bus & Straßenbahn',words:[
+    {de:'die Haltestelle',pron:'[HAL-te-shtel-e]',en:'bus / tram stop',ex:'Die nächste Haltestelle ist Alexanderplatz.'},
+    {de:'einsteigen',pron:'[AIN-shtai-gen]',en:'to board / get on',ex:'Bitte hinten einsteigen!'},
+    {de:'aussteigen',pron:'[AUS-shtai-gen]',en:'to alight / get off',ex:'Ich steige an der nächsten Haltestelle aus.'},
+    {de:'die Linie',pron:'[LEE-nee-e]',en:'route / line',ex:'Die Linie M1 fährt bis Pankow.'},
+    {de:'der Fahrplan',pron:'[FAR-plan]',en:'timetable',ex:'Schauen Sie im Fahrplan nach der nächsten Abfahrt.'},
+    {de:'die Monatskarte',pron:'[MO-nats-kar-te]',en:'monthly transit pass',ex:'Die Monatskarte kostet 86 Euro im AB-Bereich.'},
+    {de:'entwerten',pron:'[ent-VAYR-ten]',en:'to validate a ticket',ex:'Vergessen Sie nicht, Ihr Ticket zu entwerten!'},
+    {de:'der Anschluss',pron:'[AN-shloos]',en:'connection',ex:'Ich verpasse meinen Anschluss wegen der Verspätung.'},
+    {de:'die Straßenbahn',pron:'[SHTRAS-en-ban]',en:'tram',ex:'Die Straßenbahn kommt alle 10 Minuten.'},
+    {de:'barrierefrei',pron:'[ba-REE-re-frai]',en:'accessible / barrier-free',ex:'Dieser Bus ist barrierefrei für Rollstuhlfahrer.'},
+    {de:'die Tageskarte',pron:'[TA-ges-kar-te]',en:'day pass',ex:'Eine Tageskarte gilt für den ganzen Tag.'},
+    {de:'der Busfahrer',pron:'[BOOS-far-er]',en:'bus driver',ex:'Fragen Sie den Busfahrer nach dem richtigen Weg.'},
+  ]},
+  {id:'flughafen',icon:'✈️',label:'Flughafen',words:[
+    {de:'die Abflughalle',pron:'[AB-flook-ha-le]',en:'departure hall',ex:'Treffen wir uns in der Abflughalle um 6 Uhr.'},
+    {de:'das Gate',pron:'[GAYT]',en:'gate',ex:'Ihr Flug geht von Gate B12 ab.'},
+    {de:'einchecken',pron:'[AIN-chek-en]',en:'to check in',ex:'Online einchecken spart Zeit am Flughafen.'},
+    {de:'das Gepäck',pron:'[ge-PEK]',en:'luggage',ex:'Mein Gepäck ist 23 Kilo schwer.'},
+    {de:'die Passkontrolle',pron:'[PAS-kon-trol-e]',en:'passport control',ex:'Bei der Passkontrolle zeigen Sie Ihren Reisepass.'},
+    {de:'der Zoll',pron:'[TSOL]',en:'customs',ex:'Am Zoll müssen Sie Alkohol und Zigaretten angeben.'},
+    {de:'das Handgepäck',pron:'[HANT-ge-pek]',en:'carry-on luggage',ex:'Handgepäck darf maximal 10 kg wiegen.'},
+    {de:'die Bordkarte',pron:'[BORT-kar-te]',en:'boarding pass',ex:'Zeigen Sie Ihre Bordkarte am Gate.'},
+    {de:'die Verspätung',pron:'[fer-SHPAY-toong]',en:'delay',ex:'Der Flug hat zwei Stunden Verspätung.'},
+    {de:'der Ankunftsbereich',pron:'[AN-koonft-be-raikh]',en:'arrivals area',ex:'Wir warten auf Sie im Ankunftsbereich.'},
+    {de:'der Abholbereich',pron:'[AB-hol-be-raikh]',en:'baggage claim',ex:'Das Gepäck kommt am Abholbereich Band 3 an.'},
+    {de:'die Sicherheitskontrolle',pron:'[ZIKH-er-haits-kon-trol-e]',en:'security check',ex:'Laptops müssen aus der Tasche bei der Sicherheitskontrolle.'},
+  ]},
+  {id:'supermarkt',icon:'🛒',label:'Supermarkt',words:[
+    {de:'die Kasse',pron:'[KAS-e]',en:'checkout / cash register',ex:'Es gibt lange Schlangen an der Kasse.'},
+    {de:'der Kassenbon',pron:'[KAS-en-bon]',en:'receipt',ex:'Möchten Sie den Kassenbon?'},
+    {de:'das Angebot',pron:'[AN-ge-bot]',en:'special offer',ex:'Joghurt ist diese Woche im Angebot.'},
+    {de:'das Pfand',pron:'[PFANT]',en:'bottle deposit',ex:'Vergessen Sie nicht, das Pfand zurückzugeben.'},
+    {de:'das Mindesthaltbarkeitsdatum',pron:'[MIN-dest-halt-bar-kaits-da-toom]',en:'best before date',ex:'Prüfen Sie immer das Mindesthaltbarkeitsdatum.'},
+    {de:'die Selbstbedienung',pron:'[ZELPST-be-dee-noong]',en:'self-service',ex:'Am Selbstbedienungs-Terminal geht es schneller.'},
+    {de:'die Tüte',pron:'[TÜ-te]',en:'carrier bag',ex:'Brauchen Sie eine Tüte? Das kostet 20 Cent.'},
+    {de:'kontaktlos',pron:'[kon-TAKT-los]',en:'contactless payment',ex:'Ich bezahle kontaktlos mit meinem Handy.'},
+    {de:'der Rabatt',pron:'[ra-BAT]',en:'discount',ex:'Mit der Kundenkarte bekomme ich 10% Rabatt.'},
+    {de:'biologisch',pron:'[bee-o-LO-gish]',en:'organic',ex:'Diese Äpfel sind biologisch angebaut.'},
+    {de:'das Regal',pron:'[re-GAL]',en:'shelf',ex:'Mehl steht im Regal neben dem Zucker.'},
+    {de:'der Einkaufswagen',pron:'[AIN-koufs-va-gen]',en:'shopping cart',ex:'Für den Einkaufswagen braucht man einen Euro.'},
+  ]},
+  {id:'behoerde',icon:'🏛️',label:'Behörde',words:[
+    {de:'der Schalter',pron:'[SHAL-ter]',en:'service counter / window',ex:'Bitte gehen Sie zu Schalter 4.'},
+    {de:'der Termin',pron:'[ter-MEEN]',en:'appointment',ex:'Ich habe einen Termin beim Bürgeramt um 10 Uhr.'},
+    {de:'der Ausweis',pron:'[AUS-vais]',en:'ID card',ex:'Bringen Sie Ihren Ausweis und eine Meldebescheinigung mit.'},
+    {de:'die Anmeldung',pron:'[AN-mel-doong]',en:'registration',ex:'Die Anmeldung beim Einwohnermeldeamt ist Pflicht.'},
+    {de:'die Aufenthaltserlaubnis',pron:'[auf-ENT-halts-er-laup-nis]',en:'residence permit',ex:'Meine Aufenthaltserlaubnis läuft Ende des Jahres ab.'},
+    {de:'das Formular',pron:'[for-moo-LAR]',en:'form',ex:'Füllen Sie bitte dieses Formular aus.'},
+    {de:'die Bescheinigung',pron:'[be-SHAI-ni-goong]',en:'certificate / confirmation',ex:'Ich brauche eine Bescheinigung für meine Bank.'},
+    {de:'das Bürgeramt',pron:'[BÜR-ger-amt]',en:'residents registration office',ex:'Das Bürgeramt hat dienstags bis 18 Uhr geöffnet.'},
+    {de:'die Gebühr',pron:'[ge-BÜR]',en:'fee / charge',ex:'Die Gebühr für einen neuen Ausweis beträgt 37 Euro.'},
+    {de:'der Antrag',pron:'[AN-trak]',en:'application form',ex:'Stellen Sie den Antrag so früh wie möglich.'},
+    {de:'der Wartebereich',pron:'[VAR-te-be-raikh]',en:'waiting area',ex:'Bitte nehmen Sie im Wartebereich Platz.'},
+    {de:'die Vollmacht',pron:'[FOL-makht]',en:'power of attorney',ex:'Sie brauchen eine Vollmacht, wenn jemand für Sie handelt.'},
+  ]},
+  {id:'schule',icon:'🏫',label:'Schule & Bildung',words:[
+    {de:'die Grundschule',pron:'[GROONT-shoo-le]',en:'primary school',ex:'Kinder kommen mit 6 Jahren in die Grundschule.'},
+    {de:'die Anmeldung',pron:'[AN-mel-doong]',en:'enrolment',ex:'Die Anmeldung für die Schule beginnt im Februar.'},
+    {de:'das Zeugnis',pron:'[TSOYK-nis]',en:'school report / certificate',ex:'Am Ende des Schuljahres bekommt man ein Zeugnis.'},
+    {de:'der Elternabend',pron:'[EL-tern-a-bent]',en:'parent-teacher evening',ex:'Der nächste Elternabend ist am Donnerstag.'},
+    {de:'die Hausaufgaben',pron:'[HAUS-auf-ga-ben]',en:'homework',ex:'Mein Kind macht jeden Tag Hausaufgaben.'},
+    {de:'die Schulpflicht',pron:'[SHOOL-pflicht]',en:'compulsory schooling',ex:'In Deutschland gilt Schulpflicht bis zum 18. Lebensjahr.'},
+    {de:'der Kindergarten',pron:'[KIN-der-gar-ten]',en:'nursery / kindergarten',ex:'Unser Sohn geht jeden Morgen in den Kindergarten.'},
+    {de:'der Stundenplan',pron:'[SHTOON-den-plan]',en:'class timetable',ex:'Der Stundenplan hängt am Kühlschrank.'},
+    {de:'die Nachhilfe',pron:'[NACH-hil-fe]',en:'tutoring',ex:'Mein Kind braucht Nachhilfe in Mathematik.'},
+    {de:'der Ausflug',pron:'[AUS-flook]',en:'school trip',ex:'Morgen hat die Klasse einen Ausflug ins Museum.'},
+    {de:'das Abitur',pron:'[a-bi-TOOR]',en:'A-levels / university entrance',ex:'Mit dem Abitur kann man an einer Uni studieren.'},
+    {de:'die Berufsschule',pron:'[be-ROOFS-shoo-le]',en:'vocational school',ex:'Er macht eine Ausbildung und geht zur Berufsschule.'},
+  ]},
+  {id:'einkauf',icon:'🏪',label:'Einkaufszentrum',words:[
+    {de:'die Rolltreppe',pron:'[ROL-trep-e]',en:'escalator',ex:'Die Rolltreppe zum zweiten Stock ist defekt.'},
+    {de:'der Fahrstuhl',pron:'[FAR-shtool]',en:'elevator / lift',ex:'Den Fahrstuhl finden Sie neben dem Eingang.'},
+    {de:'umtauschen',pron:'[OOM-tow-shen]',en:'to exchange / return',ex:'Kann ich diese Jacke umtauschen? Sie passt nicht.'},
+    {de:'der Schlussverkauf',pron:'[SHLOOS-fer-kouf]',en:'end-of-season sale',ex:'Der Schlussverkauf beginnt nach Weihnachten.'},
+    {de:'die Garantie',pron:'[ga-ran-TEE]',en:'warranty',ex:'Das Gerät hat zwei Jahre Garantie.'},
+    {de:'die Umkleidekabine',pron:'[OOM-klai-de-ka-bee-ne]',en:'fitting room',ex:'Die Umkleidekabinen sind hinten rechts.'},
+    {de:'das Erdgeschoss',pron:'[AIRT-ge-shos]',en:'ground floor',ex:'Der Lebensmittelmarkt ist im Erdgeschoss.'},
+    {de:'der Kassenbon',pron:'[KAS-en-bon]',en:'receipt',ex:'Bewahren Sie den Kassenbon für Rückgaben auf.'},
+    {de:'die Öffnungszeiten',pron:'[ÖF-noonks-tsai-ten]',en:'opening hours',ex:'Die Öffnungszeiten sind täglich von 9 bis 21 Uhr.'},
+    {de:'die Kreditkarte',pron:'[kre-DEET-kar-te]',en:'credit card',ex:'Bezahlen Sie mit Kreditkarte oder Bar?'},
+    {de:'das Sonderangebot',pron:'[ZON-der-an-ge-bot]',en:'special deal',ex:'Schauen Sie immer nach den Sonderangeboten.'},
+    {de:'der Rabatt',pron:'[ra-BAT]',en:'discount',ex:'Im Schlussverkauf gibt es 50% Rabatt.'},
+  ]},
+  {id:'wohnen',icon:'🏠',label:'Wohnen',words:[
+    {de:'der Mietvertrag',pron:'[MEET-fer-trak]',en:'rental contract',ex:'Ich habe heute den Mietvertrag unterschrieben.'},
+    {de:'die Kaution',pron:'[kow-TSEE-on]',en:'security deposit',ex:'Die Kaution beträgt drei Monatsmieten.'},
+    {de:'der Vermieter',pron:'[fer-MEE-ter]',en:'landlord',ex:'Mein Vermieter wohnt im Erdgeschoss.'},
+    {de:'die Nebenkosten',pron:'[NAY-ben-kos-ten]',en:'additional costs / utilities',ex:'Die Nebenkosten für Heizung und Wasser sind inklusive.'},
+    {de:'die Reparatur',pron:'[re-pa-ra-TOOR]',en:'repair',ex:'Die Heizung ist kaputt — ich muss eine Reparatur beauftragen.'},
+    {de:'der Hausmeister',pron:'[HAUS-mais-ter]',en:'building caretaker',ex:'Rufen Sie den Hausmeister bei einem Problem an.'},
+    {de:'die Warmmiete',pron:'[VARM-mee-te]',en:'rent including heating',ex:'Die Warmmiete beträgt 950 Euro im Monat.'},
+    {de:'kündigen',pron:'[KÜN-di-gen]',en:'to give notice',ex:'Sie müssen drei Monate vorher kündigen.'},
+    {de:'einziehen',pron:'[AIN-tsee-en]',en:'to move in',ex:'Wir ziehen am 1. Juli in die neue Wohnung ein.'},
+    {de:'der Keller',pron:'[KEL-er]',en:'basement / cellar',ex:'Jede Wohnung hat einen Kellerraum.'},
+    {de:'der Energieausweis',pron:'[en-er-GEE-aus-vais]',en:'energy certificate',ex:'Der Vermieter muss einen Energieausweis vorlegen.'},
+    {de:'die Wohnungsbaugesellschaft',pron:'[VO-noonks-bau-ge-zel-shaft]',en:'housing association',ex:'Die Wohnungsbaugesellschaft verwaltet diese Siedlung.'},
+  ]},
+];
+
+let dwRecognition=null;
+
+function showDailyWords(){
+  document.getElementById('dwScreen').classList.add('active');
+  renderDWHome();
+}
+
+function hideDailyWords(){
+  window.speechSynthesis.cancel();
+  if(dwRecognition){try{dwRecognition.stop();}catch(e){}dwRecognition=null;}
+  document.getElementById('dwScreen').classList.remove('active');
+}
+
+function speakDW(text,rate){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='de-DE';u.rate=rate||0.85;
+  const doSpeak=()=>{
+    const v=window.speechSynthesis.getVoices();
+    const dv=v.find(x=>x.lang.startsWith('de'));if(dv)u.voice=dv;
+    window.speechSynthesis.speak(u);
+  };
+  if(window.speechSynthesis.getVoices().length)doSpeak();
+  else{window.speechSynthesis.onvoiceschanged=doSpeak;}
+}
+
+function renderDWHome(){
+  document.getElementById('dwHeaderTitle').textContent='🗣️ Tägliche Wörter';
+  document.getElementById('dwContent').innerHTML=`
+    <div style="padding:14px 14px 8px;font-size:12px;color:var(--muted);line-height:1.6;background:rgba(99,102,241,0.06);border-bottom:1px solid var(--border2)">
+      📦 10 Themen · 12 Wörter je · Hören, nachsprechen und üben
+    </div>
+    <div class="dw-topic-grid">
+      ${DW_TOPICS.map((t,i)=>`
+        <div class="dw-topic-card" onclick="renderDWTopic(${i})">
+          <div class="dw-topic-icon">${t.icon}</div>
+          <div class="dw-topic-label">${esc(t.label)}</div>
+          <div class="dw-topic-count">${t.words.length} Wörter</div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function renderDWTopic(ti){
+  const topic=DW_TOPICS[ti];
+  document.getElementById('dwHeaderTitle').textContent=topic.icon+' '+topic.label;
+  renderDWWord(ti,0);
+}
+
+function renderDWWord(ti,wi){
+  window.speechSynthesis.cancel();
+  if(dwRecognition){try{dwRecognition.stop();}catch(e){}dwRecognition=null;}
+  const topic=DW_TOPICS[ti];
+  const total=topic.words.length;
+  if(wi>=total){renderDWComplete(ti);return;}
+  const w=topic.words[wi];
+  const pct=Math.round(wi/total*100);
+  document.getElementById('dwContent').innerHTML=`
+    <div style="padding:12px 16px 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:11px;color:var(--muted)">${wi+1} / ${total}</span>
+        <span style="font-size:11px;color:var(--primary);font-weight:600">${pct}%</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="dw-word-wrap">
+      <div class="dw-word-de">${esc(w.de)}</div>
+      <div class="dw-word-pron">${esc(w.pron)}</div>
+      <div class="dw-word-en">${esc(w.en)}</div>
+
+      <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:12px 14px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">💬 Beispiel</div>
+        <div style="font-size:14px;color:var(--text2);line-height:1.7;font-style:italic">${esc(w.ex)}</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
+        <button onclick="speakDW(${JSON.stringify(w.de)},0.85)" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:14px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:var(--primary);font-size:11px;font-weight:600;cursor:pointer">
+          <span style="font-size:20px">🔊</span>Hören
+        </button>
+        <button onclick="speakDW(${JSON.stringify(w.de)},0.65)" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:14px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:var(--gold);font-size:11px;font-weight:600;cursor:pointer">
+          <span style="font-size:20px">🐢</span>Langsam
+        </button>
+        <button id="dwMicBtn" onclick="startDWMic(${ti},${wi},${JSON.stringify(w.de)})" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:14px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:var(--green);font-size:11px;font-weight:600;cursor:pointer">
+          <span style="font-size:20px">🎤</span>Nachsprechen
+        </button>
+      </div>
+
+      <div id="dwMicResult" style="min-height:48px;margin-bottom:12px"></div>
+
+      <div class="dw-nav">
+        <button class="btn btn-outline" onclick="renderDWWord(${ti},${wi-1})" ${wi===0?'disabled style="opacity:0.3"':''}>← Zurück</button>
+        <span style="font-size:12px;color:var(--muted);font-weight:600">${wi+1} / ${total}</span>
+        <button class="btn btn-gold" onclick="renderDWWord(${ti},${wi+1})">${wi===total-1?'Fertig ✅':'Weiter →'}</button>
+      </div>
+    </div>`;
+
+  // Auto-play TTS 400ms after card loads
+  setTimeout(()=>speakDW(w.de,0.85),400);
+}
+
+function startDWMic(ti,wi,expected){
+  const btn=document.getElementById('dwMicBtn');
+  const res=document.getElementById('dwMicResult');
+  if(!btn||!res)return;
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    res.innerHTML='<div style="font-size:12px;color:var(--orange);padding:8px">⚠️ Spracheingabe nicht verfügbar. Bitte Chrome verwenden.</div>';
+    return;
+  }
+  window.speechSynthesis.cancel();
+  if(dwRecognition){try{dwRecognition.stop();}catch(e){}dwRecognition=null;}
+  btn.textContent='🔴';btn.style.color='var(--red)';
+  res.innerHTML='<div style="font-size:12px;color:var(--muted);font-style:italic;padding:4px 0">Hört zu...</div>';
+  const r=new SR();
+  r.lang='de-DE';r.continuous=false;r.interimResults=false;r.maxAlternatives=3;
+  dwRecognition=r;
+  r.onresult=(e)=>{
+    const transcript=e.results[0][0].transcript.trim();
+    // Single-word scoring: normalize and check similarity
+    const norm=s=>s.toLowerCase().replace(/[^a-züöäß\s]/g,'').trim();
+    const spoke=norm(transcript);
+    const exp=norm(expected.replace(/^(der|die|das)\s+/i,''));
+    const pct=scoreMatch(spoke,exp)||( spoke&&exp&&(spoke.includes(exp)||exp.includes(spoke))?75:0 );
+    const scoreCol=pct>=80?'var(--green)':pct>=50?'var(--orange)':'var(--red)';
+    const scoreLabel=pct>=80?'✅ Ausgezeichnet! Perfekt ausgesprochen.':pct>=50?'🟡 Fast richtig! Versuche es nochmal.':'❌ Nochmal versuchen — höre zuerst das Beispiel.';
+    res.innerHTML=`
+      <div style="padding:10px 12px;background:var(--card);border:1px solid var(--border2);border-radius:12px">
+        <div style="font-size:13px;font-weight:700;color:${scoreCol};margin-bottom:6px">${scoreLabel}</div>
+        <div class="dw-score-bar"><div class="dw-score-fill" style="width:${pct}%;background:${scoreCol}"></div></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">Sie sagten: <em>${esc(transcript)}</em></div>
+      </div>`;
+    btn.innerHTML='<span style="font-size:20px">🎤</span><span style="font-size:11px;font-weight:600">Nachsprechen</span>';
+    btn.style.color='var(--green)';
+    dwRecognition=null;
+  };
+  r.onerror=(e)=>{
+    if(e.error!=='no-speech'&&e.error!=='aborted'){
+      res.innerHTML='<div style="font-size:12px;color:var(--orange);padding:4px">Mikrofon-Fehler: '+esc(e.error)+'</div>';
+    }
+    btn.innerHTML='<span style="font-size:20px">🎤</span><span style="font-size:11px;font-weight:600">Nachsprechen</span>';
+    btn.style.color='var(--green)';
+    dwRecognition=null;
+  };
+  r.onend=()=>{
+    if(dwRecognition===r)dwRecognition=null;
+  };
+  // Must call r.start() synchronously within user gesture (iOS requirement)
+  r.start();
+}
+
+function renderDWComplete(ti){
+  const topic=DW_TOPICS[ti];
+  window.speechSynthesis.cancel();
+  document.getElementById('dwHeaderTitle').textContent=topic.icon+' '+topic.label;
+  document.getElementById('dwContent').innerHTML=`
+    <div style="padding:48px 24px;text-align:center">
+      <div style="font-size:52px;margin-bottom:16px">🎉</div>
+      <div style="font-size:22px;font-weight:900;color:var(--green);margin-bottom:8px">Gut gemacht!</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:28px">Alle ${topic.words.length} Wörter aus <strong style="color:var(--text)">${esc(topic.label)}</strong> geübt!</div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="renderDWTopic(${ti})">🔁 Wiederholen</button>
+        <button class="btn btn-gold" onclick="renderDWHome()">📚 Anderes Thema</button>
+      </div>
+    </div>`;
+  sfxCongrats();
+}
 
 async function saveProgress(){
   if(!currentUser)return;

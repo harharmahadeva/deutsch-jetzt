@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.6.0] - 2026-06-25
+### Added
+- **Tägliche Wörter** — standalone Daily Words practice module
+  - Entry card on main screen ("🗣️ Tägliche Wörter — Arbeit · Krankenhaus · Bahnhof · Supermarkt · mehr")
+  - 10 topic packs × 12 words each = 120 real-life German words
+  - Topics: Arbeit, Krankenhaus, Bahnhof & Zug, Bus & Straßenbahn, Flughafen, Supermarkt, Behörde, Schule & Bildung, Einkaufszentrum, Wohnen
+  - Word card pager: large gradient word, phonetic guide, English meaning, example sentence
+  - 3 action buttons: 🔊 Hören (rate 0.85), 🐢 Langsam (rate 0.65), 🎤 Nachsprechen
+  - Auto-play TTS on card load (400ms delay, de-DE)
+  - Speech recognition scoring with German feedback (Ausgezeichnet / Fast richtig / Nochmal versuchen)
+  - Completion screen with Wiederholen / Anderes Thema buttons
+  - Full-screen overlay with back navigation; cancels TTS + mic on nav
+
 ## [1.5.0] - 2026-06-24
 ### Changed
 - **Bilingual sentence scaffold** — word card example sentences now show an English translation line (🇬🇧) for Days 1–10 only; Day 11+ shows German sentence only
