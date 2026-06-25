@@ -2865,144 +2865,324 @@ window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();
 // ═══════════════════════════════════════════════════
 const DW_TOPICS=[
   {id:'arbeit',icon:'💼',label:'Arbeit',words:[
-    {de:'die Bewerbung',pron:'[be-VAIR-boong]',en:'job application',ex:'Ich habe heute eine Bewerbung abgeschickt.'},
-    {de:'das Gehalt',pron:'[ge-HALT]',en:'salary',ex:'Mein Gehalt wird am Ende des Monats überwiesen.'},
-    {de:'die Überstunden',pron:'[ÜH-ber-shtoon-den]',en:'overtime hours',ex:'Diese Woche mache ich viele Überstunden.'},
-    {de:'die Probezeit',pron:'[PRO-be-tsait]',en:'probationary period',ex:'Die Probezeit dauert sechs Monate.'},
-    {de:'der Kollege',pron:'[ko-LAY-ge]',en:'colleague',ex:'Mein Kollege hilft mir mit dem Bericht.'},
-    {de:'die Kündigung',pron:'[KÜN-di-goong]',en:'dismissal / resignation',ex:'Er hat eine Kündigung vom Chef bekommen.'},
-    {de:'das Vorstellungsgespräch',pron:'[for-SHTEL-oongs-ge-shprekh]',en:'job interview',ex:'Das Vorstellungsgespräch ist morgen um 10 Uhr.'},
-    {de:'der Vertrag',pron:'[fer-TRAK]',en:'contract',ex:'Ich habe heute meinen Vertrag unterschrieben.'},
-    {de:'die Abteilung',pron:'[ab-TAI-loong]',en:'department',ex:'Ich arbeite in der IT-Abteilung.'},
-    {de:'der Urlaub',pron:'[OOR-laup]',en:'vacation / annual leave',ex:'Ich nehme nächste Woche Urlaub.'},
-    {de:'die Besprechung',pron:'[be-SHPREKH-oong]',en:'meeting',ex:'Die Besprechung beginnt um 9 Uhr.'},
-    {de:'das Homeoffice',pron:'[HOME-oh-fis]',en:'working from home',ex:'Montags arbeite ich im Homeoffice.'},
+    {de:'die Bewerbung',pron:'[be-VAIR-boong]',en:'job application',ex:'Ich habe heute eine Bewerbung abgeschickt.',exEn:'I sent off a job application today.'},
+    {de:'das Gehalt',pron:'[ge-HALT]',en:'salary',ex:'Mein Gehalt wird am Ende des Monats überwiesen.',exEn:'My salary is transferred at the end of the month.'},
+    {de:'die Überstunden',pron:'[ÜH-ber-shtoon-den]',en:'overtime hours',ex:'Diese Woche mache ich viele Überstunden.',exEn:'I am doing a lot of overtime this week.'},
+    {de:'die Probezeit',pron:'[PRO-be-tsait]',en:'probationary period',ex:'Die Probezeit dauert sechs Monate.',exEn:'The probationary period lasts six months.'},
+    {de:'der Kollege',pron:'[ko-LAY-ge]',en:'colleague',ex:'Mein Kollege hilft mir mit dem Bericht.',exEn:'My colleague helps me with the report.'},
+    {de:'die Kündigung',pron:'[KÜN-di-goong]',en:'dismissal / resignation',ex:'Er hat eine Kündigung vom Chef bekommen.',exEn:'He received a dismissal notice from his boss.'},
+    {de:'das Vorstellungsgespräch',pron:'[for-SHTEL-oongs-ge-shprekh]',en:'job interview',ex:'Das Vorstellungsgespräch ist morgen um 10 Uhr.',exEn:'The job interview is tomorrow at 10 o\'clock.'},
+    {de:'der Vertrag',pron:'[fer-TRAK]',en:'contract',ex:'Ich habe heute meinen Vertrag unterschrieben.',exEn:'I signed my contract today.'},
+    {de:'die Abteilung',pron:'[ab-TAI-loong]',en:'department',ex:'Ich arbeite in der IT-Abteilung.',exEn:'I work in the IT department.'},
+    {de:'der Urlaub',pron:'[OOR-laup]',en:'vacation / annual leave',ex:'Ich nehme nächste Woche Urlaub.',exEn:'I am taking next week off.'},
+    {de:'die Besprechung',pron:'[be-SHPREKH-oong]',en:'meeting',ex:'Die Besprechung beginnt um 9 Uhr.',exEn:'The meeting starts at 9 o\'clock.'},
+    {de:'das Homeoffice',pron:'[HOME-oh-fis]',en:'working from home',ex:'Montags arbeite ich im Homeoffice.',exEn:'On Mondays I work from home.'},
+    {de:'der Lebenslauf',pron:'[LAY-bens-lauf]',en:'CV / résumé',ex:'Schicken Sie bitte Ihren Lebenslauf per E-Mail.',exEn:'Please send your CV by email.'},
+    {de:'die Stellenanzeige',pron:'[SHTEL-en-an-tsai-ge]',en:'job advertisement',ex:'Ich habe die Stellenanzeige online gefunden.',exEn:'I found the job advertisement online.'},
+    {de:'der Chef',pron:'[SHEF]',en:'boss / manager',ex:'Mein Chef ist mit meiner Arbeit zufrieden.',exEn:'My boss is satisfied with my work.'},
+    {de:'die Krankmeldung',pron:'[KRANK-mel-doong]',en:'sick notice',ex:'Vergessen Sie nicht, eine Krankmeldung einzureichen.',exEn:'Do not forget to submit a sick notice.'},
+    {de:'der Feierabend',pron:'[FAI-er-a-bent]',en:'end of the working day',ex:'Wann hast du heute Feierabend?',exEn:'When do you finish work today?'},
+    {de:'die Lohnsteuer',pron:'[LON-shtoi-er]',en:'income tax (wages)',ex:'Die Lohnsteuer wird automatisch vom Gehalt abgezogen.',exEn:'Income tax is automatically deducted from the salary.'},
+    {de:'das Arbeitszeugnis',pron:'[AR-baits-tsoyk-nis]',en:'work reference letter',ex:'Bitte schreiben Sie mir ein Arbeitszeugnis.',exEn:'Please write me a work reference.'},
+    {de:'die Weiterbildung',pron:'[VAI-ter-bil-doong]',en:'further training',ex:'Mein Arbeitgeber bezahlt für meine Weiterbildung.',exEn:'My employer pays for my further training.'},
+    {de:'der Minijob',pron:'[MI-ni-yob]',en:'mini-job (up to 520€/month)',ex:'Ich habe einen Minijob im Café an der Ecke.',exEn:'I have a mini-job in the café around the corner.'},
+    {de:'die Sozialversicherung',pron:'[zo-tsee-AL-fer-ZIKH-e-roong]',en:'social insurance',ex:'Der Arbeitgeber zahlt zur Sozialversicherung.',exEn:'The employer contributes to social insurance.'},
+    {de:'der Arbeitgeber',pron:'[AR-bait-gay-ber]',en:'employer',ex:'Mein Arbeitgeber ist ein kleines Unternehmen.',exEn:'My employer is a small company.'},
+    {de:'der Arbeitnehmer',pron:'[AR-bait-nay-mer]',en:'employee',ex:'Als Arbeitnehmer hat man Rechte und Pflichten.',exEn:'As an employee, you have rights and duties.'},
+    {de:'der Betrieb',pron:'[be-TREEP]',en:'company / workplace',ex:'Unser Betrieb hat 50 Mitarbeiter.',exEn:'Our company has 50 employees.'},
+    {de:'die Gehaltserhöhung',pron:'[ge-HALTS-er-hœ-oong]',en:'pay rise',ex:'Ich bat um eine Gehaltserhöhung nach dem ersten Jahr.',exEn:'I asked for a pay rise after the first year.'},
+    {de:'die Abrechnung',pron:'[AB-rekh-noong]',en:'payslip / settlement',ex:'Die monatliche Abrechnung zeigt alle Abzüge.',exEn:'The monthly payslip shows all deductions.'},
+    {de:'die Stelle',pron:'[SHTEL-e]',en:'position / post',ex:'Diese Stelle ist ab sofort verfügbar.',exEn:'This position is available immediately.'},
+    {de:'die Arbeitszeit',pron:'[AR-baits-tsait]',en:'working hours',ex:'Die reguläre Arbeitszeit beträgt 40 Stunden pro Woche.',exEn:'Regular working hours are 40 hours per week.'},
+    {de:'der Betriebsrat',pron:'[be-TREEPS-rat]',en:'works council',ex:'Der Betriebsrat vertritt die Interessen der Mitarbeiter.',exEn:'The works council represents the interests of employees.'},
   ]},
   {id:'krankenhaus',icon:'🏥',label:'Krankenhaus',words:[
-    {de:'der Termin',pron:'[ter-MEEN]',en:'appointment',ex:'Ich habe einen Termin beim Arzt um 14 Uhr.'},
-    {de:'das Wartezimmer',pron:'[VAR-te-tsim-mer]',en:'waiting room',ex:'Bitte warten Sie im Wartezimmer.'},
-    {de:'das Rezept',pron:'[re-TSEPT]',en:'prescription',ex:'Der Arzt gibt mir ein Rezept für Antibiotika.'},
-    {de:'der Blutdruck',pron:'[BLOOT-drook]',en:'blood pressure',ex:'Mein Blutdruck ist heute zu hoch.'},
-    {de:'die Überweisung',pron:'[ü-ber-VAI-zoong]',en:'referral',ex:'Ich brauche eine Überweisung zum Spezialisten.'},
-    {de:'die Notaufnahme',pron:'[NOTE-auf-na-me]',en:'emergency room',ex:'Er wurde sofort in die Notaufnahme gebracht.'},
-    {de:'die Versicherungskarte',pron:'[fer-ZIKH-e-roonks-kar-te]',en:'insurance card',ex:'Bitte zeigen Sie Ihre Versicherungskarte.'},
-    {de:'die Beschwerden',pron:'[be-SHVAYR-den]',en:'symptoms / complaints',ex:'Welche Beschwerden haben Sie?'},
-    {de:'die Untersuchung',pron:'[oon-ter-ZOOKH-oong]',en:'examination',ex:'Der Arzt macht eine gründliche Untersuchung.'},
-    {de:'das Fieber',pron:'[FEE-ber]',en:'fever',ex:'Ich habe Fieber und Kopfschmerzen.'},
-    {de:'die Apotheke',pron:'[a-po-TAY-ke]',en:'pharmacy',ex:'Die nächste Apotheke ist um die Ecke.'},
-    {de:'krankschreiben',pron:'[KRANK-shrai-ben]',en:'to sign off sick',ex:'Der Arzt hat mich für drei Tage krankgeschrieben.'},
+    {de:'der Termin',pron:'[ter-MEEN]',en:'appointment',ex:'Ich habe einen Termin beim Arzt um 14 Uhr.',exEn:'I have a doctor\'s appointment at 2 pm.'},
+    {de:'das Wartezimmer',pron:'[VAR-te-tsim-mer]',en:'waiting room',ex:'Bitte warten Sie im Wartezimmer.',exEn:'Please wait in the waiting room.'},
+    {de:'das Rezept',pron:'[re-TSEPT]',en:'prescription',ex:'Der Arzt gibt mir ein Rezept für Antibiotika.',exEn:'The doctor gives me a prescription for antibiotics.'},
+    {de:'der Blutdruck',pron:'[BLOOT-drook]',en:'blood pressure',ex:'Mein Blutdruck ist heute zu hoch.',exEn:'My blood pressure is too high today.'},
+    {de:'die Überweisung',pron:'[ü-ber-VAI-zoong]',en:'referral',ex:'Ich brauche eine Überweisung zum Spezialisten.',exEn:'I need a referral to the specialist.'},
+    {de:'die Notaufnahme',pron:'[NOTE-auf-na-me]',en:'emergency room',ex:'Er wurde sofort in die Notaufnahme gebracht.',exEn:'He was immediately taken to the emergency room.'},
+    {de:'die Versicherungskarte',pron:'[fer-ZIKH-e-roonks-kar-te]',en:'insurance card',ex:'Bitte zeigen Sie Ihre Versicherungskarte.',exEn:'Please show your insurance card.'},
+    {de:'die Beschwerden',pron:'[be-SHVAYR-den]',en:'symptoms / complaints',ex:'Welche Beschwerden haben Sie?',exEn:'What symptoms do you have?'},
+    {de:'die Untersuchung',pron:'[oon-ter-ZOOKH-oong]',en:'examination',ex:'Der Arzt macht eine gründliche Untersuchung.',exEn:'The doctor carries out a thorough examination.'},
+    {de:'das Fieber',pron:'[FEE-ber]',en:'fever',ex:'Ich habe Fieber und Kopfschmerzen.',exEn:'I have a fever and headache.'},
+    {de:'die Apotheke',pron:'[a-po-TAY-ke]',en:'pharmacy',ex:'Die nächste Apotheke ist um die Ecke.',exEn:'The nearest pharmacy is around the corner.'},
+    {de:'krankschreiben',pron:'[KRANK-shrai-ben]',en:'to sign off sick',ex:'Der Arzt hat mich für drei Tage krankgeschrieben.',exEn:'The doctor signed me off sick for three days.'},
+    {de:'die Allergie',pron:'[al-er-GEE]',en:'allergy',ex:'Ich habe eine Allergie gegen Penicillin.',exEn:'I have an allergy to penicillin.'},
+    {de:'der Krankenwagen',pron:'[KRAN-ken-va-gen]',en:'ambulance',ex:'Bitte rufen Sie sofort einen Krankenwagen!',exEn:'Please call an ambulance immediately!'},
+    {de:'die Operation',pron:'[o-pe-ra-TSEE-on]',en:'operation / surgery',ex:'Die Operation dauert ungefähr zwei Stunden.',exEn:'The operation takes about two hours.'},
+    {de:'das Medikament',pron:'[me-di-ka-MENT]',en:'medication',ex:'Nehmen Sie das Medikament dreimal täglich.',exEn:'Take the medication three times a day.'},
+    {de:'die Sprechstunde',pron:'[SHPREKH-shtoon-de]',en:'surgery hours',ex:'Die Sprechstunde ist von 9 bis 12 Uhr.',exEn:'Surgery hours are from 9 to 12.'},
+    {de:'die Krankenversicherung',pron:'[KRAN-ken-fer-ZIKH-e-roong]',en:'health insurance',ex:'In Deutschland ist die Krankenversicherung Pflicht.',exEn:'Health insurance is mandatory in Germany.'},
+    {de:'der Hausarzt',pron:'[HAUS-artst]',en:'GP / family doctor',ex:'Mein Hausarzt kennt meine Krankengeschichte gut.',exEn:'My GP knows my medical history well.'},
+    {de:'die Impfung',pron:'[IMP-foong]',en:'vaccination',ex:'Haben Sie die Impfung gegen Grippe bekommen?',exEn:'Have you had the flu vaccination?'},
+    {de:'die Schmerzen',pron:'[SHMAIRTS-en]',en:'pain',ex:'Ich habe starke Schmerzen im Rücken.',exEn:'I have severe pain in my back.'},
+    {de:'die Wunde',pron:'[VOON-de]',en:'wound',ex:'Die Wunde muss verbunden werden.',exEn:'The wound needs to be bandaged.'},
+    {de:'der Notarzt',pron:'[NOTE-artst]',en:'emergency doctor',ex:'Der Notarzt ist in 10 Minuten da.',exEn:'The emergency doctor will be there in 10 minutes.'},
+    {de:'die Spritze',pron:'[SHPRIT-se]',en:'injection / syringe',ex:'Die Krankenschwester gibt mir eine Spritze.',exEn:'The nurse gives me an injection.'},
+    {de:'der Bluttest',pron:'[BLOOT-test]',en:'blood test',ex:'Der Arzt ordnet einen Bluttest an.',exEn:'The doctor orders a blood test.'},
+    {de:'die Krankenschwester',pron:'[KRAN-ken-shves-ter]',en:'nurse',ex:'Die Krankenschwester nimmt meinen Blutdruck.',exEn:'The nurse takes my blood pressure.'},
+    {de:'der Spezialist',pron:'[shpe-tsee-a-LIST]',en:'specialist',ex:'Ich wurde an einen Herzspezialisten überwiesen.',exEn:'I was referred to a heart specialist.'},
+    {de:'das Krankenhaus',pron:'[KRAN-ken-haus]',en:'hospital',ex:'Er liegt seit drei Tagen im Krankenhaus.',exEn:'He has been in hospital for three days.'},
+    {de:'die Tablette',pron:'[ta-BLET-e]',en:'tablet / pill',ex:'Nehmen Sie diese Tablette nach dem Essen.',exEn:'Take this tablet after eating.'},
+    {de:'der Krankenschein',pron:'[KRAN-ken-shain]',en:'sick certificate',ex:'Bringen Sie den Krankenschein in die Firma.',exEn:'Bring the sick certificate to your workplace.'},
   ]},
   {id:'bahnhof',icon:'🚂',label:'Bahnhof & Zug',words:[
-    {de:'das Gleis',pron:'[GLAIS]',en:'platform / track',ex:'Der Zug fährt von Gleis 5 ab.'},
-    {de:'die Abfahrt',pron:'[AB-fart]',en:'departure',ex:'Die Abfahrt ist um 8:42 Uhr.'},
-    {de:'die Ankunft',pron:'[AN-koonft]',en:'arrival',ex:'Die Ankunft in München ist um 12:15 Uhr.'},
-    {de:'die Verspätung',pron:'[fer-SHPAY-toong]',en:'delay',ex:'Der Zug hat 20 Minuten Verspätung.'},
-    {de:'umsteigen',pron:'[OOM-shtai-gen]',en:'to change trains',ex:'In Frankfurt müssen wir umsteigen.'},
-    {de:'die Fahrkarte',pron:'[FAR-kar-te]',en:'train ticket',ex:'Ich kaufe eine Fahrkarte am Automaten.'},
-    {de:'der Bahnsteig',pron:'[BAN-shtaig]',en:'platform (numbered)',ex:'Bitte gehen Sie zu Bahnsteig 3.'},
-    {de:'die Reservierung',pron:'[re-zer-VEER-oong]',en:'seat reservation',ex:'Haben Sie eine Reservierung?'},
-    {de:'die Monatskarte',pron:'[MO-nats-kar-te]',en:'monthly pass',ex:'Mit der Monatskarte fahre ich überall im AB-Bereich.'},
-    {de:'der Schaffner',pron:'[SHAF-ner]',en:'train conductor',ex:'Der Schaffner kontrolliert die Fahrkarten.'},
-    {de:'die Schranke',pron:'[SHRAN-ke]',en:'barrier / gate',ex:'Halten Sie Ihr Ticket an die Schranke.'},
-    {de:'der Intercity',pron:'[IN-ter-si-tee]',en:'intercity train (IC)',ex:'Der Intercity fährt stündlich nach Hamburg.'},
+    {de:'das Gleis',pron:'[GLAIS]',en:'platform / track',ex:'Der Zug fährt von Gleis 5 ab.',exEn:'The train departs from platform 5.'},
+    {de:'die Abfahrt',pron:'[AB-fart]',en:'departure',ex:'Die Abfahrt ist um 8:42 Uhr.',exEn:'The departure is at 8:42.'},
+    {de:'die Ankunft',pron:'[AN-koonft]',en:'arrival',ex:'Die Ankunft in München ist um 12:15 Uhr.',exEn:'Arrival in Munich is at 12:15.'},
+    {de:'die Verspätung',pron:'[fer-SHPAY-toong]',en:'delay',ex:'Der Zug hat 20 Minuten Verspätung.',exEn:'The train is 20 minutes late.'},
+    {de:'umsteigen',pron:'[OOM-shtai-gen]',en:'to change trains',ex:'In Frankfurt müssen wir umsteigen.',exEn:'We have to change trains in Frankfurt.'},
+    {de:'die Fahrkarte',pron:'[FAR-kar-te]',en:'train ticket',ex:'Ich kaufe eine Fahrkarte am Automaten.',exEn:'I buy a train ticket at the machine.'},
+    {de:'der Bahnsteig',pron:'[BAN-shtaig]',en:'platform (numbered)',ex:'Bitte gehen Sie zu Bahnsteig 3.',exEn:'Please go to platform 3.'},
+    {de:'die Reservierung',pron:'[re-zer-VEER-oong]',en:'seat reservation',ex:'Haben Sie eine Reservierung?',exEn:'Do you have a reservation?'},
+    {de:'die Monatskarte',pron:'[MO-nats-kar-te]',en:'monthly pass',ex:'Mit der Monatskarte fahre ich überall im AB-Bereich.',exEn:'With the monthly pass I can travel anywhere in zone AB.'},
+    {de:'der Schaffner',pron:'[SHAF-ner]',en:'train conductor',ex:'Der Schaffner kontrolliert die Fahrkarten.',exEn:'The conductor checks the tickets.'},
+    {de:'die Schranke',pron:'[SHRAN-ke]',en:'barrier / gate',ex:'Halten Sie Ihr Ticket an die Schranke.',exEn:'Hold your ticket against the barrier.'},
+    {de:'der Intercity',pron:'[IN-ter-si-tee]',en:'intercity train (IC)',ex:'Der Intercity fährt stündlich nach Hamburg.',exEn:'The intercity train runs hourly to Hamburg.'},
+    {de:'der Hauptbahnhof',pron:'[HOUPT-ban-hof]',en:'main / central station',ex:'Wir treffen uns am Hauptbahnhof um 9 Uhr.',exEn:'We meet at the main station at 9.'},
+    {de:'die S-Bahn',pron:'[ES-ban]',en:'suburban train',ex:'Die S-Bahn fährt alle 10 Minuten zum Flughafen.',exEn:'The S-Bahn runs to the airport every 10 minutes.'},
+    {de:'die U-Bahn',pron:'[OO-ban]',en:'underground / metro',ex:'Ich nehme die U-Bahn bis Prenzlauer Berg.',exEn:'I take the metro to Prenzlauer Berg.'},
+    {de:'der ICE',pron:'[ee-tsay-AY]',en:'high-speed train (ICE)',ex:'Der ICE von Berlin nach München fährt 4 Stunden.',exEn:'The ICE from Berlin to Munich takes 4 hours.'},
+    {de:'der Fensterplatz',pron:'[FEN-ster-plats]',en:'window seat',ex:'Ich möchte am liebsten einen Fensterplatz.',exEn:'I would prefer a window seat.'},
+    {de:'das Fundbüro',pron:'[FOONT-bü-ro]',en:'lost property office',ex:'Melden Sie verlorene Gegenstände im Fundbüro.',exEn:'Report lost items at the lost property office.'},
+    {de:'das Gepäckschließfach',pron:'[ge-PEK-shlees-fakh]',en:'luggage locker',ex:'Ich lasse mein Gepäck im Gepäckschließfach.',exEn:'I leave my luggage in the locker.'},
+    {de:'die Richtung',pron:'[RIKH-toong]',en:'direction',ex:'In welche Richtung fährt dieser Zug?',exEn:'In which direction does this train go?'},
+    {de:'die Bahn',pron:'[BAN]',en:'Deutsche Bahn / railway',ex:'Die Bahn bietet Sparpreise für Frühbucher an.',exEn:'Deutsche Bahn offers discounts for early bookers.'},
+    {de:'der Fahrgast',pron:'[FAR-gast]',en:'passenger',ex:'Bitte halten Sie den Eingang für die Fahrgäste frei.',exEn:'Please keep the entrance clear for passengers.'},
+    {de:'die Durchsage',pron:'[DOORKH-za-ge]',en:'announcement',ex:'Eine Durchsage informierte uns über die Verspätung.',exEn:'An announcement informed us of the delay.'},
+    {de:'das Abteil',pron:'[AB-tail]',en:'train compartment',ex:'Unser Abteil ist ruhig und angenehm.',exEn:'Our compartment is quiet and pleasant.'},
+    {de:'der Speisewagen',pron:'[SHPAI-ze-va-gen]',en:'dining car',ex:'Im Speisewagen gibt es warme Mahlzeiten.',exEn:'Hot meals are available in the dining car.'},
+    {de:'die Zugverbindung',pron:'[TSOOK-fer-bin-doong]',en:'train connection',ex:'Es gibt eine direkte Zugverbindung nach Köln.',exEn:'There is a direct train connection to Cologne.'},
+    {de:'der Zielbahnhof',pron:'[TSEEL-ban-hof]',en:'destination station',ex:'Der Zielbahnhof ist München Hauptbahnhof.',exEn:'The destination station is Munich Central.'},
+    {de:'der Sparpreis',pron:'[SHPAR-prais]',en:'discounted fare',ex:'Mit dem Sparpreis spare ich 30 Euro.',exEn:'With the discounted fare I save 30 euros.'},
+    {de:'die Bahnsteigkarte',pron:'[BAN-shtaig-kar-te]',en:'platform ticket',ex:'Für den Abschied brauche ich eine Bahnsteigkarte.',exEn:'I need a platform ticket for the farewell.'},
+    {de:'der Zug',pron:'[TSOOK]',en:'train',ex:'Der Zug nach Hamburg fährt in 5 Minuten ab.',exEn:'The train to Hamburg departs in 5 minutes.'},
   ]},
   {id:'bus',icon:'🚌',label:'Bus & Straßenbahn',words:[
-    {de:'die Haltestelle',pron:'[HAL-te-shtel-e]',en:'bus / tram stop',ex:'Die nächste Haltestelle ist Alexanderplatz.'},
-    {de:'einsteigen',pron:'[AIN-shtai-gen]',en:'to board / get on',ex:'Bitte hinten einsteigen!'},
-    {de:'aussteigen',pron:'[AUS-shtai-gen]',en:'to alight / get off',ex:'Ich steige an der nächsten Haltestelle aus.'},
-    {de:'die Linie',pron:'[LEE-nee-e]',en:'route / line',ex:'Die Linie M1 fährt bis Pankow.'},
-    {de:'der Fahrplan',pron:'[FAR-plan]',en:'timetable',ex:'Schauen Sie im Fahrplan nach der nächsten Abfahrt.'},
-    {de:'die Monatskarte',pron:'[MO-nats-kar-te]',en:'monthly transit pass',ex:'Die Monatskarte kostet 86 Euro im AB-Bereich.'},
-    {de:'entwerten',pron:'[ent-VAYR-ten]',en:'to validate a ticket',ex:'Vergessen Sie nicht, Ihr Ticket zu entwerten!'},
-    {de:'der Anschluss',pron:'[AN-shloos]',en:'connection',ex:'Ich verpasse meinen Anschluss wegen der Verspätung.'},
-    {de:'die Straßenbahn',pron:'[SHTRAS-en-ban]',en:'tram',ex:'Die Straßenbahn kommt alle 10 Minuten.'},
-    {de:'barrierefrei',pron:'[ba-REE-re-frai]',en:'accessible / barrier-free',ex:'Dieser Bus ist barrierefrei für Rollstuhlfahrer.'},
-    {de:'die Tageskarte',pron:'[TA-ges-kar-te]',en:'day pass',ex:'Eine Tageskarte gilt für den ganzen Tag.'},
-    {de:'der Busfahrer',pron:'[BOOS-far-er]',en:'bus driver',ex:'Fragen Sie den Busfahrer nach dem richtigen Weg.'},
+    {de:'die Haltestelle',pron:'[HAL-te-shtel-e]',en:'bus / tram stop',ex:'Die nächste Haltestelle ist Alexanderplatz.',exEn:'The next stop is Alexanderplatz.'},
+    {de:'einsteigen',pron:'[AIN-shtai-gen]',en:'to board / get on',ex:'Bitte hinten einsteigen!',exEn:'Please board at the back!'},
+    {de:'aussteigen',pron:'[AUS-shtai-gen]',en:'to alight / get off',ex:'Ich steige an der nächsten Haltestelle aus.',exEn:'I get off at the next stop.'},
+    {de:'die Linie',pron:'[LEE-nee-e]',en:'route / line',ex:'Die Linie M1 fährt bis Pankow.',exEn:'Line M1 runs to Pankow.'},
+    {de:'der Fahrplan',pron:'[FAR-plan]',en:'timetable',ex:'Schauen Sie im Fahrplan nach der nächsten Abfahrt.',exEn:'Check the timetable for the next departure.'},
+    {de:'die Monatskarte',pron:'[MO-nats-kar-te]',en:'monthly transit pass',ex:'Die Monatskarte kostet 86 Euro im AB-Bereich.',exEn:'The monthly pass costs 86 euros in zone AB.'},
+    {de:'entwerten',pron:'[ent-VAYR-ten]',en:'to validate a ticket',ex:'Vergessen Sie nicht, Ihr Ticket zu entwerten!',exEn:'Do not forget to validate your ticket!'},
+    {de:'der Anschluss',pron:'[AN-shloos]',en:'connection',ex:'Ich verpasse meinen Anschluss wegen der Verspätung.',exEn:'I miss my connection because of the delay.'},
+    {de:'die Straßenbahn',pron:'[SHTRAS-en-ban]',en:'tram',ex:'Die Straßenbahn kommt alle 10 Minuten.',exEn:'The tram comes every 10 minutes.'},
+    {de:'barrierefrei',pron:'[ba-REE-re-frai]',en:'accessible / barrier-free',ex:'Dieser Bus ist barrierefrei für Rollstuhlfahrer.',exEn:'This bus is accessible for wheelchair users.'},
+    {de:'die Tageskarte',pron:'[TA-ges-kar-te]',en:'day pass',ex:'Eine Tageskarte gilt für den ganzen Tag.',exEn:'A day pass is valid for the whole day.'},
+    {de:'der Busfahrer',pron:'[BOOS-far-er]',en:'bus driver',ex:'Fragen Sie den Busfahrer nach dem richtigen Weg.',exEn:'Ask the bus driver for the right way.'},
+    {de:'der Nachtbus',pron:'[NAKHT-boos]',en:'night bus',ex:'Der Nachtbus fährt jede Stunde.',exEn:'The night bus runs every hour.'},
+    {de:'die Kurzstrecke',pron:'[KOORTS-shtre-ke]',en:'short trip ticket',ex:'Für zwei Stationen reicht die Kurzstrecke.',exEn:'The short trip ticket is enough for two stops.'},
+    {de:'die Endstation',pron:'[ENT-shta-tsee-on]',en:'terminus / last stop',ex:'Dieser Bus fährt bis zur Endstation Tegel.',exEn:'This bus goes to the terminus at Tegel.'},
+    {de:'der Fahrgast',pron:'[FAR-gast]',en:'passenger',ex:'Bitte machen Sie Platz für ältere Fahrgäste.',exEn:'Please make room for elderly passengers.'},
+    {de:'die Strecke',pron:'[SHTRE-ke]',en:'route / distance',ex:'Die Strecke vom Bahnhof nach Hause dauert 20 Minuten.',exEn:'The route from the station home takes 20 minutes.'},
+    {de:'der Rollstuhlplatz',pron:'[ROL-shtool-plats]',en:'wheelchair space',ex:'Der Rollstuhlplatz ist im vorderen Teil des Busses.',exEn:'The wheelchair space is in the front of the bus.'},
+    {de:'der Ausgang',pron:'[AUS-gang]',en:'exit',ex:'Der Ausgang ist hinten im Bus.',exEn:'The exit is at the back of the bus.'},
+    {de:'die Ampel',pron:'[AM-pel]',en:'traffic light',ex:'Der Bus hält an der roten Ampel.',exEn:'The bus stops at the red traffic light.'},
+    {de:'überfüllt',pron:'[ü-ber-FÜLT]',en:'overcrowded',ex:'Der Bus war zur Rushhour total überfüllt.',exEn:'The bus was completely overcrowded during rush hour.'},
+    {de:'der Busbahnhof',pron:'[BOOS-ban-hof]',en:'bus station',ex:'Der Fernbus fährt vom Busbahnhof ab.',exEn:'The long-distance bus departs from the bus station.'},
+    {de:'das Wochenticket',pron:'[VO-khen-tik-et]',en:'weekly ticket',ex:'Ein Wochenticket kostet 32 Euro im AB-Bereich.',exEn:'A weekly ticket costs 32 euros in zone AB.'},
+    {de:'die Stopp-Taste',pron:'[SHTOP-TAS-te]',en:'stop button',ex:'Drücken Sie die Stopp-Taste, um anzuhalten.',exEn:'Press the stop button to request a stop.'},
+    {de:'die Abonnementkarte',pron:'[a-bo-ne-MENT-kar-te]',en:'subscription pass',ex:'Eine Abonnementkarte ist günstiger als Einzeltickets.',exEn:'A subscription pass is cheaper than individual tickets.'},
+    {de:'die Klimaanlage',pron:'[KLEE-ma-an-la-ge]',en:'air conditioning',ex:'Im Sommer ist die Klimaanlage im Bus sehr angenehm.',exEn:'In summer the air conditioning on the bus is pleasant.'},
+    {de:'die Echtzeit',pron:'[EKH-tsait]',en:'real-time (information)',ex:'Die App zeigt die Echtzeit-Abfahrten an.',exEn:'The app shows real-time departures.'},
+    {de:'der Zebrastreifen',pron:'[TSAY-bra-shtraif-en]',en:'pedestrian crossing',ex:'Warten Sie am Zebrastreifen, bis die Ampel grün ist.',exEn:'Wait at the pedestrian crossing until the light is green.'},
+    {de:'die Abfahrtstafel',pron:'[AB-farts-ta-fel]',en:'departure board',ex:'Die Abfahrtstafel zeigt alle aktuellen Abfahrten.',exEn:'The departure board shows all current departures.'},
+    {de:'der Nahverkehr',pron:'[NAH-fer-kayr]',en:'local public transport',ex:'Der Nahverkehr in Berlin ist sehr gut ausgebaut.',exEn:'Local public transport in Berlin is very well developed.'},
   ]},
   {id:'flughafen',icon:'✈️',label:'Flughafen',words:[
-    {de:'die Abflughalle',pron:'[AB-flook-ha-le]',en:'departure hall',ex:'Treffen wir uns in der Abflughalle um 6 Uhr.'},
-    {de:'das Gate',pron:'[GAYT]',en:'gate',ex:'Ihr Flug geht von Gate B12 ab.'},
-    {de:'einchecken',pron:'[AIN-chek-en]',en:'to check in',ex:'Online einchecken spart Zeit am Flughafen.'},
-    {de:'das Gepäck',pron:'[ge-PEK]',en:'luggage',ex:'Mein Gepäck ist 23 Kilo schwer.'},
-    {de:'die Passkontrolle',pron:'[PAS-kon-trol-e]',en:'passport control',ex:'Bei der Passkontrolle zeigen Sie Ihren Reisepass.'},
-    {de:'der Zoll',pron:'[TSOL]',en:'customs',ex:'Am Zoll müssen Sie Alkohol und Zigaretten angeben.'},
-    {de:'das Handgepäck',pron:'[HANT-ge-pek]',en:'carry-on luggage',ex:'Handgepäck darf maximal 10 kg wiegen.'},
-    {de:'die Bordkarte',pron:'[BORT-kar-te]',en:'boarding pass',ex:'Zeigen Sie Ihre Bordkarte am Gate.'},
-    {de:'die Verspätung',pron:'[fer-SHPAY-toong]',en:'delay',ex:'Der Flug hat zwei Stunden Verspätung.'},
-    {de:'der Ankunftsbereich',pron:'[AN-koonft-be-raikh]',en:'arrivals area',ex:'Wir warten auf Sie im Ankunftsbereich.'},
-    {de:'der Abholbereich',pron:'[AB-hol-be-raikh]',en:'baggage claim',ex:'Das Gepäck kommt am Abholbereich Band 3 an.'},
-    {de:'die Sicherheitskontrolle',pron:'[ZIKH-er-haits-kon-trol-e]',en:'security check',ex:'Laptops müssen aus der Tasche bei der Sicherheitskontrolle.'},
+    {de:'die Abflughalle',pron:'[AB-flook-ha-le]',en:'departure hall',ex:'Treffen wir uns in der Abflughalle um 6 Uhr.',exEn:'Let\'s meet in the departure hall at 6.'},
+    {de:'das Gate',pron:'[GAYT]',en:'gate',ex:'Ihr Flug geht von Gate B12 ab.',exEn:'Your flight departs from gate B12.'},
+    {de:'einchecken',pron:'[AIN-chek-en]',en:'to check in',ex:'Online einchecken spart Zeit am Flughafen.',exEn:'Checking in online saves time at the airport.'},
+    {de:'das Gepäck',pron:'[ge-PEK]',en:'luggage',ex:'Mein Gepäck ist 23 Kilo schwer.',exEn:'My luggage weighs 23 kilograms.'},
+    {de:'die Passkontrolle',pron:'[PAS-kon-trol-e]',en:'passport control',ex:'Bei der Passkontrolle zeigen Sie Ihren Reisepass.',exEn:'At passport control show your passport.'},
+    {de:'der Zoll',pron:'[TSOL]',en:'customs',ex:'Am Zoll müssen Sie Alkohol und Zigaretten angeben.',exEn:'At customs you must declare alcohol and cigarettes.'},
+    {de:'das Handgepäck',pron:'[HANT-ge-pek]',en:'carry-on luggage',ex:'Handgepäck darf maximal 10 kg wiegen.',exEn:'Carry-on luggage may weigh a maximum of 10 kg.'},
+    {de:'die Bordkarte',pron:'[BORT-kar-te]',en:'boarding pass',ex:'Zeigen Sie Ihre Bordkarte am Gate.',exEn:'Show your boarding pass at the gate.'},
+    {de:'die Verspätung',pron:'[fer-SHPAY-toong]',en:'delay',ex:'Der Flug hat zwei Stunden Verspätung.',exEn:'The flight is two hours delayed.'},
+    {de:'der Ankunftsbereich',pron:'[AN-koonft-be-raikh]',en:'arrivals area',ex:'Wir warten auf Sie im Ankunftsbereich.',exEn:'We are waiting for you in the arrivals area.'},
+    {de:'der Abholbereich',pron:'[AB-hol-be-raikh]',en:'baggage claim',ex:'Das Gepäck kommt am Abholbereich Band 3 an.',exEn:'The luggage arrives at baggage belt 3.'},
+    {de:'die Sicherheitskontrolle',pron:'[ZIKH-er-haits-kon-trol-e]',en:'security check',ex:'Laptops müssen aus der Tasche bei der Sicherheitskontrolle.',exEn:'Laptops must be removed from bags at security.'},
+    {de:'der Reisepass',pron:'[RAI-ze-pas]',en:'passport',ex:'Vergessen Sie nicht, Ihren Reisepass mitzunehmen.',exEn:'Do not forget to bring your passport.'},
+    {de:'der Terminal',pron:'[TER-mi-nal]',en:'terminal',ex:'Unser Flug geht von Terminal 2 ab.',exEn:'Our flight departs from Terminal 2.'},
+    {de:'das Gepäckband',pron:'[ge-PEK-bant]',en:'baggage carousel',ex:'Ihr Koffer kommt am Gepäckband 3 an.',exEn:'Your suitcase arrives at carousel 3.'},
+    {de:'der Aufenthalt',pron:'[auf-ENT-halt]',en:'layover / stopover',ex:'Wir haben zwei Stunden Aufenthalt in Wien.',exEn:'We have a two-hour layover in Vienna.'},
+    {de:'die Flugnummer',pron:'[FLOOK-noo-mer]',en:'flight number',ex:'Ihre Flugnummer ist LH 123.',exEn:'Your flight number is LH 123.'},
+    {de:'der Koffer',pron:'[KO-fer]',en:'suitcase',ex:'Mein Koffer wiegt 22 Kilogramm.',exEn:'My suitcase weighs 22 kilograms.'},
+    {de:'der Flug',pron:'[FLOOK]',en:'flight',ex:'Unser Flug hat pünktlich abgehoben.',exEn:'Our flight took off on time.'},
+    {de:'das Übergepäck',pron:'[ü-ber-ge-PEK]',en:'excess baggage',ex:'Übergepäck kostet extra an der Check-in-Theke.',exEn:'Excess baggage costs extra at the check-in desk.'},
+    {de:'der Nonstopflug',pron:'[NON-shtop-flook]',en:'non-stop flight',ex:'Es gibt einen Nonstopflug von Berlin nach Istanbul.',exEn:'There is a non-stop flight from Berlin to Istanbul.'},
+    {de:'die Transferverbindung',pron:'[TRANS-fer-fer-bin-doong]',en:'connecting flight',ex:'Meine Transferverbindung ist sehr knapp — 45 Minuten.',exEn:'My connecting flight is very tight — 45 minutes.'},
+    {de:'die Lounge',pron:'[LOUNDZH]',en:'airport lounge',ex:'Mit dieser Kreditkarte haben Sie Zugang zur Lounge.',exEn:'With this credit card you have access to the lounge.'},
+    {de:'der Flughafen',pron:'[FLOOK-ha-fen]',en:'airport',ex:'Der Flughafen Berlin BER ist sehr modern.',exEn:'Berlin BER airport is very modern.'},
+    {de:'der Flugsteig',pron:'[FLOOK-shtaig]',en:'boarding gate',ex:'Gehen Sie bitte sofort zum Flugsteig B12.',exEn:'Please go immediately to boarding gate B12.'},
+    {de:'die Abflugzeit',pron:'[AB-flook-tsait]',en:'departure time',ex:'Die Abflugzeit steht auf Ihrer Bordkarte.',exEn:'The departure time is on your boarding pass.'},
+    {de:'der Zollfrei-Shop',pron:'[TSOL-frai-shop]',en:'duty-free shop',ex:'Im Zollfrei-Shop kann man günstiger einkaufen.',exEn:'You can shop cheaper in the duty-free shop.'},
+    {de:'das Abflugdatum',pron:'[AB-flook-da-toom]',en:'departure date',ex:'Das Abflugdatum steht auf Ihrem Ticket.',exEn:'The departure date is on your ticket.'},
+    {de:'die Transitzone',pron:'[tran-ZEET-tso-ne]',en:'transit zone',ex:'In der Transitzone darf man den Flughafen nicht verlassen.',exEn:'In the transit zone you may not leave the airport.'},
+    {de:'der Flieger',pron:'[FLEE-ger]',en:'plane (informal)',ex:'Der Flieger startet pünktlich um 14 Uhr.',exEn:'The plane departs on time at 2 pm.'},
   ]},
   {id:'supermarkt',icon:'🛒',label:'Supermarkt',words:[
-    {de:'die Kasse',pron:'[KAS-e]',en:'checkout / cash register',ex:'Es gibt lange Schlangen an der Kasse.'},
-    {de:'der Kassenbon',pron:'[KAS-en-bon]',en:'receipt',ex:'Möchten Sie den Kassenbon?'},
-    {de:'das Angebot',pron:'[AN-ge-bot]',en:'special offer',ex:'Joghurt ist diese Woche im Angebot.'},
-    {de:'das Pfand',pron:'[PFANT]',en:'bottle deposit',ex:'Vergessen Sie nicht, das Pfand zurückzugeben.'},
-    {de:'das Mindesthaltbarkeitsdatum',pron:'[MIN-dest-halt-bar-kaits-da-toom]',en:'best before date',ex:'Prüfen Sie immer das Mindesthaltbarkeitsdatum.'},
-    {de:'die Selbstbedienung',pron:'[ZELPST-be-dee-noong]',en:'self-service',ex:'Am Selbstbedienungs-Terminal geht es schneller.'},
-    {de:'die Tüte',pron:'[TÜ-te]',en:'carrier bag',ex:'Brauchen Sie eine Tüte? Das kostet 20 Cent.'},
-    {de:'kontaktlos',pron:'[kon-TAKT-los]',en:'contactless payment',ex:'Ich bezahle kontaktlos mit meinem Handy.'},
-    {de:'der Rabatt',pron:'[ra-BAT]',en:'discount',ex:'Mit der Kundenkarte bekomme ich 10% Rabatt.'},
-    {de:'biologisch',pron:'[bee-o-LO-gish]',en:'organic',ex:'Diese Äpfel sind biologisch angebaut.'},
-    {de:'das Regal',pron:'[re-GAL]',en:'shelf',ex:'Mehl steht im Regal neben dem Zucker.'},
-    {de:'der Einkaufswagen',pron:'[AIN-koufs-va-gen]',en:'shopping cart',ex:'Für den Einkaufswagen braucht man einen Euro.'},
+    {de:'die Kasse',pron:'[KAS-e]',en:'checkout / cash register',ex:'Es gibt lange Schlangen an der Kasse.',exEn:'There are long queues at the checkout.'},
+    {de:'der Kassenbon',pron:'[KAS-en-bon]',en:'receipt',ex:'Möchten Sie den Kassenbon?',exEn:'Would you like the receipt?'},
+    {de:'das Angebot',pron:'[AN-ge-bot]',en:'special offer',ex:'Joghurt ist diese Woche im Angebot.',exEn:'Yoghurt is on special offer this week.'},
+    {de:'das Pfand',pron:'[PFANT]',en:'bottle deposit',ex:'Vergessen Sie nicht, das Pfand zurückzugeben.',exEn:'Do not forget to return the bottle deposit.'},
+    {de:'das Mindesthaltbarkeitsdatum',pron:'[MIN-dest-halt-bar-kaits-da-toom]',en:'best before date',ex:'Prüfen Sie immer das Mindesthaltbarkeitsdatum.',exEn:'Always check the best before date.'},
+    {de:'die Selbstbedienung',pron:'[ZELPST-be-dee-noong]',en:'self-service',ex:'Am Selbstbedienungs-Terminal geht es schneller.',exEn:'The self-service terminal is faster.'},
+    {de:'die Tüte',pron:'[TÜ-te]',en:'carrier bag',ex:'Brauchen Sie eine Tüte? Das kostet 20 Cent.',exEn:'Do you need a bag? That costs 20 cents.'},
+    {de:'kontaktlos',pron:'[kon-TAKT-los]',en:'contactless payment',ex:'Ich bezahle kontaktlos mit meinem Handy.',exEn:'I pay contactlessly with my phone.'},
+    {de:'der Rabatt',pron:'[ra-BAT]',en:'discount',ex:'Mit der Kundenkarte bekomme ich 10% Rabatt.',exEn:'With the loyalty card I get 10% discount.'},
+    {de:'biologisch',pron:'[bee-o-LO-gish]',en:'organic',ex:'Diese Äpfel sind biologisch angebaut.',exEn:'These apples are organically grown.'},
+    {de:'das Regal',pron:'[re-GAL]',en:'shelf',ex:'Mehl steht im Regal neben dem Zucker.',exEn:'Flour is on the shelf next to the sugar.'},
+    {de:'der Einkaufswagen',pron:'[AIN-koufs-va-gen]',en:'shopping cart',ex:'Für den Einkaufswagen braucht man einen Euro.',exEn:'You need a euro for the shopping cart.'},
+    {de:'der Einkaufszettel',pron:'[AIN-koufs-tset-el]',en:'shopping list',ex:'Hast du den Einkaufszettel dabei?',exEn:'Do you have the shopping list with you?'},
+    {de:'tiefgefroren',pron:'[TEEF-ge-fro-ren]',en:'frozen',ex:'Die tiefgefrorene Pizza kommt in die Mikrowelle.',exEn:'The frozen pizza goes in the microwave.'},
+    {de:'abgelaufen',pron:'[ab-ge-LAUF-en]',en:'expired',ex:'Dieser Joghurt ist abgelaufen — kaufen Sie ihn nicht!',exEn:'This yoghurt has expired — do not buy it!'},
+    {de:'die Backwaren',pron:'[BAK-va-ren]',en:'bakery products',ex:'Die Backwaren sind frisch heute Morgen gebacken.',exEn:'The bakery products were baked fresh this morning.'},
+    {de:'glutenfrei',pron:'[gloo-TEN-frai]',en:'gluten-free',ex:'Ich suche glutenfreie Nudeln.',exEn:'I am looking for gluten-free pasta.'},
+    {de:'laktosefrei',pron:'[lak-TO-ze-frai]',en:'lactose-free',ex:'Haben Sie laktosefreie Milch?',exEn:'Do you have lactose-free milk?'},
+    {de:'der Kassierer',pron:'[ka-SEER-er]',en:'cashier',ex:'Der Kassierer scannt alle Artikel.',exEn:'The cashier scans all items.'},
+    {de:'die Tiefkühlkost',pron:'[TEEF-kühl-kost]',en:'frozen food',ex:'Die Tiefkühlkost bitte sofort einfrieren.',exEn:'Please freeze the frozen food immediately.'},
+    {de:'der Preis',pron:'[PRAIS]',en:'price',ex:'Der Preis ist auf dem Preisschild.',exEn:'The price is on the price tag.'},
+    {de:'das Kleingeld',pron:'[KLAIN-gelt]',en:'change / coins',ex:'Haben Sie Kleingeld für den Einkaufswagen?',exEn:'Do you have coins for the shopping cart?'},
+    {de:'die Schlange',pron:'[SHLAN-ge]',en:'queue',ex:'Die Schlange an der Kasse ist sehr lang.',exEn:'The queue at the checkout is very long.'},
+    {de:'das Gewicht',pron:'[ge-VIKHT]',en:'weight',ex:'Prüfen Sie das Gewicht an der Waage.',exEn:'Check the weight on the scale.'},
+    {de:'die Milchprodukte',pron:'[MILKH-pro-dook-te]',en:'dairy products',ex:'Milchprodukte stehen im Kühlregal links.',exEn:'Dairy products are in the chilled shelf on the left.'},
+    {de:'die Frischware',pron:'[FRISH-va-re]',en:'fresh produce',ex:'Die Frischware kommt täglich in den Markt.',exEn:'Fresh produce arrives at the market daily.'},
+    {de:'der Einkauf',pron:'[AIN-kouf]',en:'shopping / purchase',ex:'Der wöchentliche Einkauf kostet ungefähr 80 Euro.',exEn:'The weekly shop costs about 80 euros.'},
+    {de:'das Sonderregal',pron:'[ZON-der-re-gal]',en:'special offers shelf',ex:'Das Sonderregal mit Aktionspreisen steht vorne.',exEn:'The special offers shelf is at the front.'},
+    {de:'der Bio-Laden',pron:'[BEE-o-LAH-den]',en:'organic / health food shop',ex:'Im Bio-Laden kaufe ich Obst und Gemüse.',exEn:'I buy fruit and vegetables at the organic shop.'},
+    {de:'der Selbstbedienungsautomat',pron:'[ZELPST-be-dee-noonks-au-to-MAT]',en:'self-checkout machine',ex:'Der Selbstbedienungsautomat spart Zeit.',exEn:'The self-checkout machine saves time.'},
   ]},
   {id:'behoerde',icon:'🏛️',label:'Behörde',words:[
-    {de:'der Schalter',pron:'[SHAL-ter]',en:'service counter / window',ex:'Bitte gehen Sie zu Schalter 4.'},
-    {de:'der Termin',pron:'[ter-MEEN]',en:'appointment',ex:'Ich habe einen Termin beim Bürgeramt um 10 Uhr.'},
-    {de:'der Ausweis',pron:'[AUS-vais]',en:'ID card',ex:'Bringen Sie Ihren Ausweis und eine Meldebescheinigung mit.'},
-    {de:'die Anmeldung',pron:'[AN-mel-doong]',en:'registration',ex:'Die Anmeldung beim Einwohnermeldeamt ist Pflicht.'},
-    {de:'die Aufenthaltserlaubnis',pron:'[auf-ENT-halts-er-laup-nis]',en:'residence permit',ex:'Meine Aufenthaltserlaubnis läuft Ende des Jahres ab.'},
-    {de:'das Formular',pron:'[for-moo-LAR]',en:'form',ex:'Füllen Sie bitte dieses Formular aus.'},
-    {de:'die Bescheinigung',pron:'[be-SHAI-ni-goong]',en:'certificate / confirmation',ex:'Ich brauche eine Bescheinigung für meine Bank.'},
-    {de:'das Bürgeramt',pron:'[BÜR-ger-amt]',en:'residents registration office',ex:'Das Bürgeramt hat dienstags bis 18 Uhr geöffnet.'},
-    {de:'die Gebühr',pron:'[ge-BÜR]',en:'fee / charge',ex:'Die Gebühr für einen neuen Ausweis beträgt 37 Euro.'},
-    {de:'der Antrag',pron:'[AN-trak]',en:'application form',ex:'Stellen Sie den Antrag so früh wie möglich.'},
-    {de:'der Wartebereich',pron:'[VAR-te-be-raikh]',en:'waiting area',ex:'Bitte nehmen Sie im Wartebereich Platz.'},
-    {de:'die Vollmacht',pron:'[FOL-makht]',en:'power of attorney',ex:'Sie brauchen eine Vollmacht, wenn jemand für Sie handelt.'},
+    {de:'der Schalter',pron:'[SHAL-ter]',en:'service counter / window',ex:'Bitte gehen Sie zu Schalter 4.',exEn:'Please go to counter 4.'},
+    {de:'der Termin',pron:'[ter-MEEN]',en:'appointment',ex:'Ich habe einen Termin beim Bürgeramt um 10 Uhr.',exEn:'I have an appointment at the residents office at 10.'},
+    {de:'der Ausweis',pron:'[AUS-vais]',en:'ID card',ex:'Bringen Sie Ihren Ausweis und eine Meldebescheinigung mit.',exEn:'Bring your ID and a registration certificate.'},
+    {de:'die Anmeldung',pron:'[AN-mel-doong]',en:'registration',ex:'Die Anmeldung beim Einwohnermeldeamt ist Pflicht.',exEn:'Registration at the residents registration office is mandatory.'},
+    {de:'die Aufenthaltserlaubnis',pron:'[auf-ENT-halts-er-laup-nis]',en:'residence permit',ex:'Meine Aufenthaltserlaubnis läuft Ende des Jahres ab.',exEn:'My residence permit expires at the end of the year.'},
+    {de:'das Formular',pron:'[for-moo-LAR]',en:'form',ex:'Füllen Sie bitte dieses Formular aus.',exEn:'Please fill in this form.'},
+    {de:'die Bescheinigung',pron:'[be-SHAI-ni-goong]',en:'certificate / confirmation',ex:'Ich brauche eine Bescheinigung für meine Bank.',exEn:'I need a certificate for my bank.'},
+    {de:'das Bürgeramt',pron:'[BÜR-ger-amt]',en:'residents registration office',ex:'Das Bürgeramt hat dienstags bis 18 Uhr geöffnet.',exEn:'The residents office is open on Tuesdays until 6 pm.'},
+    {de:'die Gebühr',pron:'[ge-BÜR]',en:'fee / charge',ex:'Die Gebühr für einen neuen Ausweis beträgt 37 Euro.',exEn:'The fee for a new ID card is 37 euros.'},
+    {de:'der Antrag',pron:'[AN-trak]',en:'application form',ex:'Stellen Sie den Antrag so früh wie möglich.',exEn:'Submit the application as early as possible.'},
+    {de:'der Wartebereich',pron:'[VAR-te-be-raikh]',en:'waiting area',ex:'Bitte nehmen Sie im Wartebereich Platz.',exEn:'Please take a seat in the waiting area.'},
+    {de:'die Vollmacht',pron:'[FOL-makht]',en:'power of attorney',ex:'Sie brauchen eine Vollmacht, wenn jemand für Sie handelt.',exEn:'You need a power of attorney if someone acts for you.'},
+    {de:'die Unterlagen',pron:'[OON-ter-la-gen]',en:'documents / papers',ex:'Bringen Sie alle Unterlagen zur Behörde mit.',exEn:'Bring all documents to the authority.'},
+    {de:'die Frist',pron:'[FRIST]',en:'deadline',ex:'Die Frist für den Antrag ist der 31. Oktober.',exEn:'The deadline for the application is 31 October.'},
+    {de:'zuständig',pron:'[TSOO-shten-dikh]',en:'responsible / in charge',ex:'Welches Amt ist dafür zuständig?',exEn:'Which office is responsible for that?'},
+    {de:'der Nachweis',pron:'[NAKH-vais]',en:'proof / evidence',ex:'Ich brauche einen Nachweis meiner Wohnadresse.',exEn:'I need proof of my home address.'},
+    {de:'die Kopie',pron:'[ko-PEE]',en:'copy / photocopy',ex:'Bitte eine Kopie Ihres Ausweises mitbringen.',exEn:'Please bring a copy of your ID.'},
+    {de:'die Unterschrift',pron:'[OON-ter-shrift]',en:'signature',ex:'Bitte leisten Sie hier Ihre Unterschrift.',exEn:'Please sign here.'},
+    {de:'beantragen',pron:'[be-AN-tra-gen]',en:'to apply for',ex:'Ich möchte einen neuen Personalausweis beantragen.',exEn:'I would like to apply for a new ID card.'},
+    {de:'die Meldebescheinigung',pron:'[MEL-de-be-shai-ni-goong]',en:'registration certificate',ex:'Die Meldebescheinigung erhalten Sie beim Bürgeramt.',exEn:'You receive the registration certificate at the residents office.'},
+    {de:'verlängern',pron:'[fer-LENG-ern]',en:'to renew / extend',ex:'Ich muss meinen Aufenthaltstitel verlängern.',exEn:'I need to renew my residence permit.'},
+    {de:'abstempeln',pron:'[AB-shtem-peln]',en:'to stamp (a document)',ex:'Der Beamte muss den Antrag abstempeln.',exEn:'The official must stamp the application.'},
+    {de:'der Personalausweis',pron:'[per-zo-NAL-aus-vais]',en:'national identity card',ex:'Der Personalausweis ist 10 Jahre gültig.',exEn:'The national identity card is valid for 10 years.'},
+    {de:'die Adresse',pron:'[a-DRES-e]',en:'address',ex:'Bitte geben Sie Ihre aktuelle Adresse an.',exEn:'Please provide your current address.'},
+    {de:'der Beamte',pron:'[be-AM-te]',en:'official / civil servant',ex:'Der Beamte prüft alle Dokumente sorgfältig.',exEn:'The official checks all documents carefully.'},
+    {de:'die Warteschlange',pron:'[VAR-te-shlan-ge]',en:'waiting queue',ex:'Die Warteschlange vor dem Amt ist sehr lang.',exEn:'The waiting queue in front of the office is very long.'},
+    {de:'die Wartemarke',pron:'[VAR-te-mar-ke]',en:'waiting number ticket',ex:'Nehmen Sie bitte eine Wartemarke am Eingang.',exEn:'Please take a number ticket at the entrance.'},
+    {de:'die Behörde',pron:'[be-HÖR-de]',en:'authority / public office',ex:'Manche Behörden bieten auch Online-Dienste an.',exEn:'Some authorities also offer online services.'},
+    {de:'das Ausländeramt',pron:'[AUS-len-der-amt]',en:'foreigners registration office',ex:'Das Ausländeramt bearbeitet Visaanträge.',exEn:'The foreigners office processes visa applications.'},
+    {de:'die Ummeldung',pron:'[OOM-mel-doong]',en:'change of address registration',ex:'Ich muss meine Ummeldung innerhalb von 14 Tagen erledigen.',exEn:'I must complete my change of address within 14 days.'},
   ]},
   {id:'schule',icon:'🏫',label:'Schule & Bildung',words:[
-    {de:'die Grundschule',pron:'[GROONT-shoo-le]',en:'primary school',ex:'Kinder kommen mit 6 Jahren in die Grundschule.'},
-    {de:'die Anmeldung',pron:'[AN-mel-doong]',en:'enrolment',ex:'Die Anmeldung für die Schule beginnt im Februar.'},
-    {de:'das Zeugnis',pron:'[TSOYK-nis]',en:'school report / certificate',ex:'Am Ende des Schuljahres bekommt man ein Zeugnis.'},
-    {de:'der Elternabend',pron:'[EL-tern-a-bent]',en:'parent-teacher evening',ex:'Der nächste Elternabend ist am Donnerstag.'},
-    {de:'die Hausaufgaben',pron:'[HAUS-auf-ga-ben]',en:'homework',ex:'Mein Kind macht jeden Tag Hausaufgaben.'},
-    {de:'die Schulpflicht',pron:'[SHOOL-pflicht]',en:'compulsory schooling',ex:'In Deutschland gilt Schulpflicht bis zum 18. Lebensjahr.'},
-    {de:'der Kindergarten',pron:'[KIN-der-gar-ten]',en:'nursery / kindergarten',ex:'Unser Sohn geht jeden Morgen in den Kindergarten.'},
-    {de:'der Stundenplan',pron:'[SHTOON-den-plan]',en:'class timetable',ex:'Der Stundenplan hängt am Kühlschrank.'},
-    {de:'die Nachhilfe',pron:'[NACH-hil-fe]',en:'tutoring',ex:'Mein Kind braucht Nachhilfe in Mathematik.'},
-    {de:'der Ausflug',pron:'[AUS-flook]',en:'school trip',ex:'Morgen hat die Klasse einen Ausflug ins Museum.'},
-    {de:'das Abitur',pron:'[a-bi-TOOR]',en:'A-levels / university entrance',ex:'Mit dem Abitur kann man an einer Uni studieren.'},
-    {de:'die Berufsschule',pron:'[be-ROOFS-shoo-le]',en:'vocational school',ex:'Er macht eine Ausbildung und geht zur Berufsschule.'},
+    {de:'die Grundschule',pron:'[GROONT-shoo-le]',en:'primary school',ex:'Kinder kommen mit 6 Jahren in die Grundschule.',exEn:'Children start primary school at age 6.'},
+    {de:'die Anmeldung',pron:'[AN-mel-doong]',en:'enrolment',ex:'Die Anmeldung für die Schule beginnt im Februar.',exEn:'School enrolment begins in February.'},
+    {de:'das Zeugnis',pron:'[TSOYK-nis]',en:'school report / certificate',ex:'Am Ende des Schuljahres bekommt man ein Zeugnis.',exEn:'At the end of the school year you receive a report.'},
+    {de:'der Elternabend',pron:'[EL-tern-a-bent]',en:'parent-teacher evening',ex:'Der nächste Elternabend ist am Donnerstag.',exEn:'The next parent-teacher evening is on Thursday.'},
+    {de:'die Hausaufgaben',pron:'[HAUS-auf-ga-ben]',en:'homework',ex:'Mein Kind macht jeden Tag Hausaufgaben.',exEn:'My child does homework every day.'},
+    {de:'die Schulpflicht',pron:'[SHOOL-pflicht]',en:'compulsory schooling',ex:'In Deutschland gilt Schulpflicht bis zum 18. Lebensjahr.',exEn:'In Germany schooling is compulsory until age 18.'},
+    {de:'der Kindergarten',pron:'[KIN-der-gar-ten]',en:'nursery / kindergarten',ex:'Unser Sohn geht jeden Morgen in den Kindergarten.',exEn:'Our son goes to kindergarten every morning.'},
+    {de:'der Stundenplan',pron:'[SHTOON-den-plan]',en:'class timetable',ex:'Der Stundenplan hängt am Kühlschrank.',exEn:'The class timetable is on the fridge.'},
+    {de:'die Nachhilfe',pron:'[NACH-hil-fe]',en:'tutoring',ex:'Mein Kind braucht Nachhilfe in Mathematik.',exEn:'My child needs tutoring in maths.'},
+    {de:'der Ausflug',pron:'[AUS-flook]',en:'school trip',ex:'Morgen hat die Klasse einen Ausflug ins Museum.',exEn:'Tomorrow the class has a trip to the museum.'},
+    {de:'das Abitur',pron:'[a-bi-TOOR]',en:'A-levels / university entrance',ex:'Mit dem Abitur kann man an einer Uni studieren.',exEn:'With the Abitur you can study at university.'},
+    {de:'die Berufsschule',pron:'[be-ROOFS-shoo-le]',en:'vocational school',ex:'Er macht eine Ausbildung und geht zur Berufsschule.',exEn:'He is doing an apprenticeship and goes to vocational school.'},
+    {de:'der Lehrer',pron:'[LAY-rer]',en:'teacher (male)',ex:'Unser Lehrer erklärt alles sehr geduldig.',exEn:'Our teacher explains everything very patiently.'},
+    {de:'der Unterricht',pron:'[OON-ter-rikht]',en:'lesson / class',ex:'Der Unterricht beginnt um 8 Uhr morgens.',exEn:'Class begins at 8 in the morning.'},
+    {de:'das Fach',pron:'[FAKH]',en:'subject',ex:'Mein Lieblingsfach in der Schule ist Deutsch.',exEn:'My favourite subject at school is German.'},
+    {de:'die Pause',pron:'[POW-ze]',en:'break / recess',ex:'In der großen Pause spielen die Kinder draußen.',exEn:'During the long break the children play outside.'},
+    {de:'das Schuljahr',pron:'[SHOOL-yar]',en:'school year',ex:'Das neue Schuljahr beginnt im September.',exEn:'The new school year starts in September.'},
+    {de:'der Schulabschluss',pron:'[SHOOL-ab-shloos]',en:'school leaving certificate',ex:'Welchen Schulabschluss haben Sie?',exEn:'What school leaving certificate do you have?'},
+    {de:'die Universität',pron:'[oo-ni-ver-zi-TET]',en:'university',ex:'Mein Sohn studiert an der Universität Berlin.',exEn:'My son studies at the University of Berlin.'},
+    {de:'die Ausbildung',pron:'[AUS-bil-doong]',en:'vocational training',ex:'Eine Ausbildung dauert meistens drei Jahre.',exEn:'Vocational training usually takes three years.'},
+    {de:'die Klasse',pron:'[KLAS-e]',en:'class / grade',ex:'Mein Kind ist in Klasse 4.',exEn:'My child is in grade 4.'},
+    {de:'die Note',pron:'[NO-te]',en:'grade / mark',ex:'Er hat sehr gute Noten in Mathematik.',exEn:'He has very good grades in maths.'},
+    {de:'der Sprachkurs',pron:'[SHPRAKH-koors]',en:'language course',ex:'Ich besuche einen Deutschkurs bei der VHS.',exEn:'I attend a German course at the community college.'},
+    {de:'das Gymnasium',pron:'[gim-NA-zee-oom]',en:'grammar school',ex:'Ein Gymnasium ist ein Weg zum Abitur.',exEn:'A Gymnasium is a path to the Abitur.'},
+    {de:'die Prüfung',pron:'[PRÜ-foong]',en:'exam',ex:'Nächste Woche habe ich eine wichtige Prüfung.',exEn:'Next week I have an important exam.'},
+    {de:'die Realschule',pron:'[re-AL-shoo-le]',en:'secondary modern school',ex:'Die Realschule dauert von Klasse 5 bis 10.',exEn:'The secondary modern school runs from class 5 to 10.'},
+    {de:'das Lernmaterial',pron:'[LERN-ma-te-ree-al]',en:'learning materials',ex:'Das Lernmaterial für den Deutschkurs wird gestellt.',exEn:'The learning materials for the German course are provided.'},
+    {de:'der Elternteil',pron:'[EL-tern-tail]',en:'parent',ex:'Jeder Elternteil kann an der Schule Fragen stellen.',exEn:'Every parent can ask questions at the school.'},
+    {de:'die Integrationsklasse',pron:'[in-te-gra-TSEE-ons-klas-e]',en:'integration class',ex:'Neu angekommene Kinder gehen in die Integrationsklasse.',exEn:'Newly arrived children attend the integration class.'},
+    {de:'der Integrationskurs',pron:'[in-te-gra-TSEE-ons-koors]',en:'integration course',ex:'Ich mache einen Integrationskurs beim BAMF.',exEn:'I am doing an integration course at BAMF.'},
   ]},
   {id:'einkauf',icon:'🏪',label:'Einkaufszentrum',words:[
-    {de:'die Rolltreppe',pron:'[ROL-trep-e]',en:'escalator',ex:'Die Rolltreppe zum zweiten Stock ist defekt.'},
-    {de:'der Fahrstuhl',pron:'[FAR-shtool]',en:'elevator / lift',ex:'Den Fahrstuhl finden Sie neben dem Eingang.'},
-    {de:'umtauschen',pron:'[OOM-tow-shen]',en:'to exchange / return',ex:'Kann ich diese Jacke umtauschen? Sie passt nicht.'},
-    {de:'der Schlussverkauf',pron:'[SHLOOS-fer-kouf]',en:'end-of-season sale',ex:'Der Schlussverkauf beginnt nach Weihnachten.'},
-    {de:'die Garantie',pron:'[ga-ran-TEE]',en:'warranty',ex:'Das Gerät hat zwei Jahre Garantie.'},
-    {de:'die Umkleidekabine',pron:'[OOM-klai-de-ka-bee-ne]',en:'fitting room',ex:'Die Umkleidekabinen sind hinten rechts.'},
-    {de:'das Erdgeschoss',pron:'[AIRT-ge-shos]',en:'ground floor',ex:'Der Lebensmittelmarkt ist im Erdgeschoss.'},
-    {de:'der Kassenbon',pron:'[KAS-en-bon]',en:'receipt',ex:'Bewahren Sie den Kassenbon für Rückgaben auf.'},
-    {de:'die Öffnungszeiten',pron:'[ÖF-noonks-tsai-ten]',en:'opening hours',ex:'Die Öffnungszeiten sind täglich von 9 bis 21 Uhr.'},
-    {de:'die Kreditkarte',pron:'[kre-DEET-kar-te]',en:'credit card',ex:'Bezahlen Sie mit Kreditkarte oder Bar?'},
-    {de:'das Sonderangebot',pron:'[ZON-der-an-ge-bot]',en:'special deal',ex:'Schauen Sie immer nach den Sonderangeboten.'},
-    {de:'der Rabatt',pron:'[ra-BAT]',en:'discount',ex:'Im Schlussverkauf gibt es 50% Rabatt.'},
+    {de:'die Rolltreppe',pron:'[ROL-trep-e]',en:'escalator',ex:'Die Rolltreppe zum zweiten Stock ist defekt.',exEn:'The escalator to the second floor is broken.'},
+    {de:'der Fahrstuhl',pron:'[FAR-shtool]',en:'elevator / lift',ex:'Den Fahrstuhl finden Sie neben dem Eingang.',exEn:'You will find the lift next to the entrance.'},
+    {de:'umtauschen',pron:'[OOM-tow-shen]',en:'to exchange / return',ex:'Kann ich diese Jacke umtauschen? Sie passt nicht.',exEn:'Can I exchange this jacket? It does not fit.'},
+    {de:'der Schlussverkauf',pron:'[SHLOOS-fer-kouf]',en:'end-of-season sale',ex:'Der Schlussverkauf beginnt nach Weihnachten.',exEn:'The end-of-season sale starts after Christmas.'},
+    {de:'die Garantie',pron:'[ga-ran-TEE]',en:'warranty',ex:'Das Gerät hat zwei Jahre Garantie.',exEn:'The appliance has a two-year warranty.'},
+    {de:'die Umkleidekabine',pron:'[OOM-klai-de-ka-bee-ne]',en:'fitting room',ex:'Die Umkleidekabinen sind hinten rechts.',exEn:'The fitting rooms are at the back on the right.'},
+    {de:'das Erdgeschoss',pron:'[AIRT-ge-shos]',en:'ground floor',ex:'Der Lebensmittelmarkt ist im Erdgeschoss.',exEn:'The supermarket is on the ground floor.'},
+    {de:'der Kassenbon',pron:'[KAS-en-bon]',en:'receipt',ex:'Bewahren Sie den Kassenbon für Rückgaben auf.',exEn:'Keep the receipt for any returns.'},
+    {de:'die Öffnungszeiten',pron:'[ÖF-noonks-tsai-ten]',en:'opening hours',ex:'Die Öffnungszeiten sind täglich von 9 bis 21 Uhr.',exEn:'Opening hours are daily from 9 to 21.'},
+    {de:'die Kreditkarte',pron:'[kre-DEET-kar-te]',en:'credit card',ex:'Bezahlen Sie mit Kreditkarte oder Bar?',exEn:'Are you paying by credit card or cash?'},
+    {de:'das Sonderangebot',pron:'[ZON-der-an-ge-bot]',en:'special deal',ex:'Schauen Sie immer nach den Sonderangeboten.',exEn:'Always look out for the special deals.'},
+    {de:'der Rabatt',pron:'[ra-BAT]',en:'discount',ex:'Im Schlussverkauf gibt es 50% Rabatt.',exEn:'In the end-of-season sale there is 50% discount.'},
+    {de:'der Parkplatz',pron:'[PARK-plats]',en:'car park / parking space',ex:'Das Einkaufszentrum hat einen kostenlosen Parkplatz.',exEn:'The shopping centre has a free car park.'},
+    {de:'das Obergeschoss',pron:'[O-ber-ge-shos]',en:'upper floor',ex:'Die Modeboutiquen sind im Obergeschoss.',exEn:'The fashion boutiques are on the upper floor.'},
+    {de:'der Eingang',pron:'[AIN-gang]',en:'entrance',ex:'Der Haupteingang ist an der Nordseite.',exEn:'The main entrance is on the north side.'},
+    {de:'die Rückgabe',pron:'[RÜK-ga-be]',en:'return / refund',ex:'Eine Rückgabe ist innerhalb von 30 Tagen möglich.',exEn:'A return is possible within 30 days.'},
+    {de:'das Schaufenster',pron:'[SHAU-fen-ster]',en:'shop window',ex:'Die Schaufenster sind festlich dekoriert.',exEn:'The shop windows are festively decorated.'},
+    {de:'das Schnäppchen',pron:'[SHNE-peh-en]',en:'bargain',ex:'Ich habe ein echtes Schnäppchen gefunden!',exEn:'I found a real bargain!'},
+    {de:'die Ladenkette',pron:'[LA-den-ket-e]',en:'chain store',ex:'Zara ist eine bekannte internationale Ladenkette.',exEn:'Zara is a well-known international chain store.'},
+    {de:'der Ausverkauf',pron:'[AUS-fer-kouf]',en:'clearance sale',ex:'Im Ausverkauf sind alle Preise stark reduziert.',exEn:'In the clearance sale all prices are heavily reduced.'},
+    {de:'das Geschenk',pron:'[ge-SHENK]',en:'gift / present',ex:'Ich suche ein Geschenk für meinen Vater.',exEn:'I am looking for a gift for my father.'},
+    {de:'die Boutique',pron:'[boo-TEEK]',en:'boutique / small fashion shop',ex:'In dieser Boutique gibt es exklusive Modewaren.',exEn:'This boutique has exclusive fashion items.'},
+    {de:'der Aufzug',pron:'[AUF-tsook]',en:'lift / elevator',ex:'Nehmen Sie den Aufzug zum dritten Stock.',exEn:'Take the lift to the third floor.'},
+    {de:'der Gutschein',pron:'[GOOT-shain]',en:'voucher / gift card',ex:'Ich bezahle mit einem Gutschein über 50 Euro.',exEn:'I am paying with a 50-euro voucher.'},
+    {de:'die Anprobe',pron:'[AN-pro-be]',en:'fitting / trying on',ex:'Darf ich das Hemd zur Anprobe mitnehmen?',exEn:'May I take the shirt to try on?'},
+    {de:'die Quittung',pron:'[kvi-TOONG]',en:'receipt / voucher',ex:'Heben Sie die Quittung für Rückgaben auf.',exEn:'Keep the receipt in case of any returns.'},
+    {de:'der Onlineshop',pron:'[ON-line-shop]',en:'online shop',ex:'Viele Produkte sind auch im Onlineshop erhältlich.',exEn:'Many products are also available in the online shop.'},
+    {de:'die Kinderabteilung',pron:'[KIN-der-ab-tai-loong]',en:'children\'s department',ex:'Die Kinderabteilung ist im zweiten Obergeschoss.',exEn:'The children\'s department is on the second floor.'},
+    {de:'die Ladenöffnung',pron:'[LA-den-ef-noong]',en:'shop opening',ex:'Die Ladenöffnung ist täglich von 10 bis 20 Uhr.',exEn:'Shop opening is daily from 10 to 20.'},
+    {de:'das Einkaufserlebnis',pron:'[AIN-koufs-er-lep-nis]',en:'shopping experience',ex:'Das neue Einkaufszentrum bietet ein tolles Einkaufserlebnis.',exEn:'The new centre offers a great shopping experience.'},
   ]},
   {id:'wohnen',icon:'🏠',label:'Wohnen',words:[
-    {de:'der Mietvertrag',pron:'[MEET-fer-trak]',en:'rental contract',ex:'Ich habe heute den Mietvertrag unterschrieben.'},
-    {de:'die Kaution',pron:'[kow-TSEE-on]',en:'security deposit',ex:'Die Kaution beträgt drei Monatsmieten.'},
-    {de:'der Vermieter',pron:'[fer-MEE-ter]',en:'landlord',ex:'Mein Vermieter wohnt im Erdgeschoss.'},
-    {de:'die Nebenkosten',pron:'[NAY-ben-kos-ten]',en:'additional costs / utilities',ex:'Die Nebenkosten für Heizung und Wasser sind inklusive.'},
-    {de:'die Reparatur',pron:'[re-pa-ra-TOOR]',en:'repair',ex:'Die Heizung ist kaputt — ich muss eine Reparatur beauftragen.'},
-    {de:'der Hausmeister',pron:'[HAUS-mais-ter]',en:'building caretaker',ex:'Rufen Sie den Hausmeister bei einem Problem an.'},
-    {de:'die Warmmiete',pron:'[VARM-mee-te]',en:'rent including heating',ex:'Die Warmmiete beträgt 950 Euro im Monat.'},
-    {de:'kündigen',pron:'[KÜN-di-gen]',en:'to give notice',ex:'Sie müssen drei Monate vorher kündigen.'},
-    {de:'einziehen',pron:'[AIN-tsee-en]',en:'to move in',ex:'Wir ziehen am 1. Juli in die neue Wohnung ein.'},
-    {de:'der Keller',pron:'[KEL-er]',en:'basement / cellar',ex:'Jede Wohnung hat einen Kellerraum.'},
-    {de:'der Energieausweis',pron:'[en-er-GEE-aus-vais]',en:'energy certificate',ex:'Der Vermieter muss einen Energieausweis vorlegen.'},
-    {de:'die Wohnungsbaugesellschaft',pron:'[VO-noonks-bau-ge-zel-shaft]',en:'housing association',ex:'Die Wohnungsbaugesellschaft verwaltet diese Siedlung.'},
+    {de:'der Mietvertrag',pron:'[MEET-fer-trak]',en:'rental contract',ex:'Ich habe heute den Mietvertrag unterschrieben.',exEn:'I signed the rental contract today.'},
+    {de:'die Kaution',pron:'[kow-TSEE-on]',en:'security deposit',ex:'Die Kaution beträgt drei Monatsmieten.',exEn:'The security deposit is three months\' rent.'},
+    {de:'der Vermieter',pron:'[fer-MEE-ter]',en:'landlord',ex:'Mein Vermieter wohnt im Erdgeschoss.',exEn:'My landlord lives on the ground floor.'},
+    {de:'die Nebenkosten',pron:'[NAY-ben-kos-ten]',en:'additional costs / utilities',ex:'Die Nebenkosten für Heizung und Wasser sind inklusive.',exEn:'Additional costs for heating and water are included.'},
+    {de:'die Reparatur',pron:'[re-pa-ra-TOOR]',en:'repair',ex:'Die Heizung ist kaputt — ich muss eine Reparatur beauftragen.',exEn:'The heating is broken — I need to arrange a repair.'},
+    {de:'der Hausmeister',pron:'[HAUS-mais-ter]',en:'building caretaker',ex:'Rufen Sie den Hausmeister bei einem Problem an.',exEn:'Call the caretaker if there is a problem.'},
+    {de:'die Warmmiete',pron:'[VARM-mee-te]',en:'rent including heating',ex:'Die Warmmiete beträgt 950 Euro im Monat.',exEn:'The rent including heating is 950 euros per month.'},
+    {de:'kündigen',pron:'[KÜN-di-gen]',en:'to give notice',ex:'Sie müssen drei Monate vorher kündigen.',exEn:'You must give three months\' notice.'},
+    {de:'einziehen',pron:'[AIN-tsee-en]',en:'to move in',ex:'Wir ziehen am 1. Juli in die neue Wohnung ein.',exEn:'We move into the new flat on 1 July.'},
+    {de:'der Keller',pron:'[KEL-er]',en:'basement / cellar',ex:'Jede Wohnung hat einen Kellerraum.',exEn:'Every flat has a cellar room.'},
+    {de:'der Energieausweis',pron:'[en-er-GEE-aus-vais]',en:'energy certificate',ex:'Der Vermieter muss einen Energieausweis vorlegen.',exEn:'The landlord must provide an energy certificate.'},
+    {de:'die Wohnungsbaugesellschaft',pron:'[VO-noonks-bau-ge-zel-shaft]',en:'housing association',ex:'Die Wohnungsbaugesellschaft verwaltet diese Siedlung.',exEn:'The housing association manages this estate.'},
+    {de:'der Mieter',pron:'[MEE-ter]',en:'tenant',ex:'Als Mieter haben Sie Rechte beim Vermieter.',exEn:'As a tenant you have rights with the landlord.'},
+    {de:'die Miete',pron:'[MEE-te]',en:'rent',ex:'Die Miete muss am 1. jeden Monats bezahlt werden.',exEn:'Rent must be paid on the 1st of every month.'},
+    {de:'die Wohnungssuche',pron:'[VO-noonks-zoo-khe]',en:'flat search',ex:'Die Wohnungssuche in Berlin ist sehr schwierig.',exEn:'Finding a flat in Berlin is very difficult.'},
+    {de:'die Besichtigung',pron:'[be-ZIKH-ti-goong]',en:'viewing / inspection',ex:'Ich habe morgen eine Besichtigung der Wohnung.',exEn:'I have a viewing of the flat tomorrow.'},
+    {de:'der Balkon',pron:'[bal-KAWN]',en:'balcony',ex:'Die Wohnung hat einen kleinen Balkon mit Südlage.',exEn:'The flat has a small south-facing balcony.'},
+    {de:'ausziehen',pron:'[AUS-tsee-en]',en:'to move out',ex:'Wir ziehen am Ende des Monats aus.',exEn:'We move out at the end of the month.'},
+    {de:'der Schlüssel',pron:'[SHLÜS-el]',en:'key',ex:'Der Schlüssel für die Haustür liegt beim Hausmeister.',exEn:'The key to the front door is with the caretaker.'},
+    {de:'die Etage',pron:'[e-TA-zhe]',en:'floor / storey',ex:'Die Wohnung liegt im dritten Stock.',exEn:'The flat is on the third floor.'},
+    {de:'der Müll',pron:'[MÜL]',en:'rubbish / waste',ex:'Bitte Müll in die richtigen Tonnen sortieren.',exEn:'Please sort rubbish into the correct bins.'},
+    {de:'die Nachbarn',pron:'[NAKH-barn]',en:'neighbours',ex:'Unsere Nachbarn sind sehr freundlich und ruhig.',exEn:'Our neighbours are very friendly and quiet.'},
+    {de:'die Wohnungsgröße',pron:'[VO-noonks-grö-se]',en:'flat size',ex:'Die Wohnungsgröße beträgt 65 Quadratmeter.',exEn:'The flat size is 65 square metres.'},
+    {de:'die Abstellkammer',pron:'[AB-shtel-ka-mer]',en:'storage room',ex:'In der Abstellkammer können wir Koffer lagern.',exEn:'We can store suitcases in the storage room.'},
+    {de:'das Wohnviertel',pron:'[VON-feer-tel]',en:'neighbourhood',ex:'Das Wohnviertel ist ruhig und familienfreundlich.',exEn:'The neighbourhood is quiet and family-friendly.'},
+    {de:'die Heizung',pron:'[HAI-tsoong]',en:'heating',ex:'Die Heizung wird im Winter zentral gesteuert.',exEn:'The heating is centrally controlled in winter.'},
+    {de:'der Aufzug',pron:'[AUF-tsook]',en:'lift / elevator',ex:'Das Gebäude hat keinen Aufzug — nur Treppen.',exEn:'The building has no lift — only stairs.'},
+    {de:'die Wohngemeinschaft',pron:'[VON-ge-main-shaft]',en:'shared flat (WG)',ex:'Ich lebe in einer Wohngemeinschaft mit drei Personen.',exEn:'I live in a shared flat with three people.'},
+    {de:'die Betriebskosten',pron:'[be-TREEPS-kos-ten]',en:'operating costs',ex:'Die Betriebskosten werden jährlich abgerechnet.',exEn:'Operating costs are billed annually.'},
+    {de:'der Umzug',pron:'[OOM-tsook]',en:'house move',ex:'Der Umzug ist für nächsten Samstag geplant.',exEn:'The house move is planned for next Saturday.'},
   ]},
 ];
 
@@ -3037,7 +3217,7 @@ function renderDWHome(){
   document.getElementById('dwHeaderTitle').textContent='🗣️ Tägliche Wörter';
   document.getElementById('dwContent').innerHTML=`
     <div style="padding:14px 14px 8px;font-size:12px;color:var(--muted);line-height:1.6;background:rgba(99,102,241,0.06);border-bottom:1px solid var(--border2)">
-      📦 10 Themen · 12 Wörter je · Hören, nachsprechen und üben
+      📦 10 Themen · 30 Wörter je · 3 Chunks + Mix-Quiz
     </div>
     <div class="dw-topic-grid">
       ${DW_TOPICS.map((t,i)=>`
@@ -3049,10 +3229,11 @@ function renderDWHome(){
     </div>`;
 }
 
-function renderDWTopic(ti){
+function renderDWTopic(ti,startWi){
   const topic=DW_TOPICS[ti];
   document.getElementById('dwHeaderTitle').textContent=topic.icon+' '+topic.label;
-  renderDWWord(ti,0);
+  if(startWi===undefined)initDWSession(ti);
+  renderDWWord(ti,startWi||0);
 }
 
 function renderDWWord(ti,wi){
@@ -3060,13 +3241,20 @@ function renderDWWord(ti,wi){
   if(dwRecognition){try{dwRecognition.stop();}catch(e){}dwRecognition=null;}
   const topic=DW_TOPICS[ti];
   const total=topic.words.length;
-  if(wi>=total){renderDWComplete(ti);return;}
+  if(wi>=total){return;}
   const w=topic.words[wi];
-  const pct=Math.round(wi/total*100);
+  const chunk=Math.floor(wi/10)+1;
+  const chunkWi=wi%10;
+  const chunkEnd=chunk*10;
+  const isEndOfChunk=(wi===chunkEnd-1)||(wi===total-1);
+  // Back nav: don't cross chunk boundary — go back to start of chunk if at chunk's first word
+  const prevWi=chunkWi===0?null:wi-1;
+  const pct=Math.round((chunkWi+1)/10*100);
+  document.getElementById('dwHeaderTitle').textContent=topic.icon+' Teil '+chunk+' von 3';
   document.getElementById('dwContent').innerHTML=`
     <div style="padding:12px 16px 0">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-        <span style="font-size:11px;color:var(--muted)">${wi+1} / ${total}</span>
+        <span style="font-size:11px;font-weight:700;color:var(--muted)">Teil ${chunk} von 3 · Wort ${chunkWi+1} / 10</span>
         <span style="font-size:11px;color:var(--primary);font-weight:600">${pct}%</span>
       </div>
       <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
@@ -3079,6 +3267,7 @@ function renderDWWord(ti,wi){
       <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:12px 14px;margin-bottom:14px">
         <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">💬 Beispiel</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.7;font-style:italic">${esc(w.ex)}</div>
+        ${w.exEn?`<div style="font-size:12px;color:var(--muted);margin-top:5px">🇬🇧 ${esc(w.exEn)}</div>`:''}
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
@@ -3096,13 +3285,12 @@ function renderDWWord(ti,wi){
       <div id="dwMicResult" style="min-height:48px;margin-bottom:12px"></div>
 
       <div class="dw-nav">
-        <button class="btn btn-outline" onclick="renderDWWord(${ti},${wi-1})" ${wi===0?'disabled style="opacity:0.3"':''}>← Zurück</button>
-        <span style="font-size:12px;color:var(--muted);font-weight:600">${wi+1} / ${total}</span>
-        <button class="btn btn-gold" onclick="${wi===total-1?`startDWQuiz(${ti})`:`renderDWWord(${ti},${wi+1})`}">${wi===total-1?'Fertig ✅':'Weiter →'}</button>
+        <button class="btn btn-outline" onclick="${prevWi!==null?`renderDWWord(${ti},${prevWi})`:'renderDWHome()'}" ${prevWi===null&&chunkWi===0?'style="opacity:0.3"':''}>← Zurück</button>
+        <span style="font-size:12px;color:var(--muted);font-weight:600">${chunkWi+1} / 10</span>
+        <button class="btn btn-gold" onclick="${isEndOfChunk?`startDWChunkQuiz(${ti},${chunk})`:`renderDWWord(${ti},${wi+1})`}">${isEndOfChunk?'Quiz →':'Weiter →'}</button>
       </div>
     </div>`;
 
-  // Auto-play TTS 400ms after card loads
   setTimeout(()=>speakDW(w.de,0.85),400);
 }
 
@@ -3175,6 +3363,41 @@ function renderDWComplete(ti){
 
 // ── Adaptive MCQ Quiz (Daily Words) ──────────────────────────────────────────
 let dwQuizState=null,dwSpeedTimer=null;
+let dwSession=null; // {ti, chunk, isMixing, cumCorrect, cumTotal}
+
+function initDWSession(ti){
+  dwSession={ti,chunk:1,isMixing:false,cumCorrect:0,cumTotal:0};
+}
+
+function startDWChunkQuiz(ti,chunk){
+  window.speechSynthesis.cancel();
+  if(dwRecognition){try{dwRecognition.stop();}catch(e){}dwRecognition=null;}
+  if(!dwSession||dwSession.ti!==ti)initDWSession(ti);
+  dwSession.chunk=chunk;dwSession.isMixing=false;
+  const words=DW_TOPICS[ti].words;
+  const quizWords=words.slice((chunk-1)*10,chunk*10);
+  startDWAdaptiveQuiz(ti,quizWords);
+}
+
+function startDWMixQuiz(ti,chunk){
+  dwSession.isMixing=true;
+  const words=DW_TOPICS[ti].words;
+  const quizWords=chunk===2?shuffleArray(words.slice(0,20)):shuffleArray([...words]);
+  const topic=DW_TOPICS[ti];
+  document.getElementById('dwHeaderTitle').textContent='🔀 Mix-Quiz';
+  document.getElementById('dwContent').innerHTML=`
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;padding:32px 24px;text-align:center">
+      <div style="font-size:56px;margin-bottom:16px">🔀</div>
+      <div style="font-size:22px;font-weight:900;color:var(--text);margin-bottom:8px">Jetzt üben wir alles zusammen!</div>
+      <div style="font-size:13px;color:var(--muted)">${quizWords.length} Wörter · Mix-Quiz</div>
+    </div>`;
+  setTimeout(()=>startDWAdaptiveQuiz(ti,quizWords),2200);
+}
+
+function startDWAdaptiveQuiz(ti,quizWords){
+  dwQuizState={ti,words:quizWords,phase1Queue:shuffleArray([...quizWords]),phase1Idx:0,mastered:new Set(),phase2Queue:null,phase2Idx:0,correctCount:0,totalCount:0,questionStart:0};
+  renderDWQuizP1();
+}
 
 function getDWQuizOptions(word,allWords){
   const others=shuffleArray(allWords.filter(w=>w.de!==word.de)).slice(0,3);
@@ -3186,14 +3409,6 @@ function blankWordInSentence(sentence,wordDe){
   const escaped=stem.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const result=sentence.replace(new RegExp(escaped,'i'),'___');
   return result;
-}
-
-function startDWQuiz(ti){
-  window.speechSynthesis.cancel();
-  if(dwRecognition){try{dwRecognition.stop();}catch(e){}dwRecognition=null;}
-  const words=DW_TOPICS[ti].words;
-  dwQuizState={ti,words,phase1Queue:shuffleArray([...words]),phase1Idx:0,mastered:new Set(),phase2Queue:null,phase2Idx:0,correctCount:0,totalCount:0,questionStart:0};
-  renderDWQuizP1();
 }
 
 function stopDWSpeedTimer(){
@@ -3327,29 +3542,65 @@ function renderDWQuizP2(){
 function renderDWQuizComplete(){
   stopDWSpeedTimer();
   const s=dwQuizState;
-  const pct=s.totalCount>0?Math.round(s.correctCount/s.totalCount*100):100;
-  const medal=pct>=90?'🥇':pct>=70?'🥈':'🥉';
-  const scoreCol=pct>=90?'var(--green)':pct>=70?'var(--orange)':'var(--red)';
-  const topic=DW_TOPICS[s.ti];const masteredCnt=s.mastered.size;const ti=s.ti;
-  const correct=s.correctCount;const total=s.totalCount;
+  const ti=s.ti;
+  const chunk=dwSession.chunk;
+  const isMixing=dwSession.isMixing;
+  const topic=DW_TOPICS[ti];
+  const thisPct=s.totalCount>0?Math.round(s.correctCount/s.totalCount*100):100;
+  const masteredCnt=s.mastered.size;
+  // Accumulate into session
+  dwSession.cumCorrect+=s.correctCount;
+  dwSession.cumTotal+=s.totalCount;
   dwQuizState=null;
-  document.getElementById('dwHeaderTitle').textContent=topic.icon+' Fertig!';
-  document.getElementById('dwContent').innerHTML=`
-    <div style="padding:40px 24px;text-align:center">
-      <div style="font-size:60px;margin-bottom:12px">${medal}</div>
-      <div style="font-size:30px;font-weight:900;color:${scoreCol};margin-bottom:4px">${correct} / ${total}</div>
-      <div style="font-size:14px;color:var(--muted);margin-bottom:6px">Richtig · ${pct}%</div>
-      <div style="font-size:13px;color:var(--primary);font-weight:700;margin-bottom:20px">⚡ ${masteredCnt} / ${topic.words.length} gemeistert</div>
-      <div style="height:8px;background:var(--border2);border-radius:99px;overflow:hidden;margin-bottom:28px">
-        <div style="height:100%;width:${pct}%;background:${scoreCol};border-radius:99px;transition:width .7s ease"></div>
-      </div>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <button class="btn btn-outline" onclick="startDWQuiz(${ti})">🔁 Quiz wiederholen</button>
-        <button class="btn btn-outline" onclick="renderDWTopic(${ti})">📖 Wörter ansehen</button>
-        <button class="btn btn-gold" onclick="renderDWHome()">📚 Anderes Thema</button>
-      </div>
-    </div>`;
-  sfxCongrats();
+
+  const isFinal=chunk===3&&isMixing;
+
+  if(isFinal){
+    // Full complete screen with cumulative score
+    const cumPct=dwSession.cumTotal>0?Math.round(dwSession.cumCorrect/dwSession.cumTotal*100):100;
+    const medal=cumPct>=90?'🥇':cumPct>=70?'🥈':'🥉';
+    const scoreCol=cumPct>=90?'var(--green)':cumPct>=70?'var(--orange)':'var(--red)';
+    document.getElementById('dwHeaderTitle').textContent=topic.icon+' Abgeschlossen!';
+    document.getElementById('dwContent').innerHTML=`
+      <div style="padding:40px 24px;text-align:center">
+        <div style="font-size:60px;margin-bottom:12px">${medal}</div>
+        <div style="font-size:30px;font-weight:900;color:${scoreCol};margin-bottom:4px">${dwSession.cumCorrect} / ${dwSession.cumTotal}</div>
+        <div style="font-size:14px;color:var(--muted);margin-bottom:6px">Gesamt · ${cumPct}%</div>
+        <div style="font-size:13px;color:var(--primary);font-weight:700;margin-bottom:20px">📚 Alle 30 Wörter aus <strong>${esc(topic.label)}</strong> gemeistert!</div>
+        <div style="height:8px;background:var(--border2);border-radius:99px;overflow:hidden;margin-bottom:28px">
+          <div style="height:100%;width:${cumPct}%;background:${scoreCol};border-radius:99px;transition:width .7s ease"></div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-outline" onclick="renderDWTopic(${ti})">🔁 Nochmal von vorne</button>
+          <button class="btn btn-gold" onclick="renderDWHome()">📚 Anderes Thema</button>
+        </div>
+      </div>`;
+    sfxCongrats();
+  } else {
+    // Chunk done — show brief result then offer Weiter
+    const medal=thisPct>=90?'🥇':thisPct>=70?'🥈':'🥉';
+    const scoreCol=thisPct>=90?'var(--green)':thisPct>=70?'var(--orange)':'var(--red)';
+    // Determine next step label
+    let nextLabel,nextFn;
+    if(chunk===1&&!isMixing){nextLabel='Weiter zu Teil 2 →';nextFn=`renderDWTopic(${ti},10)`;}
+    else if(chunk===2&&!isMixing){nextLabel='Mix-Quiz starten 🔀';nextFn=`startDWMixQuiz(${ti},2)`;}
+    else if(chunk===2&&isMixing){nextLabel='Weiter zu Teil 3 →';nextFn=`renderDWTopic(${ti},20)`;}
+    else if(chunk===3&&!isMixing){nextLabel='Final-Mix starten 🔀';nextFn=`startDWMixQuiz(${ti},3)`;}
+    const quizLabel=isMixing?'Mix-Quiz':'Teil '+chunk+' Quiz';
+    document.getElementById('dwHeaderTitle').textContent=topic.icon+' '+quizLabel+' — Ergebnis';
+    document.getElementById('dwContent').innerHTML=`
+      <div style="padding:36px 24px;text-align:center">
+        <div style="font-size:52px;margin-bottom:10px">${medal}</div>
+        <div style="font-size:28px;font-weight:900;color:${scoreCol};margin-bottom:4px">${s.correctCount} / ${s.totalCount} richtig</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:6px">${thisPct}% · ⚡ ${masteredCnt} gemeistert</div>
+        <div style="height:6px;background:var(--border2);border-radius:99px;overflow:hidden;margin-bottom:24px">
+          <div style="height:100%;width:${thisPct}%;background:${scoreCol};border-radius:99px;transition:width .7s ease"></div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:20px">Gesamt bisher: ${dwSession.cumCorrect} / ${dwSession.cumTotal}</div>
+        <button class="btn btn-gold" style="width:100%;padding:15px" onclick="${nextFn}">${nextLabel}</button>
+      </div>`;
+    sfxCorrect();
+  }
 }
 
 async function saveProgress(){

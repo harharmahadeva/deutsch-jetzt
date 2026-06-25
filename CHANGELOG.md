@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.0.0] - 2026-06-25
+### Added
+- **30 words per topic** — all 10 Daily Words topics expanded from 12 → 30 words (180 new A2 German words total)
+  - All words include `exEn` (English translation of the example sentence), shown on word cards
+  - New words cover core inburgering vocabulary at A2 level (work, health, transport, authority, housing)
+- **Chunked adaptive learning** — each topic now split into 3 chunks of 10 words with 5 quiz sessions:
+  ```
+  Learn 1–10  →  Chunk-1 Quiz
+  Learn 11–20 →  Chunk-2 Quiz  →  Mix-Quiz (20 words)
+  Learn 21–30 →  Chunk-3 Quiz  →  Final Mix-Quiz (30 words)  →  Complete
+  ```
+- **Mix-Quiz** — after chunks 2 and 3, a 2.2s intro screen ("🔀 Jetzt üben wir alles zusammen!") leads into an adaptive quiz over the full cumulative word pool
+- **Cumulative scoring** — score accumulates across all 5 quiz sessions; final complete screen shows total correct / total questions with medal
+- **Chunk result screen** — after each non-final quiz: shows chunk score + mastered count + "Gesamt bisher" running total + "Weiter →" button to next step
+- **Word card header** — now shows "Teil X von 3 · Wort N / 10" for chunk-aware progress
+- **English example translation** — 🇬🇧 line shown below each German example sentence on word cards
+### Changed
+- `renderDWWord` redesigned: chunk/position tracking, chunk-boundary "Quiz →" button, exEn display
+- `startDWQuiz(ti)` replaced by `startDWChunkQuiz(ti, chunk)` + `startDWAdaptiveQuiz(ti, quizWords)` + `startDWMixQuiz(ti, chunk)`
+- `dwSession` module state tracks `{ti, chunk, isMixing, cumCorrect, cumTotal}` across the full topic session
+- Topic home card shows "30 Wörter je · 3 Chunks + Mix-Quiz"
+
 ## [1.9.0] - 2026-06-25
 ### Added
 - **Adaptive MCQ Quiz** — two-phase adaptive quiz after every Daily Words topic (matches Android v1.6.17)
