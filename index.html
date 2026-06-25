@@ -293,7 +293,60 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .hidden{display:none!important;}
 
 @media(max-width:480px){.test-options{grid-template-columns:1fr;}.word-de{font-size:42px;}.word-en{font-size:18px;}.word-pron{font-size:15px;}.phrase-de{font-size:21px;}.header{padding:10px 14px;}.main{padding:14px 12px 80px;}.tabs{gap:3px;}.tab{font-size:12px;padding:10px 6px;}.logout-btn .lbl{display:none;}.exercise-input,.drill-input{font-size:16px;}}
-@media(min-width:1024px){.main{padding:24px 20px 90px;}.card{padding:24px;}}
+
+/* ══ iPad (768–1023px) ══ */
+@media(min-width:768px) and (max-width:1023px){
+  .main{padding:20px 28px 60px;}
+  .word-de{font-size:52px;}
+  .word-en{font-size:22px;}
+  .word-pron{font-size:17px;}
+  .test-options{max-width:560px;margin:0 auto;}
+  .btn{min-height:50px!important;font-size:15px!important;}
+  .card{padding:20px;}
+}
+
+/* ══ MacBook / Desktop (1024px+) ══ */
+@media(min-width:1024px){
+  .main{
+    display:grid;
+    grid-template-columns:190px 1fr;
+    column-gap:20px;
+    align-items:start;
+    max-width:1120px;
+    padding:28px 36px 40px!important;
+  }
+  /* Full-width home blocks above the sidebar */
+  .home-hero,.mot-banner,.session-bar,.extend-bar,.day-progress,.dw-entry-card{
+    grid-column:1 / -1;
+  }
+  /* Sidebar tab bar */
+  .tabs{
+    grid-column:1;
+    flex-direction:column;
+    border-radius:14px;
+    padding:8px;
+    position:sticky;
+    top:70px;
+    align-self:start;
+    margin-bottom:0;
+    height:fit-content;
+  }
+  .tab{
+    text-align:left;
+    justify-content:flex-start;
+    padding:12px 16px;
+    border-radius:10px;
+    font-size:13px;
+    font-weight:600;
+  }
+  /* Content panels — right column */
+  #tab-lesson,#tab-speak,#tab-exam,#tab-test{
+    grid-column:2;
+  }
+  .lesson-wrap{max-width:680px;margin:0 auto;}
+  .test-options{max-width:580px;margin:0 auto;}
+  .card{padding:24px;}
+}
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:var(--surface);}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px;}

@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.3.0] - 2026-06-26
+### Added
+- **iPad breakpoint (768–1023px)** — new media query: larger word/quiz font sizes, test options capped at 560px and centred, taller buttons (50px), more padding
+- **MacBook sidebar nav (1024px+)** — `.main` becomes a CSS grid (190px + 1fr); home blocks span full width; `.tabs` becomes a sticky left sidebar with vertical nav items; lesson/speak/exam/test panels occupy the right column; content max-width 1120px
+
 ## [2.2.0] - 2026-06-26
 ### Added
 - **Pronunciation tips** — amber 💡 chips below phonetic guide on word cards showing English pronunciation rules (e.g. "'ie' sounds like 'ee'", "'w' sounds like 'v'"). Up to 2 tips per word, shown on Daily Words topic cards AND main lesson word cards (including review words)
