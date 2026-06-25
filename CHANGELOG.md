@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.0] - 2026-06-25
+### Changed
+- **Logout button** — "⏻ Logout" replaced with "Abmelden" text (matches Android v1.6.16)
+- **Hero spacing** — increased margin below hero card from 16px → 20px for breathing room before lesson card
+- **Back buttons** — `dw-back` (Daily Words overlay) now shows "← Zurück" as a proper outlined button; `exam-back-btn` already outlined from v1.7.0
+### Notes
+- v1.6.15 (Firebase cloud backup) skipped — requires Firebase project credentials; IndexedDB local storage unchanged
+
 ## [1.7.0] - 2026-06-25
 ### Added
 - **Week strip** — M D M D F S S day circles in the progress card

@@ -97,7 +97,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .header{background:rgba(15,12,41,0.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(99,102,241,0.2);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .logo{font-family:"Outfit",sans-serif;font-size:19px;font-weight:900;color:#fff;}
 
-.home-hero{background:linear-gradient(160deg,#1E1B4B 0%,#302B63 50%,#1D4ED8 100%);border-radius:20px;padding:28px 24px 24px;margin-bottom:16px;position:relative;overflow:hidden;text-align:center;}
+.home-hero{background:linear-gradient(160deg,#1E1B4B 0%,#302B63 50%,#1D4ED8 100%);border-radius:20px;padding:28px 24px 24px;margin-bottom:20px;position:relative;overflow:hidden;text-align:center;}
 .home-hero::before{content:"";position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);top:-60px;right:-40px;pointer-events:none;}
 .home-hero::after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.04);bottom:-30px;left:20px;pointer-events:none;}
 .hero-greeting{font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:4px;position:relative;}
@@ -220,7 +220,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 #dwScreen.active{display:block;}
 .dw-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--card);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:10;}
 .dw-header-title{font-size:16px;font-weight:800;color:var(--text);}
-.dw-back{background:none;border:none;font-size:22px;color:var(--primary);cursor:pointer;padding:4px 8px;border-radius:8px;}
+.dw-back{background:transparent;border:1px solid rgba(99,102,241,0.4);color:var(--primary);cursor:pointer;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;}
 .dw-topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px;}
 .dw-topic-card{background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:16px 12px;cursor:pointer;text-align:center;transition:border-color .15s;}
 .dw-topic-card:active{border-color:var(--primary);}
@@ -394,7 +394,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
      ══════════════════════════════════ -->
 <div id="dwScreen">
   <div class="dw-header">
-    <button class="dw-back" onclick="hideDailyWords()">←</button>
+    <button class="dw-back" onclick="hideDailyWords()">← Zurück</button>
     <div class="dw-header-title" id="dwHeaderTitle">🗣️ Tägliche Wörter</div>
     <div style="width:38px"></div>
   </div>
@@ -430,7 +430,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
       <button id="muteBtn" onclick="toggleMute()" title="Mute sounds" style="padding:6px 10px;background:transparent;border:1px solid var(--border2);border-radius:99px;font-size:14px;cursor:pointer;transition:all 0.2s;line-height:1">🔔</button>
       <div class="streak">🔥 <span id="streakCount">0</span></div>
       <div class="user-name" id="headerName"></div>
-      <button class="logout-btn" onclick="logout()">⏻ <span class="lbl">Logout</span></button>
+      <button class="logout-btn" onclick="logout()">Abmelden</button>
     </div>
   </div>
 
