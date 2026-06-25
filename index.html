@@ -1141,6 +1141,7 @@ function renderLesson(lesson){
             ${w.sep?`<span style="font-size:11px;background:rgba(168,85,247,0.15);color:var(--violet);border-radius:6px;padding:2px 8px">trennbar</span>`:''}
           </div>
           <div class="word-pron" style="margin:4px 0">${w.pron}</div>
+          ${renderPronTipsHtml(w.de)}
           <div class="word-en" style="font-size:17px">${w.en}</div>
         </div>
 
@@ -1190,6 +1191,7 @@ function renderLesson(lesson){
               ${w.sep?`<span style="font-size:11px;background:rgba(168,85,247,0.15);color:var(--violet);border-radius:6px;padding:2px 8px">trennbar</span>`:''}
             </div>
             <div class="word-pron" style="margin:4px 0">${w.pron}</div>
+            ${renderPronTipsHtml(w.de)}
             <div class="word-en" style="font-size:17px">${w.en}</div>
           </div>
           <div class="word-example" style="margin-bottom:10px;border-left-color:var(--cyan)">
@@ -3182,6 +3184,47 @@ const DW_TOPICS=[
 
 let dwRecognition=null;
 
+function germanPronTips(word){
+  const w=word.toLowerCase();
+  const tips=[];
+  if(w.includes('ie'))                                              tips.push("'ie' sounds like 'ee'");
+  if(w.includes('ei')||w.includes('ai'))                           tips.push("'ei'/'ai' sounds like 'eye'");
+  if(w.includes('eu')||w.includes('äu'))                           tips.push("'eu'/'äu' sounds like 'oy'");
+  if(w.includes('tsch'))                                            tips.push("'tsch' sounds like English 'ch'");
+  else if(w.includes('sch'))                                        tips.push("'sch' sounds like 'sh'");
+  else if(w.includes('ch'))                                         tips.push("'ch' → throat sound (or 'sh' after a/o/u)");
+  if(w.includes('ß')||w.includes('ss'))                            tips.push("'ß'/'ss' → sharp 's' sound");
+  if(w.includes('ü'))                                              tips.push("'ü' → round lips, say 'ee'");
+  if(w.includes('ö'))                                              tips.push("'ö' → round lips, say 'e'");
+  if(w.includes('ä'))                                              tips.push("'ä' like 'e' in 'bed'");
+  if(w.includes('w'))                                              tips.push("'w' sounds like 'v'");
+  if(w.includes('v'))                                              tips.push("'v' sounds like 'f'");
+  if(w.includes('z'))                                              tips.push("'z' sounds like 'ts'");
+  if(w.includes('qu'))                                             tips.push("'qu' sounds like 'kv'");
+  return tips.slice(0,2);
+}
+
+function renderPronTipsHtml(word){
+  const tips=germanPronTips(word);
+  if(!tips.length)return '';
+  return `<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:6px">${tips.map(t=>`<span style="background:#FFFBEB;color:#92400E;font-size:11px;font-weight:500;border-radius:999px;padding:4px 10px">💡 ${esc(t)}</span>`).join('')}</div>`;
+}
+
+function setDWBackBtn(label,fn){
+  const btn=document.querySelector('#dwScreen .dw-back');
+  if(!btn)return;
+  btn.textContent=label;
+  btn.onclick=fn;
+}
+
+function stopDWQuiz(){
+  stopDWSpeedTimer();
+  dwQuizState=null;
+  dwSession=null;
+  setDWBackBtn('← Zurück',hideDailyWords);
+  renderDWHome();
+}
+
 function showDailyWords(){
   document.getElementById('dwScreen').classList.add('active');
   renderDWHome();
@@ -3244,6 +3287,7 @@ function renderDWWord(ti,wi){
   // Back nav: don't cross chunk boundary — go back to start of chunk if at chunk's first word
   const prevWi=chunkWi===0?null:wi-1;
   const pct=Math.round((chunkWi+1)/10*100);
+  setDWBackBtn('← Zurück',hideDailyWords);
   document.getElementById('dwHeaderTitle').textContent=topic.icon+' Teil '+chunk+' von 3';
   document.getElementById('dwContent').innerHTML=`
     <div style="padding:12px 16px 0">
@@ -3256,13 +3300,16 @@ function renderDWWord(ti,wi){
     <div class="dw-word-wrap">
       <div class="dw-word-de">${esc(w.de)}</div>
       <div class="dw-word-pron">${esc(w.pron)}</div>
+      ${renderPronTipsHtml(w.de)}
       <div class="dw-word-en">${esc(w.en)}</div>
 
-      <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:12px 14px;margin-bottom:14px">
+      <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:12px 14px;margin-bottom:10px">
         <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">💬 Beispiel</div>
         <div style="font-size:14px;color:var(--text2);line-height:1.7;font-style:italic">${esc(w.ex)}</div>
         ${w.exEn?`<div style="font-size:12px;color:var(--muted);margin-top:5px">🇬🇧 ${esc(w.exEn)}</div>`:''}
       </div>
+
+      <div id="dwMicResult" style="margin-bottom:10px"></div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
         <button onclick="speakDW(${JSON.stringify(w.de)},0.85)" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:14px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:var(--primary);font-size:11px;font-weight:600;cursor:pointer">
@@ -3275,8 +3322,6 @@ function renderDWWord(ti,wi){
           <span style="font-size:20px">🎤</span>Nachsprechen
         </button>
       </div>
-
-      <div id="dwMicResult" style="min-height:48px;margin-bottom:12px"></div>
 
       <div class="dw-nav">
         <button class="btn btn-outline" onclick="${prevWi!==null?`renderDWWord(${ti},${prevWi})`:'renderDWHome()'}" ${prevWi===null&&chunkWi===0?'style="opacity:0.3"':''}>← Zurück</button>
@@ -3312,9 +3357,10 @@ function startDWMic(ti,wi,expected){
     const exp=norm(expected.replace(/^(der|die|das)\s+/i,''));
     const pct=scoreMatch(spoke,exp)||( spoke&&exp&&(spoke.includes(exp)||exp.includes(spoke))?75:0 );
     const scoreCol=pct>=80?'var(--green)':pct>=50?'var(--orange)':'var(--red)';
+    const scoreBg=pct>=80?'#DCFCE7':pct>=50?'#FEF9C3':'#FFE4E6';
     const scoreLabel=pct>=80?'✅ Ausgezeichnet! Perfekt ausgesprochen.':pct>=50?'🟡 Fast richtig! Versuche es nochmal.':'❌ Nochmal versuchen — höre zuerst das Beispiel.';
     res.innerHTML=`
-      <div style="padding:10px 12px;background:var(--card);border:1px solid var(--border2);border-radius:12px">
+      <div style="padding:10px 12px;background:${scoreBg};border:1px solid ${scoreCol}33;border-radius:12px">
         <div style="font-size:13px;font-weight:700;color:${scoreCol};margin-bottom:6px">${scoreLabel}</div>
         <div class="dw-score-bar"><div class="dw-score-fill" style="width:${pct}%;background:${scoreCol}"></div></div>
         <div style="font-size:11px;color:var(--muted);margin-top:4px">Sie sagten: <em>${esc(transcript)}</em></div>
@@ -3423,6 +3469,7 @@ function startDWSpeedBar(ms){
 }
 
 function renderDWQuizP1(){
+  setDWBackBtn('← Stop',stopDWQuiz);
   const s=dwQuizState;
   if(s.phase1Idx>=s.phase1Queue.length){renderDWQuizTransition();return;}
   const word=s.phase1Queue[s.phase1Idx];
@@ -3501,6 +3548,7 @@ function renderDWQuizTransition(){
 }
 
 function renderDWQuizP2(){
+  setDWBackBtn('← Stop',stopDWQuiz);
   const s=dwQuizState;
   if(s.phase2Idx>=s.phase2Queue.length){renderDWQuizComplete();return;}
   const word=s.phase2Queue[s.phase2Idx];

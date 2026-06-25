@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.2.0] - 2026-06-26
+### Added
+- **Pronunciation tips** — amber 💡 chips below phonetic guide on word cards showing English pronunciation rules (e.g. "'ie' sounds like 'ee'", "'w' sounds like 'v'"). Up to 2 tips per word, shown on Daily Words topic cards AND main lesson word cards (including review words)
+- **Quiz stop button** — "← Stop" back button in Daily Words quiz header (P1, P2, and result screens). Resets quiz state and returns to topic picker. Not shown on auto-dismiss transition screens
+- **Mic feedback inside word card** — speech recognition result now appears directly below the example sentence block (above the 3 action buttons), with color-coded backgrounds: green (#DCFCE7) ≥80%, yellow (#FEF9C3) 50–79%, red (#FFE4E6) <80%
+
 ## [2.1.0] - 2026-06-26
 ### Changed
 - **Test tab always unlocked** — removed 60-minute session timer lock; Test tab accessible at any time
