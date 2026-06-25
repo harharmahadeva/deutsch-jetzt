@@ -482,7 +482,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
       <div class="tab active" id="tabBtnLesson" onclick="switchTab('lesson',this)">📚 Lesson</div>
       <div class="tab" id="tabBtnSpeak" onclick="switchTab('speak',this)">🎤 Speaking</div>
       <div class="tab" id="tabBtnExam" onclick="switchTab('exam',this)">🎓 Exam Prep</div>
-      <div class="tab locked" id="tabBtnTest" onclick="openTest()">🎯 Test</div>
+      <div class="tab" id="tabBtnTest" onclick="openTest()">🎯 Test</div>
     </div>
 
     <div id="tab-lesson">
@@ -1009,11 +1009,11 @@ const DAY_MODULE_MAP={
 async function loadLesson(day){
   currentLesson=null;
   const topic=DAY_TOPICS[(day-1)%DAY_TOPICS.length]||'Advanced German';
-  document.getElementById('lessonContent').innerHTML=`<div class="lesson-loading"><div class="spinner"></div><div>Generating Day ${day} lesson... hang tight! 🍛</div></div>`;
+  document.getElementById('lessonContent').innerHTML=`<div class="lesson-loading"><div class="spinner"></div><div>Generating Day ${day} lesson... hang tight! ⏳</div></div>`;
 
   const reviewWords=day>7?`\nSPACED REPETITION: Also include 3 "review_words" — pick 3 important words from any of Days 1-${day-1} that a learner should not forget. Same schema as words.`:'';
   const prompt=
-`You are a structured A2 German tutor for two IT professionals from New Delhi living in Berlin. Your goal: get them to Goethe/TELC A2 standard. Warm, memorable humor — but grammar and vocabulary precision come first.
+`You are a structured A2 German tutor for two IT professionals living in Berlin. Your goal: get them to Goethe/TELC A2 standard. Warm, memorable humor — but grammar and vocabulary precision come first.
 
 Generate a Day ${day} A2-aligned German lesson on: "${topic}"
 
@@ -1037,12 +1037,11 @@ VOCABULARY RULES:
 - Example sentences must be realistic Berlin daily-life situations
 ${reviewWords}
 
-TONE: Like a brilliant desi bhaiya who aced his Goethe A2. Humor through Delhi+Berlin comparisons, never at expense of clarity.
-Delhi: CP, DTC bus, auto-wala, chai, biryani, Chandni Chowk, jugaad, "bhai"
+TONE: Warm and encouraging. Humor through Berlin daily-life situations, never at expense of clarity.
 Berlin: U-Bahn, BVG, REWE, Lidl, Jobcenter, Alexanderplatz, Kreuzberg, Döner, Späti
 
 Return ONLY valid JSON (no markdown, no backticks):
-{"day":${day},"topic":"${topic}","funnyIntro":"2 sentences — hook them with Delhi+Berlin humor, set up why today's grammar matters","grammar":{"rule":"Clear one-sentence grammar rule","explanation":"2-3 sentences explaining when and how to use it, with the logic behind it","examples":["German sentence 1 — English translation","German sentence 2 — English translation","German sentence 3 — English translation"],"mistake":"The most common error learners make with this rule and how to avoid it"},"words":[{"de":"word with article if noun","pl":"plural form if noun, else omit","sep":false,"pron":"[sounds-like-english]","en":"meaning","example_de":"Berlin-context sentence","example_en":"translation","funny":"Delhi/Berlin memory hook"}],"review_words":[{"de":"word","pl":"plural if noun","sep":false,"pron":"[sounds]","en":"meaning","example_de":"sentence","example_en":"translation","funny":"hook"}],"phrases":[{"de":"phrase","en":"meaning","funny":"when to use — real situation"}],"berlinTip":"Practical A2-level Berlin survival tip linked to today's topic","jobTip":"Practical job-hunting in Berlin tip relevant to today's vocabulary"}
+{"day":${day},"topic":"${topic}","funnyIntro":"2 sentences — hook them with a relatable Berlin situation, set up why today's grammar matters","grammar":{"rule":"Clear one-sentence grammar rule","explanation":"2-3 sentences explaining when and how to use it, with the logic behind it","examples":["German sentence 1 — English translation","German sentence 2 — English translation","German sentence 3 — English translation"],"mistake":"The most common error learners make with this rule and how to avoid it"},"words":[{"de":"word with article if noun","pl":"plural form if noun, else omit","sep":false,"pron":"[sounds-like-english]","en":"meaning","example_de":"Berlin-context sentence","example_en":"translation","funny":"Berlin memory hook"}],"review_words":[{"de":"word","pl":"plural if noun","sep":false,"pron":"[sounds]","en":"meaning","example_de":"sentence","example_en":"translation","funny":"hook"}],"phrases":[{"de":"phrase","en":"meaning","funny":"when to use — real situation"}],"berlinTip":"Practical A2-level Berlin survival tip linked to today's topic","jobTip":"Practical job-hunting in Berlin tip relevant to today's vocabulary"}
 
 STRICT RULES:
 - Exactly 15 words (A1-A2 CEFR level, varied: nouns, verbs, adjectives, adverbs)
@@ -1541,7 +1540,7 @@ async function validatePronunciationWithAI(sid, target, heard, score, resultEl){
     ${quickIcon} You said: "<em>${esc(heard)}</em>" — checking...
   </div>`;
 
-  const prompt=`German pronunciation feedback for a Delhi IT professional learning German in Berlin.
+  const prompt=`German pronunciation feedback for a professional learning German in Berlin.
 
 Target: "${target}"
 What they said: "${heard}"
@@ -1550,7 +1549,7 @@ Similarity score: ${Math.round(score*100)}%
 Give SHORT feedback (3 lines max):
 1. Overall verdict (great/close/needs work)
 2. Specific pronunciation tip if needed (which letter/sound to fix)
-3. One fun tip or trick to remember (Delhi or Berlin reference welcome)
+3. One fun tip or trick to remember (Berlin context welcome)
 
 Return JSON only: {"rating":"great|close|wrong","verdict":"one line verdict","tip":"pronunciation tip","trick":"memory trick"}`;
 
@@ -1599,14 +1598,14 @@ async function checkExercise(id, word, meaning){
   feedback.className='exercise-feedback loading';
   feedback.textContent='Checking your answer... ⏳';
 
-  const prompt=`You are a German language teacher. A student learning German (from Delhi, living in Berlin, IT security professional) wrote this sentence using the word "${word}" (meaning: ${meaning}):
+  const prompt=`You are a German language teacher. A student learning German in Berlin wrote this sentence using the word "${word}" (meaning: ${meaning}):
 
 Student's answer: "${answer}"
 
 Give brief feedback (2-3 lines max):
 1. Is the word used correctly? (yes/close/no)
 2. One specific correction if needed
-3. One encouraging line with a Delhi or Berlin reference
+3. One encouraging line with a Berlin reference
 
 Return JSON only: {"rating":"good|close|wrong","feedback":"your feedback here","corrected":"corrected sentence if needed, else empty string"}`;
 
@@ -1630,7 +1629,7 @@ async function loadScenario(id, phrase, meaning){
   promptEl.innerHTML='<span style="color:var(--muted);font-size:13px">Loading scenario... ⏳</span>';
 
   const day=userProgress.day||1;
-  const prompt=`Give ONE very short Berlin daily-life scenario (1 sentence) where someone would use the German phrase "${phrase}" (${meaning}). Make it realistic and slightly funny — reference a Berlin place (REWE, U-Bahn, Jobcenter, Alexanderplatz, etc.) or compare to Delhi (CP, DTC bus, auto-wala). Return JSON only: {"scenario":"scenario text here"}`;
+  const prompt=`Give ONE very short Berlin daily-life scenario (1 sentence) where someone would use the German phrase "${phrase}" (${meaning}). Make it realistic and slightly funny — reference a Berlin place (REWE, U-Bahn, Jobcenter, Alexanderplatz, etc.). Return JSON only: {"scenario":"scenario text here"}`;
 
   try{
     checkRateLimit();
@@ -1686,7 +1685,7 @@ async function loadDrill(){
   document.getElementById('drillContent').innerHTML='<div style="color:var(--muted);font-size:13px">Generating scenarios... ⏳</div>';
 
   const words=currentLesson.words.slice(0,5).map(w=>`${w.de}=${w.en}`).join(', ');
-  const prompt=`Create exactly 3 short Berlin real-life drill scenarios for an IT security professional from Delhi learning German. Each scenario requires using one of these words: ${words}.
+  const prompt=`Create exactly 3 short Berlin real-life drill scenarios for an IT security professional learning German. Each scenario requires using one of these words: ${words}.
 
 Return JSON only:
 {"drills":[
@@ -1764,9 +1763,6 @@ async function checkDrill(targetWord){
 }
 
 function openTest(){
-  if(document.getElementById('tabBtnTest').classList.contains('locked')){
-    alert('🔒 Der Test wird nach 60 Minuten Lernzeit freigeschaltet. Mach weiter mit der Lektion — du schaffst das!');return;
-  }
   const day=userProgress.day||1;
   const tr=userProgress.testResults||{};
   switchTab('test',document.getElementById('tabBtnTest'));
@@ -1798,12 +1794,12 @@ Question mix:
 - Q10: Scenario — "Which phrase would you use when [situation in Berlin]?"
 
 Return ONLY pure JSON:
-{"questions":[{"q":"question text","options":["A","B","C","D"],"answer":0,"explanation":"short funny explanation — Berlin or Delhi reference"}]}
+{"questions":[{"q":"question text","options":["A","B","C","D"],"answer":0,"explanation":"short funny explanation — Berlin reference"}]}
 
 Rules:
 - answer is 0-indexed
-- Wrong options must be plausible (other words from the lesson)  
-- Explanations: warm, funny, use Berlin/Delhi context
+- Wrong options must be plausible (other words from the lesson)
+- Explanations: warm, funny, use Berlin context
 - Pure JSON only, no markdown`;
 
   try{
@@ -1887,13 +1883,13 @@ async function showTestResult(score,total,fromSaved){
 
   const nextDay=(userProgress.day||1);
   const passMsgs=[
-    `🎉 <strong>FIRST CLASS!</strong> ${score}/${total} — absolutely nailed it! Day ${nextDay} unlocked. Berlin's IT jobs are calling! 💪 💪`,
+    `🎉 <strong>Ausgezeichnet!</strong> ${score}/${total} — absolutely nailed it! Day ${nextDay} unlocked. Berlin's IT jobs are calling! 💪 💪`,
     `🚀 <strong>Outstanding!</strong> ${pct}% — Berlin's IT companies will want to meet you. Keep this energy!`,
-    `🌟 <strong>Shabash!</strong> ${score}/${total} correct. Delhi's finest, crushing German in Berlin! 😎 😎`
+    `🌟 <strong>Sehr gut!</strong> ${score}/${total} correct. Crushing German in Berlin! 😎 😎`
   ];
   const failMsgs=[
-    `😅 <strong>Arre yaar...</strong> ${score}/${total} — A little more practice needed. Even CP Metro confuses everyone at first! Same day again — you've got this! 💪`,
-    `🤔 <strong>${pct}% — Almost!</strong> 70% chahiye tha. Review the lesson and listen to the phrases again. Like a DTC driver — keep going! 🇩🇪 🇩🇪`,
+    `😅 <strong>Noch nicht ganz...</strong> ${score}/${total} — A little more practice needed. Same day again — you've got this! 💪`,
+    `🤔 <strong>${pct}% — Almost!</strong> 70% needed to pass. Review the lesson and listen to the phrases again. Keep going! 🇩🇪 🇩🇪`,
     `😄 <strong>Not quite!</strong> ${score}/${total} — Berlin needs patience (even the trains are late). Try again! 🚇 🚇`
   ];
 
@@ -1955,24 +1951,22 @@ async function sendChat(){
   chatHistory.push({role:'user',content:msg});
   // Cap history to last 20 messages to prevent token abuse
   if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
-  const loading=appendMsg('Soch raha hoon...','ai');
+  const loading=appendMsg('Einen Moment...','ai');
   const day=userProgress.day||1;
   const topic=DAY_TOPICS[(day-1)%DAY_TOPICS.length];
-  const sys=`You are a funny, warm German tutor for two IT security professionals from New Delhi now living in Berlin. They lost their jobs and urgently need German. 10+ years IT security experience each.
+  const sys=`You are a funny, warm German tutor for two IT security professionals living in Berlin. They need to reach A2 German. 10+ years IT security experience each.
 
 Current lesson: Day ${day} — ${topic}
 ${currentLesson?`Words covered: ${currentLesson.words.map(w=>w.de+'='+w.en).join(', ')}`:''}
 
 Style rules:
-- Warm, funny, like a desi colleague who's been in Berlin 5 years
-- Mix English naturally with occasional Hinglish (bhai, yaar, ek dum, arre)
-- Use Berlin references (U-Bahn, REWE, Jobcenter, Kreuzberg, BVG delays)
-- Use Delhi comparisons (CP, DTC bus, auto-wala, chai break, Noida traffic)
+- Warm, funny, encouraging — like a helpful colleague
+- Use Berlin references (U-Bahn, REWE, Jobcenter, Kreuzberg, BVG delays, Alexanderplatz)
 - Keep responses SHORT — 4-5 lines max
 - Always teach: German word [pronunciation] = English meaning, then example
 - Gently correct any German mistakes with humor
 - IT security context whenever relevant (DSGVO, SOC, Firewall, NIS2)
-- They're stressed about jobs — make German feel achievable, not scary`;
+- Make German feel achievable, not scary`;
 
   try{
     checkRateLimit();

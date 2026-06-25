@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.1.0] - 2026-06-26
+### Changed
+- **Test tab always unlocked** — removed 60-minute session timer lock; Test tab accessible at any time
+- **All Delhi/Hindi references removed** from AI prompts and UI strings:
+  - Lesson prompt: removed "from New Delhi", "desi bhaiya" tone, Delhi vocabulary list (CP, DTC bus, auto-wala, Chandni Chowk, jugaad, bhai), "Delhi+Berlin humor" instruction
+  - Pronunciation feedback prompt: removed "Delhi IT professional"
+  - Exercise feedback prompt: removed "from Delhi", "Delhi or Berlin reference"
+  - Scenario prompt: removed "compare to Delhi" instruction
+  - Drill prompt: removed "from Delhi"
+  - Test question prompt: removed "Delhi reference" from explanation rule
+  - Pass messages: "Shabash!" → "Ausgezeichnet!", "Delhi's finest" → removed, "Arre yaar" → "Noch nicht ganz", "70% chahiye tha" → "70% needed", "DTC driver" → removed
+  - Chat system prompt: removed "from New Delhi", "desi colleague", Hinglish instruction, Delhi comparisons list; "Soch raha hoon" → "Einen Moment"
+  - Loading spinner: curry emoji 🍛 → ⏳
+
 ## [2.0.0] - 2026-06-25
 ### Added
 - **30 words per topic** — all 10 Daily Words topics expanded from 12 → 30 words (180 new A2 German words total)
