@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.9.0] - 2026-06-25
+### Added
+- **Adaptive MCQ Quiz** — two-phase adaptive quiz after every Daily Words topic (matches Android v1.6.17)
+  - Phase 1: All 12 words, English → German MCQ, 4 options, 3-second speed bar per question
+    - Answer in < 2s correct → word marked as mastered (⚡ Blitzschnell), skipped in Phase 2
+    - Answer correct but slow → word queued for Phase 2 with feedback "kommt nochmal in Phase 2"
+    - Wrong answer → word queued for Phase 2; red highlight on chosen, green on correct
+  - Transition screen: 2.2s interstitial with 🇩🇪 flag + "Jetzt auf Deutsch!" + word count
+    - If all words mastered in Phase 1: transition skipped, goes straight to complete screen
+  - Phase 2: Unmastered words only — fill-the-blank MCQ using the example sentence with word replaced by ___
+    - Phonetic hint shown below the sentence
+    - Same speed bar + feedback logic as Phase 1
+  - Complete screen: medal 🥇≥90% / 🥈≥70% / 🥉 below, score X/Y, % correct, mastered count, animated progress bar
+    - Buttons: 🔁 Quiz wiederholen / 📖 Wörter ansehen / 📚 Anderes Thema
+  - `blankWordInSentence()`: strips article from word then regex-replaces stem in example sentence
+  - `getDWQuizOptions()`: shuffles 3 distractors + correct word for 4-option MCQ
+
 ## [1.8.0] - 2026-06-25
 ### Changed
 - **Logout button** — "⏻ Logout" replaced with "Abmelden" text (matches Android v1.6.16)

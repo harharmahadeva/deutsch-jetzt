@@ -3098,7 +3098,7 @@ function renderDWWord(ti,wi){
       <div class="dw-nav">
         <button class="btn btn-outline" onclick="renderDWWord(${ti},${wi-1})" ${wi===0?'disabled style="opacity:0.3"':''}>← Zurück</button>
         <span style="font-size:12px;color:var(--muted);font-weight:600">${wi+1} / ${total}</span>
-        <button class="btn btn-gold" onclick="renderDWWord(${ti},${wi+1})">${wi===total-1?'Fertig ✅':'Weiter →'}</button>
+        <button class="btn btn-gold" onclick="${wi===total-1?`startDWQuiz(${ti})`:`renderDWWord(${ti},${wi+1})`}">${wi===total-1?'Fertig ✅':'Weiter →'}</button>
       </div>
     </div>`;
 
@@ -3167,6 +3167,185 @@ function renderDWComplete(ti){
       <div style="font-size:14px;color:var(--muted);margin-bottom:28px">Alle ${topic.words.length} Wörter aus <strong style="color:var(--text)">${esc(topic.label)}</strong> geübt!</div>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
         <button class="btn btn-outline" onclick="renderDWTopic(${ti})">🔁 Wiederholen</button>
+        <button class="btn btn-gold" onclick="renderDWHome()">📚 Anderes Thema</button>
+      </div>
+    </div>`;
+  sfxCongrats();
+}
+
+// ── Adaptive MCQ Quiz (Daily Words) ──────────────────────────────────────────
+let dwQuizState=null,dwSpeedTimer=null;
+
+function getDWQuizOptions(word,allWords){
+  const others=shuffleArray(allWords.filter(w=>w.de!==word.de)).slice(0,3);
+  return shuffleArray([word,...others]);
+}
+
+function blankWordInSentence(sentence,wordDe){
+  const stem=wordDe.replace(/^(der|die|das|dem|den|ein|eine|einen|einem|einer)\s+/i,'').trim();
+  const escaped=stem.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const result=sentence.replace(new RegExp(escaped,'i'),'___');
+  return result;
+}
+
+function startDWQuiz(ti){
+  window.speechSynthesis.cancel();
+  if(dwRecognition){try{dwRecognition.stop();}catch(e){}dwRecognition=null;}
+  const words=DW_TOPICS[ti].words;
+  dwQuizState={ti,words,phase1Queue:shuffleArray([...words]),phase1Idx:0,mastered:new Set(),phase2Queue:null,phase2Idx:0,correctCount:0,totalCount:0,questionStart:0};
+  renderDWQuizP1();
+}
+
+function stopDWSpeedTimer(){
+  if(dwSpeedTimer){clearInterval(dwSpeedTimer);dwSpeedTimer=null;}
+}
+
+function startDWSpeedBar(ms){
+  stopDWSpeedTimer();
+  const start=Date.now();
+  dwSpeedTimer=setInterval(()=>{
+    const el=document.getElementById('dwSpeedBar');
+    if(!el){stopDWSpeedTimer();return;}
+    const pct=Math.max(0,100-(Date.now()-start)/ms*100);
+    el.style.width=pct+'%';
+    el.style.background=pct>60?'var(--green)':pct>30?'var(--orange)':'var(--red)';
+    if(pct<=0)stopDWSpeedTimer();
+  },50);
+}
+
+function renderDWQuizP1(){
+  const s=dwQuizState;
+  if(s.phase1Idx>=s.phase1Queue.length){renderDWQuizTransition();return;}
+  const word=s.phase1Queue[s.phase1Idx];
+  s.currentWord=word;s.currentOpts=getDWQuizOptions(word,s.words);s.questionStart=Date.now();
+  const topic=DW_TOPICS[s.ti];
+  document.getElementById('dwHeaderTitle').textContent=topic.icon+' Quiz · Phase 1';
+  document.getElementById('dwContent').innerHTML=`
+    <div style="padding:14px 16px 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Englisch → Deutsch</span>
+        <span style="font-size:11px;color:var(--muted)">${s.phase1Idx+1} / ${s.phase1Queue.length}</span>
+      </div>
+      <div style="height:4px;background:var(--border2);border-radius:99px;overflow:hidden;margin-bottom:2px">
+        <div id="dwSpeedBar" style="height:100%;width:100%;border-radius:99px;background:var(--green)"></div>
+      </div>
+      <div style="font-size:10px;color:var(--muted);text-align:right;margin-bottom:14px">⏱ 3 Sekunden</div>
+    </div>
+    <div style="padding:0 16px 16px">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Was ist das deutsche Wort für:</div>
+      <div style="font-size:24px;font-weight:800;color:var(--text);margin-bottom:20px;font-style:italic">"${esc(word.en)}"</div>
+      <div style="display:flex;flex-direction:column;gap:10px" id="dwQuizOpts">
+        ${s.currentOpts.map((opt,i)=>`
+          <button class="btn btn-outline" style="text-align:left;padding:13px 16px;font-size:14px;justify-content:flex-start;font-weight:600" onclick="answerDWQuiz(${i},'p1')">
+            ${esc(opt.de)}
+          </button>`).join('')}
+      </div>
+    </div>`;
+  startDWSpeedBar(3000);
+}
+
+function answerDWQuiz(chosenIdx,phase){
+  stopDWSpeedTimer();
+  const s=dwQuizState;if(!s)return;
+  const elapsed=Date.now()-s.questionStart;
+  const opts=s.currentOpts;
+  const correctWord=s.currentWord;
+  const correctIdx=opts.findIndex(o=>o.de===correctWord.de);
+  const isCorrect=chosenIdx===correctIdx;
+  s.totalCount++;if(isCorrect)s.correctCount++;
+  if(phase==='p1'&&isCorrect&&elapsed<2000)s.mastered.add(correctWord.de);
+  const optsEl=document.getElementById('dwQuizOpts');
+  if(optsEl){
+    [...optsEl.children].forEach((btn,i)=>{
+      btn.disabled=true;
+      if(i===correctIdx)btn.style.cssText+=';border-color:var(--green);color:var(--green);background:rgba(52,201,122,.1)';
+      if(i===chosenIdx&&!isCorrect)btn.style.cssText+=';border-color:var(--red);color:var(--red);background:rgba(239,68,68,.08)';
+    });
+    if(phase==='p1'&&isCorrect){
+      const fb=document.createElement('div');
+      fb.style.cssText='font-size:12px;text-align:center;margin-top:10px;padding:0 16px';
+      fb.innerHTML=elapsed<2000?'<span style="color:var(--green)">⚡ Blitzschnell — gemeistert!</span>':'<span style="color:var(--orange)">✓ Richtig · kommt nochmal in Phase 2</span>';
+      optsEl.insertAdjacentElement('afterend',fb);
+    }
+  }
+  isCorrect?sfxCorrect():sfxWrong();
+  setTimeout(()=>{
+    if(phase==='p1'){s.phase1Idx++;renderDWQuizP1();}
+    else{s.phase2Idx++;renderDWQuizP2();}
+  },isCorrect?800:1400);
+}
+
+function renderDWQuizTransition(){
+  stopDWSpeedTimer();
+  const s=dwQuizState;
+  s.phase2Queue=s.phase1Queue.filter(w=>!s.mastered.has(w.de));
+  s.phase2Idx=0;
+  if(s.phase2Queue.length===0){renderDWQuizComplete();return;}
+  document.getElementById('dwHeaderTitle').textContent='🎯 Quiz';
+  document.getElementById('dwContent').innerHTML=`
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;padding:32px 24px;text-align:center">
+      <div style="font-size:56px;margin-bottom:16px">🇩🇪</div>
+      <div style="font-size:24px;font-weight:900;color:var(--text);margin-bottom:8px">Jetzt auf Deutsch!</div>
+      <div style="font-size:13px;color:var(--muted)">${s.phase2Queue.length} ${s.phase2Queue.length===1?'Wort':'Wörter'} zum Üben</div>
+    </div>`;
+  setTimeout(()=>renderDWQuizP2(),2200);
+}
+
+function renderDWQuizP2(){
+  const s=dwQuizState;
+  if(s.phase2Idx>=s.phase2Queue.length){renderDWQuizComplete();return;}
+  const word=s.phase2Queue[s.phase2Idx];
+  s.currentWord=word;s.currentOpts=getDWQuizOptions(word,s.words);s.questionStart=Date.now();
+  const blanked=blankWordInSentence(word.ex,word.de);
+  const topic=DW_TOPICS[s.ti];
+  document.getElementById('dwHeaderTitle').textContent=topic.icon+' Quiz · Phase 2';
+  document.getElementById('dwContent').innerHTML=`
+    <div style="padding:14px 16px 0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">Satzlücke ausfüllen</span>
+        <span style="font-size:11px;color:var(--muted)">${s.phase2Idx+1} / ${s.phase2Queue.length}</span>
+      </div>
+      <div style="height:4px;background:var(--border2);border-radius:99px;overflow:hidden;margin-bottom:2px">
+        <div id="dwSpeedBar" style="height:100%;width:100%;border-radius:99px;background:var(--green)"></div>
+      </div>
+      <div style="font-size:10px;color:var(--muted);text-align:right;margin-bottom:14px">⏱ 3 Sekunden</div>
+    </div>
+    <div style="padding:0 16px 16px">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Welches Wort fehlt im Satz?</div>
+      <div style="font-size:17px;font-weight:700;color:var(--text);line-height:1.7;background:rgba(59,130,246,0.07);border:1px solid rgba(59,130,246,0.18);border-radius:12px;padding:12px 14px;margin-bottom:8px">${esc(blanked)}</div>
+      <div style="font-size:12px;color:var(--muted);font-style:italic;margin-bottom:18px">${esc(word.pron)}</div>
+      <div style="display:flex;flex-direction:column;gap:10px" id="dwQuizOpts">
+        ${s.currentOpts.map((opt,i)=>`
+          <button class="btn btn-outline" style="text-align:left;padding:13px 16px;font-size:14px;justify-content:flex-start;font-weight:600" onclick="answerDWQuiz(${i},'p2')">
+            ${esc(opt.de)}
+          </button>`).join('')}
+      </div>
+    </div>`;
+  startDWSpeedBar(3000);
+}
+
+function renderDWQuizComplete(){
+  stopDWSpeedTimer();
+  const s=dwQuizState;
+  const pct=s.totalCount>0?Math.round(s.correctCount/s.totalCount*100):100;
+  const medal=pct>=90?'🥇':pct>=70?'🥈':'🥉';
+  const scoreCol=pct>=90?'var(--green)':pct>=70?'var(--orange)':'var(--red)';
+  const topic=DW_TOPICS[s.ti];const masteredCnt=s.mastered.size;const ti=s.ti;
+  const correct=s.correctCount;const total=s.totalCount;
+  dwQuizState=null;
+  document.getElementById('dwHeaderTitle').textContent=topic.icon+' Fertig!';
+  document.getElementById('dwContent').innerHTML=`
+    <div style="padding:40px 24px;text-align:center">
+      <div style="font-size:60px;margin-bottom:12px">${medal}</div>
+      <div style="font-size:30px;font-weight:900;color:${scoreCol};margin-bottom:4px">${correct} / ${total}</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:6px">Richtig · ${pct}%</div>
+      <div style="font-size:13px;color:var(--primary);font-weight:700;margin-bottom:20px">⚡ ${masteredCnt} / ${topic.words.length} gemeistert</div>
+      <div style="height:8px;background:var(--border2);border-radius:99px;overflow:hidden;margin-bottom:28px">
+        <div style="height:100%;width:${pct}%;background:${scoreCol};border-radius:99px;transition:width .7s ease"></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="startDWQuiz(${ti})">🔁 Quiz wiederholen</button>
+        <button class="btn btn-outline" onclick="renderDWTopic(${ti})">📖 Wörter ansehen</button>
         <button class="btn btn-gold" onclick="renderDWHome()">📚 Anderes Thema</button>
       </div>
     </div>`;
