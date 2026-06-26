@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.2] - 2026-06-26
+
+### Added
+- **User: Ankita** — login `anki`, German A2 curriculum
+
+---
+
 ## [2.5.1] - 2026-06-26
 
 ### Fixed
