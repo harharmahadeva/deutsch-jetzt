@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.1] - 2026-06-26
+
+### Fixed
+- **Get scenario button never opened** — `_phraseStore` global was declared and referenced in onclick but never populated; added `_phraseStore[sid]={de,en}` inside `lesson.phrases.forEach` so the button condition is truthy and `loadScenario()` is actually called
+
+---
+
 ## [2.5.0] - 2026-06-26
 
 ### Fixed

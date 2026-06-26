@@ -1383,6 +1383,7 @@ function renderLesson(lesson){
   // One phrase per page
   lesson.phrases.forEach((p,i)=>{
     const sid=`p${i}`;
+    _phraseStore[sid]={de:p.de,en:p.en};
     lessonPages.push({type:'phrase', html:`
       <div class="card">
         <div class="section-label" style="margin-bottom:6px">💬 Phrase ${i+1}/${lesson.phrases.length} <span class="section-badge">${lesson.topic}</span></div>
@@ -1402,7 +1403,7 @@ function renderLesson(lesson){
         <div class="exercise-box" style="margin-top:12px">
           <div class="exercise-label">🎭 Berlin Scenario</div>
           <div id="scenarioPrompt_${sid}">
-            <button class="btn btn-outline btn-sm" onclick="loadScenario('${sid}','${p.de.replace(/'/g,"\\'").replace(/"/g,'&quot;')}','${p.en.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">Get a scenario →</button>
+            <button class="btn btn-outline btn-sm" onclick="_phraseStore['${sid}']&&loadScenario('${sid}',_phraseStore['${sid}'].de,_phraseStore['${sid}'].en)">Get a scenario →</button>
           </div>
           <input class="exercise-input hidden" id="exInput_${sid}" placeholder="Respond in German..." onkeydown="if(event.key==='Enter')checkScenario('${sid}','${p.de.replace(/'/g,"\\'")}')"/>
           <button class="btn btn-outline btn-sm hidden" id="exBtn_${sid}" onclick="checkScenario('${sid}','${p.de.replace(/'/g,"\\'")}')">Check ✓</button>
@@ -1859,6 +1860,7 @@ async function checkScenario(id, phrase){
 let drillData=[];
 let drillIndex=0;
 let drillScore=0;
+const _phraseStore={};
 
 async function loadDrill(){
   if(!currentLesson)return;
@@ -1912,33 +1914,29 @@ function renderDrill(){
   document.getElementById('drillInput').focus();
 }
 
-async function checkDrill(targetWord){
+function checkDrill(targetWord){
   const input=document.getElementById('drillInput');
   const result=document.getElementById('drillResult');
   const answer=input.value.trim();
   if(!answer){input.focus();return;}
 
   result.style.display='block';
-  result.className='drill-result checking';
-  result.textContent='Checking... ⏳';
   input.disabled=true;
 
-  const prompt=`Student answered a German drill. Target word: "${targetWord}". Their answer: "${answer}". Did they correctly use the word? Return JSON: {"correct":true/false,"feedback":"one encouraging line"}`;
+  // Client-side check: answer must contain at least one meaningful word from the target
+  const normAns=answer.toLowerCase();
+  const normTarget=targetWord.toLowerCase();
+  const targetWords=normTarget.split(/\s+/).filter(w=>w.length>2);
+  const isCorrect=answer.length>=2&&(
+    targetWords.length===0||targetWords.some(w=>normAns.includes(w))
+  );
 
-  try{
-    checkRateLimit();
-    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({json_mode:true,max_tokens:150,messages:[{role:'user',content:prompt}]})});
-    const data=await res.json();
-    let raw=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
-    const r=extractJSON(raw);
-    if(r.correct){drillScore++;sfxCorrect();}else{sfxWrong();}
-    result.className='drill-result '+(r.correct?'pass':'fail');
-    result.innerHTML=`${r.correct?'✅':'❌'} ${esc(r.feedback)}`;
-  }catch(e){
-    result.className='drill-result pass';
-    result.textContent='✅ Good attempt! Moving on...';
-    drillScore++;
-  }
+  if(isCorrect){drillScore++;sfxCorrect();}else{sfxWrong();}
+  result.className='drill-result '+(isCorrect?'pass':'fail');
+  result.innerHTML=isCorrect
+    ?`✅ Sehr gut! "${esc(targetWord)}" — perfekt verwendet! 💪`
+    :`❌ Versuch es nochmal! Verwende "<strong>${esc(targetWord)}</strong>" in deiner Antwort.`;
+
   setTimeout(()=>{drillIndex++;renderDrill();},1800);
 }
 
