@@ -20,26 +20,24 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap');
 :root{
-  --bg:#0A0F1E;--surface:#111827;--card:#161D2F;--card2:#1C2540;--border:#263354;--border2:#3B5BDB;
-  --blue:#3B82F6;--blue-b:#93C5FD;--blue-g:rgba(59,130,246,0.18);--blue-g2:rgba(59,130,246,0.09);
-  --cyan:#06B6D4;--violet:#A855F7;--violet-g:rgba(168,85,247,0.16);
-  --green:#22C55E;--green-g:rgba(34,197,94,0.14);
-  --orange:#F97316;--orange-g:rgba(249,115,22,0.12);
-  --red:#F87171;--red-g:rgba(248,113,113,0.12);
-  --gold:#FBBF24;
-  --text:#F8FAFC;--text2:#CBD5E1;--text3:#94A3B8;--r:16px;
+  --bg:#f8f9fb;--surface:#eff6ff;--card:#ffffff;--card2:#f1f5f9;--border:rgba(0,0,0,0.08);--border2:rgba(37,99,235,0.22);
+  --blue:#2563eb;--blue-b:#1e40af;--blue-g:rgba(37,99,235,0.08);--blue-g2:rgba(37,99,235,0.05);
+  --cyan:#0d9488;--violet:#4f46e5;--violet-g:rgba(79,70,229,0.08);
+  --green:#059669;--green-g:rgba(5,150,105,0.10);
+  --orange:#f59e0b;--orange-g:rgba(245,158,11,0.10);
+  --red:#dc2626;--red-g:rgba(220,38,38,0.08);
+  --gold:#d97706;
+  --text:#0f172a;--text2:#64748b;--text3:#94a3b8;--r:16px;
   /* legacy aliases */
-  --black:var(--bg);--surface2:var(--surface);--primary:var(--blue);--primary-dim:#2563EB;
-  --primary-glow:var(--blue-g);--gold-dim:#D97706;
-  --muted:var(--text3);--border-old:var(--border);--radius:var(--r);
+  --black:var(--bg);--surface2:var(--surface);--primary:var(--blue);--primary-dim:#1d4ed8;
+  --primary-glow:var(--blue-g);--gold-dim:#b45309;
+  --muted:var(--text2);--border-old:var(--border);--radius:var(--r);
   --blue-old:var(--blue);--purple:var(--violet);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:"Space Grotesk","Inter",sans-serif;min-height:100vh;overflow-x:hidden;font-size:16px;line-height:1.6;}
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse 700px 500px at 15% 5%,rgba(59,130,246,0.22) 0%,transparent 70%),
-  radial-gradient(ellipse 500px 400px at 85% 85%,rgba(168,85,247,0.22) 0%,transparent 70%),
-  radial-gradient(ellipse 400px 300px at 60% 40%,rgba(13,148,136,0.08) 0%,transparent 70%);}
+  background:radial-gradient(ellipse 700px 400px at 80% 0%,rgba(37,99,235,0.05) 0%,transparent 60%);}
 
 
 /* ── DISCLAIMER SCREEN ── */
@@ -69,7 +67,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .disc-btn{width:100%;max-width:480px;border:none;border-radius:14px;padding:17px;font-size:16px;font-weight:700;cursor:pointer;font-family:"Space Grotesk",sans-serif;background:linear-gradient(135deg,#1D4ED8,#7C3AED);color:#fff;transition:all 0.3s;box-shadow:0 4px 24px rgba(29,78,216,0.4);}
 .disc-btn:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(29,78,216,0.5);}
 
-#loginScreen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#0F0C29 0%,#302B63 50%,#1D4ED8 100%);position:relative;z-index:1;overflow-y:auto;}
+#loginScreen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#eff6ff 0%,#dbeafe 50%,#eff6ff 100%);position:relative;z-index:1;overflow-y:auto;}
 #loginScreen::before{content:"";position:fixed;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.04);top:-60px;left:-80px;pointer-events:none;}
 #loginScreen::after{content:"";position:fixed;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.03);bottom:40px;right:-40px;pointer-events:none;}
 .login-box{width:100%;max-width:420px;position:relative;}
@@ -94,7 +92,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 .login-error{background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.4);border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:14px;display:none;}
 
 #appScreen{display:none;position:relative;z-index:1;}
-.header{background:rgba(15,12,41,0.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(99,102,241,0.2);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.header{background:linear-gradient(135deg,#1e1b4b 0%,#1d4ed8 100%);backdrop-filter:blur(20px);border-bottom:none;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .logo{font-family:"Outfit",sans-serif;font-size:19px;font-weight:900;color:#fff;}
 
 .home-hero{background:linear-gradient(160deg,#1E1B4B 0%,#302B63 50%,#1D4ED8 100%);border-radius:20px;padding:28px 24px 24px;margin-bottom:20px;position:relative;overflow:hidden;text-align:center;}
@@ -349,7 +347,127 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 }
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:var(--surface);}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px;}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.14);border-radius:99px;}
+
+/* ══════════════════════════════════════════════
+   LIGHT MODE — Android home screen design
+   ══════════════════════════════════════════════ */
+
+/* ── Login screen: light with white card ── */
+#loginScreen::before,#loginScreen::after{background:rgba(37,99,235,0.06)!important;}
+.login-box{background:#ffffff!important;border:1px solid rgba(0,0,0,0.08)!important;box-shadow:0 4px 32px rgba(37,99,235,0.12),0 1px 4px rgba(0,0,0,0.06)!important;backdrop-filter:none!important;}
+.login-badge{background:rgba(37,99,235,0.10)!important;border-color:rgba(37,99,235,0.2)!important;color:#1e40af!important;}
+.login-logo,.login-appname{color:#0f172a!important;}
+.login-sub{color:#64748b!important;}
+.login-mot{background:rgba(37,99,235,0.05)!important;border-color:rgba(37,99,235,0.15)!important;color:#475569!important;}
+.login-mot strong{color:#0f172a!important;}
+.field-label{color:#475569!important;}
+.field-input{background:#ffffff!important;border:1.5px solid rgba(0,0,0,0.14)!important;color:#0f172a!important;}
+.field-input:focus{border-color:#4f46e5!important;background:#fafaff!important;box-shadow:0 0 0 3px rgba(79,70,229,0.08)!important;}
+.field-input::placeholder{color:#94a3b8!important;}
+.login-btn{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%)!important;box-shadow:0 4px 16px rgba(37,99,235,0.3)!important;}
+.login-error{background:rgba(220,38,38,0.07)!important;color:#dc2626!important;border-color:rgba(220,38,38,0.25)!important;}
+.login-glow{display:none!important;}
+
+/* ── Header: white text on dark indigo ── */
+.logo,.streak,.user-name,.logout-btn,.logout-btn .lbl{color:#ffffff!important;}
+.streak{background:rgba(255,255,255,0.15)!important;border-color:rgba(255,255,255,0.22)!important;}
+.user-name{background:rgba(255,255,255,0.12)!important;border-color:rgba(255,255,255,0.18)!important;}
+.logout-btn{background:rgba(239,68,68,0.25)!important;border-color:rgba(239,68,68,0.4)!important;color:#fca5a5!important;}
+
+/* ── Tabs (desktop sidebar): white ── */
+.tabs{background:#ffffff!important;border:1px solid rgba(0,0,0,0.07)!important;box-shadow:0 1px 4px rgba(0,0,0,0.06)!important;}
+.tab{color:#64748b!important;}
+.tab.active{background:rgba(37,99,235,0.09)!important;color:#1e40af!important;border-color:rgba(37,99,235,0.2)!important;}
+
+/* ── Cards ── */
+.card{background:#ffffff!important;border:1px solid rgba(0,0,0,0.07)!important;box-shadow:0 1px 4px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.04)!important;}
+.home-stat{background:#ffffff!important;border:1px solid rgba(0,0,0,0.06)!important;box-shadow:0 1px 3px rgba(0,0,0,0.05)!important;}
+.home-stat-val{color:#2563eb!important;}
+.dw-word-card,.dw-topic-card{background:#ffffff!important;border:1px solid rgba(0,0,0,0.07)!important;box-shadow:0 1px 3px rgba(0,0,0,0.05)!important;}
+.dw-action{background:#f1f5f9!important;border:1px solid rgba(0,0,0,0.08)!important;}
+.dw-ex{background:rgba(37,99,235,0.05)!important;border:1px solid rgba(37,99,235,0.15)!important;}
+.exam-module,.exam-grid-card,.knm-q{background:#ffffff!important;border:1px solid rgba(0,0,0,0.07)!important;box-shadow:0 1px 3px rgba(0,0,0,0.05)!important;}
+.exam-grid-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.10)!important;}
+.mot-banner{background:rgba(37,99,235,0.06)!important;border-color:rgba(37,99,235,0.14)!important;}
+.session-bar{background:#ffffff!important;border:1px solid rgba(0,0,0,0.07)!important;}
+
+/* ── Word flash card ── */
+.wc-head{background:linear-gradient(135deg,rgba(37,99,235,0.07),rgba(79,70,229,0.04))!important;border-bottom:1px solid rgba(0,0,0,0.06)!important;}
+.wc-nl,.dw-nl{background:linear-gradient(135deg,#2563eb,#7c3aed)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;}
+.wc-en{background:rgba(0,0,0,0.05)!important;color:#0f172a!important;}
+.wc-ex{background:rgba(0,0,0,0.03)!important;}
+.wc-tip{background:rgba(245,158,11,0.08)!important;}
+.pc-head{border-bottom:1px solid rgba(0,0,0,0.06)!important;}
+.lc{background:#ffffff!important;border:1px solid rgba(0,0,0,0.07)!important;box-shadow:0 1px 4px rgba(0,0,0,0.06)!important;}
+.lc-ex{border-bottom:1px solid rgba(0,0,0,0.06)!important;}
+.lc-rule{background:rgba(79,70,229,0.07)!important;}
+.lc-warn{background:rgba(220,38,38,0.05)!important;}
+
+/* ── Progress ── */
+.lesson-prog-bar{background:rgba(0,0,0,0.08)!important;}
+.lesson-dot{background:rgba(0,0,0,0.12)!important;}
+.score-pip{background:rgba(0,0,0,0.10)!important;}
+
+/* ── Buttons ── */
+.btn-outline{background:#ffffff!important;color:#475569!important;border:1.5px solid rgba(0,0,0,0.14)!important;}
+.btn-outline:hover{background:rgba(37,99,235,0.07)!important;border-color:rgba(37,99,235,0.3)!important;color:#2563eb!important;}
+.btn-listen{background:rgba(37,99,235,0.07)!important;border-color:rgba(37,99,235,0.22)!important;color:#2563eb!important;}
+.mic-btn{background:rgba(5,150,105,0.08)!important;border-color:rgba(5,150,105,0.25)!important;color:#059669!important;}
+
+/* ── Inputs ── */
+.exercise-input,.drill-input,.ogo-input{background:#ffffff!important;border:1.5px solid rgba(0,0,0,0.14)!important;color:#0f172a!important;}
+.exercise-input::placeholder,.drill-input::placeholder,.ogo-input::placeholder{color:#94a3b8!important;}
+.exercise-input:focus,.drill-input:focus{border-color:#4f46e5!important;}
+.ogo-input:focus{border-color:#4f46e5!important;}
+.exercise-box,.drill-scenario{background:#f8f9fb!important;border-color:rgba(0,0,0,0.08)!important;}
+
+/* ── Test & quiz options ── */
+.test-opt{background:#ffffff!important;border:1.5px solid rgba(0,0,0,0.10)!important;color:#0f172a!important;}
+.test-opt:hover:not(:disabled){border-color:rgba(37,99,235,0.4)!important;background:rgba(37,99,235,0.05)!important;color:#2563eb!important;}
+.test-opt.correct{background:rgba(5,150,105,0.10)!important;border-color:rgba(5,150,105,0.35)!important;color:#059669!important;}
+.test-opt.wrong{background:rgba(220,38,38,0.07)!important;border-color:rgba(220,38,38,0.3)!important;color:#dc2626!important;}
+.knm-opt{background:#ffffff!important;border:1.5px solid rgba(0,0,0,0.10)!important;color:#475569!important;}
+.knm-opt:hover:not(:disabled){border-color:rgba(37,99,235,0.35)!important;color:#2563eb!important;background:rgba(37,99,235,0.05)!important;}
+.knm-opt.correct{background:rgba(5,150,105,0.10)!important;border-color:rgba(5,150,105,0.35)!important;color:#059669!important;}
+.knm-opt.wrong{background:rgba(220,38,38,0.07)!important;border-color:rgba(220,38,38,0.3)!important;color:#dc2626!important;}
+
+/* ── Feedback colors ── */
+.mic-result.great{background:rgba(5,150,105,0.09)!important;border-color:rgba(5,150,105,0.3)!important;color:#059669!important;}
+.mic-result.close,.mic-result.ok,.mic-result.heard{color:#2563eb!important;}
+.mic-result.wrong{color:#dc2626!important;}
+.exercise-feedback.good{background:rgba(5,150,105,0.09)!important;border-color:rgba(5,150,105,0.25)!important;color:#059669!important;}
+.exercise-feedback.ok{color:#2563eb!important;}
+.exercise-feedback.retry{background:rgba(220,38,38,0.07)!important;border-color:rgba(220,38,38,0.2)!important;color:#dc2626!important;}
+.exercise-feedback.loading{background:#f1f5f9!important;border-color:rgba(0,0,0,0.08)!important;color:#64748b!important;}
+.test-feedback.correct,.ogo-feedback.pass,.drill-result.pass{background:rgba(5,150,105,0.09)!important;border-color:rgba(5,150,105,0.25)!important;color:#059669!important;}
+.test-feedback.wrong,.ogo-feedback.fail,.drill-result.fail{background:rgba(220,38,38,0.07)!important;border-color:rgba(220,38,38,0.2)!important;color:#dc2626!important;}
+.ogo-feedback.partial{color:#2563eb!important;}
+.ogo-feedback.checking,.drill-result.checking{background:#f1f5f9!important;color:#64748b!important;border-color:rgba(0,0,0,0.08)!important;}
+.knm-explain{background:rgba(37,99,235,0.06)!important;border-color:rgba(37,99,235,0.18)!important;color:#475569!important;}
+.knm-explain strong{color:#2563eb!important;}
+
+/* ── Section badges ── */
+.section-badge{background:rgba(37,99,235,0.10)!important;color:#1e40af!important;border-color:rgba(37,99,235,0.2)!important;}
+
+/* ── Passages & scenarios ── */
+.lezen-passage{background:rgba(37,99,235,0.04)!important;color:#475569!important;}
+.lezen-passage strong{color:#0f172a!important;}
+.ogo-prompt{background:rgba(0,0,0,0.03)!important;color:#475569!important;}
+.scenario-box{background:rgba(0,0,0,0.02)!important;}
+
+/* ── Exam back button ── */
+.exam-back-btn{border-color:rgba(0,0,0,0.2)!important;color:#475569!important;background:transparent!important;}
+.exam-back-btn:hover{background:rgba(0,0,0,0.05)!important;}
+.exam-section-title{color:#0f172a!important;}
+
+/* ── XP bar ── */
+.xp-bar-wrap{background:rgba(0,0,0,0.04)!important;}
+.xp-track{background:rgba(0,0,0,0.08)!important;}
+.xp-label{color:#64748b!important;}
+
+/* ── Home hero stays dark (like Android lesson card) ── */
+.home-hero{background:linear-gradient(160deg,#1e1b4b 0%,#302b63 50%,#1d4ed8 100%)!important;}
 </style>
 </head>
 <body>
@@ -1284,7 +1402,7 @@ function renderLesson(lesson){
         <div class="exercise-box" style="margin-top:12px">
           <div class="exercise-label">🎭 Berlin Scenario</div>
           <div id="scenarioPrompt_${sid}">
-            <button class="btn btn-outline btn-sm" onclick="loadScenario('${sid}','${p.de.replace(/'/g,"\\'")}','${p.en.replace(/'/g,"\\'")}')">Get a scenario →</button>
+            <button class="btn btn-outline btn-sm" onclick="loadScenario('${sid}','${p.de.replace(/'/g,"\\'").replace(/"/g,'&quot;')}','${p.en.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">Get a scenario →</button>
           </div>
           <input class="exercise-input hidden" id="exInput_${sid}" placeholder="Respond in German..." onkeydown="if(event.key==='Enter')checkScenario('${sid}','${p.de.replace(/'/g,"\\'")}')"/>
           <button class="btn btn-outline btn-sm hidden" id="exBtn_${sid}" onclick="checkScenario('${sid}','${p.de.replace(/'/g,"\\'")}')">Check ✓</button>
@@ -1456,8 +1574,10 @@ function startReadingCardQuiz(){
   else showLessonCompletionCard();
 }
 
+let _mqState=null;
 function showMiniQuiz(quiz,qIdx,score){
   if(qIdx>=quiz.length){showMiniQuizResult(score,quiz.length);return;}
+  _mqState={quiz,qIdx,score};
   const q=quiz[qIdx];
   document.getElementById('lessonContent').innerHTML=`
     <div >
@@ -1472,7 +1592,7 @@ function showMiniQuiz(quiz,qIdx,score){
           <div style="display:flex;flex-direction:column;gap:8px" id="mqOpts">
             ${q.options.map((opt,i)=>`
               <button class="btn btn-outline" style="text-align:left;padding:12px 16px;font-size:14px;justify-content:flex-start"
-                onclick="answerMiniQuiz(${JSON.stringify(quiz)},${qIdx},${score},${i},${q.answer})">
+                onclick="answerMiniQuiz(${i})">
                 ${esc(opt)}
               </button>`).join('')}
           </div>
@@ -1481,7 +1601,11 @@ function showMiniQuiz(quiz,qIdx,score){
     </div>`;
 }
 
-function answerMiniQuiz(quiz,qIdx,score,chosen,correct){
+function answerMiniQuiz(chosen){
+  if(!_mqState)return;
+  const {quiz,qIdx,score}=_mqState;
+  const q=quiz[qIdx];
+  const correct=q.answer;
   const isRight=chosen===correct;
   const newScore=score+(isRight?1:0);
   const opts=document.getElementById('mqOpts');

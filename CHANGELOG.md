@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.5.0] - 2026-06-26
+
+### Fixed
+- **Mini quiz buttons unclickable** — `JSON.stringify(quiz)` embedded in onclick attribute broke HTML parsing (double quotes terminated the attribute); replaced with global `_mqState` variable, onclick now passes only the index `answerMiniQuiz(i)`
+- **Get scenario button broken** — double quotes in phrase text broke onclick attribute; added `.replace(/"/g,'&quot;')` escaping
+
+### Changed
+- **Full light mode — Android home screen design** — complete UI realignment:
+  - Login: light blue gradient (`#eff6ff → #dbeafe`), white card form, dark blue button
+  - Header: dark indigo gradient (`#1e1b4b → #1d4ed8`) with white text
+  - Main: `#f8f9fb` off-white background, white elevation cards
+  - Tabs (desktop): white sidebar with blue active state
+  - Home hero: stays dark indigo (like Android lesson card)
+  - All hardcoded dark `rgba(255,255,255,x)` backgrounds flipped to light equivalents
+  - Feedback/result colors darkened for white background readability
+
+---
+
 ## [2.4.1] - 2026-06-26
 ### Added
 - New user: Varun (`varu`, hashed PIN)
