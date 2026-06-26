@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.0] - 2026-06-26
+### Security
+- **PIN hashing in ACCOUNTS** — raw PINs removed from source; accounts now store pre-computed SHA-256 hashes. `isValidAccount` compares `hashPin(input) === acct.pinHash`. `pKeyFromHash()` added. `currentUser` stores `pinHash` not raw `pin`. Session stored as `{name, pinHash}` — raw PIN never persists anywhere.
+
+---
+
 ## [2.3.0] - 2026-06-26
 ### Added
 - **iPad breakpoint (768–1023px)** — new media query: larger word/quiz font sizes, test options capped at 560px and centred, taller buttons (50px), more padding
