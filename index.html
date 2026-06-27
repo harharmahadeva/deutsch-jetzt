@@ -810,7 +810,7 @@ body{overflow-x:hidden;position:relative;}
 
       <!-- Footer -->
       <div class="disclaimer-footer">
-        🗣️ <strong>Speako</strong> — Deutschkurs für Berlin &nbsp;·&nbsp; v2.7.0<br>
+        🗣️ <strong>Speako</strong> — Deutschkurs für Berlin &nbsp;·&nbsp; v2.7.1<br>
         KI-generierte Inhalte können gelegentlich Fehler enthalten. Fortschritt wird lokal im Browser gespeichert.<br>
         Es werden keine Nutzerdaten gesammelt oder weitergegeben.
       </div>
@@ -2805,6 +2805,11 @@ function renderSprekenTask(){
   sprekenState.transcript='';
   const typeCols={video:'var(--blue)','1foto':'var(--green)','2fotos':'var(--violet)','3fotos':'var(--accent)'};
   document.getElementById('examContent').innerHTML=`
+    <div class="exam-section-hdr">
+      <div><div class="exam-section-title">🗣️ Sprechen</div>
+      <div class="exam-section-sub">Aufgabe ${idx+1} von ${queue.length}</div></div>
+      <button class="exam-back-btn" onclick="clearInterval(sprekenTimer);stopSprekenRecognition();renderExamTab()">← Stop</button>
+    </div>
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--card);border:1px solid var(--border2);border-radius:14px;margin-bottom:12px">
       <div>
         <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase">Aufgabe ${idx+1} von ${queue.length}</div>

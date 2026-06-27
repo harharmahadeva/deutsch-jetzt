@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1] - 2026-06-28
+
+### Fixed
+- **Back button on Sprechen task screen** — `renderSprekenTask()` was missing a back/stop button, trapping users mid-speaking task with no way out. Added `exam-section-hdr` div with title "🗣️ Sprechen", subtitle "Aufgabe N von M", and a "← Stop" button that clears the timer, stops speech recognition, and returns to exam home.
+
+---
+
 ## [2.7.0] - 2026-06-28
 
 ### Added
