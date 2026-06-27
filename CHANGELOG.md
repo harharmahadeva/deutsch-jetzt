@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.7.2] - 2026-06-28
+
+### Fixed
+- **ISSUE 1 — Back buttons (iOS):** Removed conflicting light-mode CSS rule that set `background:transparent!important` on `.exam-back-btn`, overriding the solid pill style. Final `.exam-back-btn` rule now unambiguously sets `background:#f1f5f9`, `border:1.5px solid rgba(0,0,0,0.18)`, `color:#1e1b4b`, `min-height:44px`, with `-webkit-tap-highlight-color:transparent` and `touch-action:manipulation` for reliable iOS taps. Added `:active` state for visual feedback.
+- **ISSUE 2 — MCQ / all buttons not clickable on iOS Safari:** Added `touch-action:manipulation` and `-webkit-tap-highlight-color:transparent` to `.btn`, `.test-opt`, and a bulk rule covering all interactive elements (`button`, `.tab`, `.exam-back-btn`, `.dw-back`, `.hlc-btn`, `.home-lesson-card`, `.home-dw-card`, `.home-exam-card`, `.dw-topic-card`). This eliminates the 300ms tap delay on iOS Safari and the grey flash that can suppress click events.
+- **ISSUE 3 — Home screen scrolls vertically and horizontally:** Replaced hard-coded `56px` header offset in the no-scroll home calc with CSS custom properties `--sat` (safe-area-inset-top), `--sab` (safe-area-inset-bottom), and `--header-h` (dynamically computed from actual padding). New formula: `height:calc(100dvh - var(--sat) - var(--sab) - var(--header-h) - 60px)`. This correctly accounts for the Dynamic Island header padding instead of assuming a fixed 56px height.
+- **ISSUE 4 — Content under Dynamic Island:** Added `maximum-scale=1, user-scalable=no` to the viewport meta tag (was missing). Introduced `:root` CSS variables `--sat` and `--sab` mapped to `env(safe-area-inset-top)` / `env(safe-area-inset-bottom)` for consistent safe-area usage throughout. Header padding rule now references `var(--sat)` via `--header-h`.
+- **JS bug — `delay` undefined in `startVoiceValidation()`:** `setTimeout(..., delay)` referenced an undeclared variable `delay`, causing a `ReferenceError` whenever the voice mic button was tapped. Fixed to `setTimeout(..., 300)`.
+
+---
+
 ## [2.7.1] - 2026-06-28
 
 ### Fixed
