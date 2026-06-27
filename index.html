@@ -713,7 +713,8 @@ button,.btn,.tab,.test-opt,.knm-opt,.exam-back-btn,.dw-back,.hlc-btn,.home-lesso
     <input class="field-input" id="loginPin" type="password" maxlength="4" placeholder="• • • •" inputmode="numeric" autocomplete="off" onkeydown="if(event.key==='Enter')handleLogin()" />
     <button class="login-btn" id="loginBtn" onclick="handleLogin()">Sign in to continue →</button>
     <div style="margin-top:16px;font-size:11px;color:rgba(255,255,255,0.45);text-align:center;line-height:1.7">
-      Personal learning app. Progress stored locally.
+      Personal learning app. Progress stored locally.<br>
+      <span id="appVersionDisplay" style="opacity:0.6"></span>
     </div>
   </div>
 </div>
@@ -1155,6 +1156,8 @@ function showDisclaimer(){
 }
 
 window.onload=async()=>{
+  const vEl=document.getElementById('appVersionDisplay');
+  if(vEl)vEl.textContent='v'+APP_VERSION;
   const s=sessionStorage.getItem('dj2_sess');
   if(s){
     try{
@@ -1183,6 +1186,7 @@ window.onload=async()=>{
 // HARDCODED ACCOUNTS — closed system, no signup
 // Credentials shared privately by admin
 // ═══════════════════════════════════
+const APP_VERSION='2.7.3';
 const ACCOUNTS=[
   {name:'manra',   pinHash:'df6ed983e4fa5ea6', displayName:'Manisha', lang:'de'},
   {name:'nikra',   pinHash:'019b98f08339481d', displayName:'Nikhil',  lang:'de'},
