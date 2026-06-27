@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.7.0] - 2026-06-28
+
+### Added
+- **Home screen redesign — Android app parity** — replaced legacy hero/session-bar layout with new home dashboard tab matching the Android app UI: time-based German greeting (Guten Morgen / Guten Tag / Guten Abend / Gute Nacht), 3-stat row (Tag / Streak 🔥 / Fertig %), big dark indigo→blue lesson card with vocabulary chips and "Heute starten 🚀" button, Tägliche Wörter peach card, Prüfungsvorbereitung dark navy card, "Wie du lernst" 3-column grid (hidden on mobile), "Diese Woche" 7-day calendar (hidden on mobile)
+- **`renderHomeTab()` function** — populates all home tab elements dynamically from user progress and `DAY_TOPICS` / `DAY_MODULE_MAP`
+- **CSS: overflow/safe-area fixes** — `html/body/#appScreen` overflow-x hidden; Dynamic Island safe area header padding; no-scroll home on mobile via `body[data-tab="home"]` media query
+- **CSS: `.exam-back-btn` style** — light grey pill button with dark indigo text
+
+### Changed
+- **`switchTab()`** — now sets `document.body.dataset.tab = name` to enable CSS-driven home no-scroll mode; also hides `tab-home` when switching away
+- **`showApp()`** — sets `document.body.dataset.tab = 'home'` on entry, calls `switchTab('home', null)` and `renderHomeTab()` to land on home dashboard; lesson loads in background
+- **sw.js cache** — bumped to `speako-v2.7`; added network-first strategy for HTML so UI updates propagate immediately without stale cache
+
+### Fixed
+- **JSON.stringify onclick bugs** — three broken onclick attributes that embedded `JSON.stringify(...)` inside HTML attributes (breaks on double-quotes): `speakGerman(task.example)`, `speakDW(w.de, 0.85)`, `speakDW(w.de, 0.65)`, `startDWMic(ti, wi, w.de)` — replaced with `window._sprekenEx` and `window._dwWord` globals set before innerHTML render
+
+---
+
 ## [2.5.2] - 2026-06-26
 
 ### Added

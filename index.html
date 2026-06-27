@@ -468,6 +468,92 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 
 /* ── Home hero stays dark (like Android lesson card) ── */
 .home-hero{background:linear-gradient(160deg,#1e1b4b 0%,#302b63 50%,#1d4ed8 100%)!important;}
+
+html{overflow-x:hidden;height:100%;}
+body{overflow-x:hidden;position:relative;}
+#appScreen{overflow-x:hidden;width:100%;}
+
+/* Dynamic Island safe area */
+.header{
+  padding:max(44px, calc(env(safe-area-inset-top,0px) + 9px)) 16px 9px!important;
+}
+
+/* No-scroll home on mobile */
+@media (max-width:767px){
+  body[data-tab="home"] .main{overflow:hidden!important;padding-bottom:0!important;}
+  body[data-tab="home"] #tab-home{
+    height:calc(100dvh - env(safe-area-inset-top,0px) - 60px - env(safe-area-inset-bottom,0px) - 56px);
+    display:flex;flex-direction:column;overflow:hidden;
+    gap:8px;padding-bottom:0;
+  }
+  body[data-tab="home"] .home-lesson-card{flex:1;min-height:0;}
+  body[data-tab="home"] #homeHowTitle,
+  body[data-tab="home"] #homeHowCard,
+  body[data-tab="home"] #homeWeekTitle,
+  body[data-tab="home"] #homeWeekCard,
+  body[data-tab="home"] #motBanner,
+  body[data-tab="home"] .disclaimer-footer{display:none!important;}
+}
+
+/* Back button */
+.exam-back-btn{background:#f1f5f9!important;border:1.5px solid rgba(0,0,0,0.12)!important;color:#1e1b4b!important;border-radius:99px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px;min-height:44px;}
+
+/* ══ Home tab — Android parity redesign ══ */
+.home-greeting{padding:6px 0 18px;text-align:center;}
+.home-greeting-name{font-size:30px;font-weight:800;color:#0f172a;}
+.home-greeting-sub{font-size:15px;color:#64748b;margin-top:2px;}
+
+.home-stats-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;}
+.home-stat3{background:#ffffff;border:1px solid rgba(0,0,0,0.06);border-radius:14px;padding:14px 10px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.home-stat3-val{font-size:22px;font-weight:800;color:#0f172a;line-height:1;}
+.home-stat3-green{color:#059669!important;}
+.home-stat3-orange{color:#f59e0b!important;}
+.home-stat3-lbl{font-size:10px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.8px;margin-top:5px;}
+
+.home-lesson-card{background:linear-gradient(160deg,#1e1b4b 0%,#2563eb 100%);border-radius:20px;padding:22px 20px 18px;margin-bottom:6px;cursor:pointer;position:relative;overflow:hidden;transition:transform 0.18s ease;}
+.home-lesson-card:active{transform:scale(0.98);}
+.home-lesson-card::before{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.06);top:-60px;right:-40px;pointer-events:none;}
+.hlc-badge{font-size:10px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,0.65);text-transform:uppercase;margin-bottom:10px;}
+.hlc-title{font-size:22px;font-weight:800;color:#ffffff;margin-bottom:4px;line-height:1.2;}
+.hlc-meta{font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:10px;}
+.hlc-module{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.15);border-radius:99px;padding:4px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.9);margin-bottom:12px;}
+.hlc-module:empty{display:none;margin:0;}
+.hlc-chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;}
+.hlc-chip{background:rgba(255,255,255,0.15);border-radius:99px;padding:5px 13px;font-size:12px;font-weight:600;color:#ffffff;}
+.hlc-btn{width:100%;background:#ffffff;color:#1e1b4b;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:"Space Grotesk",sans-serif;letter-spacing:0.2px;transition:opacity 0.15s;}
+.hlc-btn:active{opacity:0.85;}
+
+.home-section-title{font-size:16px;font-weight:800;color:#0f172a;margin:20px 0 10px;}
+
+.home-dw-card{background:#fff7ed;border:1px solid rgba(245,158,11,0.2);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:transform 0.15s ease;}
+.home-dw-card:active{transform:scale(0.98);}
+.home-dw-icon{font-size:32px;flex-shrink:0;}
+.home-dw-body{flex:1;min-width:0;}
+.home-dw-title{font-size:15px;font-weight:700;color:#0f172a;margin-bottom:2px;}
+.home-dw-sub{font-size:12px;color:#64748b;margin-bottom:4px;}
+.home-dw-stat{font-size:12px;font-weight:700;color:#f59e0b;}
+
+.home-exam-card{background:linear-gradient(135deg,#1e1b4b 0%,#312e81 100%);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:transform 0.15s ease;}
+.home-exam-card:active{transform:scale(0.98);}
+.home-exam-icon{font-size:26px;flex-shrink:0;}
+.home-exam-body{flex:1;}
+.home-exam-title{font-size:15px;font-weight:700;color:#ffffff;margin-bottom:3px;}
+.home-exam-sub{font-size:12px;color:rgba(255,255,255,0.6);}
+
+.home-how-card{background:#fefce8;border:1px solid rgba(234,179,8,0.2);border-radius:16px;padding:18px;}
+.home-how-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.home-how-col{text-align:center;}
+.home-how-icon{font-size:28px;margin-bottom:5px;}
+.home-how-name{font-size:13px;font-weight:700;}
+.home-how-sub{font-size:11px;color:#64748b;margin-top:3px;}
+.home-tip{background:rgba(245,158,11,0.12);border-radius:10px;padding:10px 12px;font-size:13px;color:#92400e;}
+
+.home-week-card{background:#ffffff;border:1px solid rgba(0,0,0,0.07);border-radius:16px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.home-week-row{display:flex;justify-content:space-between;margin-bottom:8px;}
+.home-week-day{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;}
+.home-week-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.home-week-lbl{font-size:10px;font-weight:600;color:#94a3b8;text-transform:uppercase;}
+.home-week-label{font-size:12px;color:#64748b;text-align:center;margin-top:4px;}
 </style>
 </head>
 <body>
@@ -606,57 +692,138 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   </div>
 
   <div class="main">
-    <div class="home-hero" id="homeHero">
-      <div class="hero-greeting" id="heroGreeting">Good morning</div>
-      <div class="hero-name" id="heroName">Welcome back!</div>
-      <div class="hero-chips">
-        <div class="hero-chip" id="heroLangChip">🗣️ German</div>
-        <div class="hero-chip" id="heroDayChip">Day 1</div>
-        <div class="hero-chip">🔥 <span id="heroStreak">0</span> streak</div>
+    <!-- HOME DASHBOARD TAB -->
+    <div id="tab-home">
+      <!-- User greeting -->
+      <div class="home-greeting">
+        <div class="home-greeting-name" id="homeGreetingName">Willkommen</div>
+        <div class="home-greeting-sub" id="homeGreetingSub">Guten Morgen</div>
       </div>
-    </div>
 
-    <div class="mot-banner" id="motBanner"></div>
-
-    <div class="session-bar">
-      <div class="session-top">
-        <span class="session-label">Today's session</span>
-        <span class="session-time" id="sessionTime">0 / 60 min</span>
+      <!-- Stats: Tag / Streak / Fertig -->
+      <div class="home-stats-3">
+        <div class="home-stat3">
+          <div class="home-stat3-val" id="statDay">1</div>
+          <div class="home-stat3-lbl">Tag</div>
+        </div>
+        <div class="home-stat3">
+          <div class="home-stat3-val home-stat3-orange"><span id="statStreak">0</span> 🔥</div>
+          <div class="home-stat3-lbl">Streak</div>
+        </div>
+        <div class="home-stat3">
+          <div class="home-stat3-val home-stat3-green" id="statDone">0%</div>
+          <div class="home-stat3-lbl">Fertig %</div>
+        </div>
       </div>
-      <div class="bar-track"><div class="bar-fill" id="sessionBar" style="width:0%"></div></div>
-    </div>
 
-    <div class="extend-bar" id="extendBar">
-      <div style="font-size:14px;color:var(--text)">✅ <strong>60 min done!</strong> Session complete! Test is now unlocked! Keep going? 🎯</div>
-      <button class="btn btn-green" onclick="extendSession()">+ 30 min</button>
-    </div>
-
-    <div class="day-progress">
-      <div class="dp-header">
-        <div class="dp-title" id="journeyTitle">Your German Journey 🗺️</div>
-        <div class="dp-day" id="currentDayLabel">Day 1</div>
+      <!-- Big lesson card -->
+      <div class="home-lesson-card" id="homeLessonCard" onclick="switchTab('lesson',document.getElementById('tabBtnLesson'))">
+        <div class="hlc-badge">HEUTE · TAG <span id="homeDayNum">1</span> VON 60</div>
+        <div class="hlc-title" id="hlcTopic">Begrüßungen</div>
+        <div class="hlc-meta">15 Wörter · hören, sprechen &amp; schreiben</div>
+        <div class="hlc-module" id="homeModuleTag"></div>
+        <div class="hlc-chips" id="hlcChips"></div>
+        <button class="hlc-btn" onclick="event.stopPropagation();switchTab('lesson',document.getElementById('tabBtnLesson'))">Heute starten 🚀</button>
       </div>
-      <div class="dp-dots" id="dayDots"></div>
-      <div class="week-strip" id="weekStrip"></div>
-    </div>
 
-    <div class="dw-entry-card" onclick="showDailyWords()">
-      <div class="dw-entry-icon">🗣️</div>
-      <div class="dw-entry-text">
-        <div class="dw-entry-title">Tägliche Wörter</div>
-        <div class="dw-entry-sub">Arbeit · Krankenhaus · Bahnhof · Supermarkt · mehr</div>
+      <!-- Motivation banner -->
+      <div class="mot-banner" id="motBanner" style="margin-bottom:16px"></div>
+
+      <!-- Tägliche Wörter -->
+      <div class="home-section-title">Tägliche Wörter</div>
+      <div class="home-dw-card" onclick="showDailyWords()">
+        <div class="home-dw-icon">💬</div>
+        <div class="home-dw-body">
+          <div class="home-dw-title">Tägliche Wörter</div>
+          <div class="home-dw-sub">Arbeit · Krankenhaus · Bahnhof · Supermarkt · mehr</div>
+          <div class="home-dw-stat">10 Themen · 120 Wörter</div>
+        </div>
+        <div style="font-size:22px;color:#94a3b8;flex-shrink:0">›</div>
       </div>
-      <div style="font-size:20px;color:var(--muted)">›</div>
+
+      <!-- Prüfungsvorbereitung -->
+      <div class="home-section-title">Prüfungsvorbereitung</div>
+      <div class="home-exam-card" onclick="switchTab('exam',document.getElementById('tabBtnExam'));renderExamTab()">
+        <div class="home-exam-icon">🧭</div>
+        <div class="home-exam-body">
+          <div class="home-exam-title">Prüfungs-Prep</div>
+          <div class="home-exam-sub">Goethe A2 · Lesen · Hören · Schreiben · Sprechen</div>
+        </div>
+        <div style="font-size:22px;color:rgba(255,255,255,0.45);flex-shrink:0">›</div>
+      </div>
+
+      <!-- Wie du lernst -->
+      <div class="home-section-title" id="homeHowTitle">Wie du lernst</div>
+      <div class="home-how-card" id="homeHowCard">
+        <div class="home-how-grid">
+          <div class="home-how-col">
+            <div class="home-how-icon">🎧</div>
+            <div class="home-how-name" style="color:#2563eb">Hören</div>
+            <div class="home-how-sub">Native Audio</div>
+          </div>
+          <div class="home-how-col">
+            <div class="home-how-icon">🎤</div>
+            <div class="home-how-name" style="color:#64748b">Sprechen</div>
+            <div class="home-how-sub">Laut wiederholen</div>
+          </div>
+          <div class="home-how-col">
+            <div class="home-how-icon">✅</div>
+            <div class="home-how-name" style="color:#f59e0b">Geschafft</div>
+            <div class="home-how-sub">Nächstes Wort</div>
+          </div>
+        </div>
+        <div class="home-tip">💡 Keine Grammatikregeln. Einfach hören, sprechen, verinnerlichen.</div>
+      </div>
+
+      <!-- Diese Woche -->
+      <div class="home-section-title" id="homeWeekTitle">Diese Woche</div>
+      <div class="home-week-card" id="homeWeekCard">
+        <div class="home-week-row" id="homeWeekRow"></div>
+        <div class="bar-track" style="height:4px;border-radius:99px;margin:4px 0 8px">
+          <div class="bar-fill" id="weekProgressBar" style="width:0%"></div>
+        </div>
+        <div class="home-week-label" id="weekLabel">0 von 7 Tagen diese Woche</div>
+      </div>
+
+      <!-- Hidden state elements referenced by JS timers -->
+      <div style="display:none" aria-hidden="true">
+        <div id="sessionBar" style="width:0%"></div>
+        <span id="sessionTime">0 / 60 min</span>
+        <div id="extendBar"></div>
+        <div id="currentDayLabel">Tag 1 von 60</div>
+        <div id="journeyTitle">Deine Deutschreise</div>
+        <div id="journeyBar" style="width:0%"></div>
+        <div id="recentDays"></div>
+        <div id="dayDots"></div>
+        <div id="homeTestCard"></div>
+        <div id="homeTestStatus"></div>
+        <div id="homeTestSub"></div>
+        <div id="homeStatsRow"></div>
+        <div id="heroGreeting"></div>
+        <div id="heroName"></div>
+        <div id="heroLangChip"></div>
+        <div id="heroDayChip"></div>
+        <span id="heroStreak"></span>
+        <span id="streakCount"></span>
+        <div id="weekStrip"></div>
+      </div>
+
+      <!-- Footer -->
+      <div class="disclaimer-footer">
+        🗣️ <strong>Speako</strong> — Deutschkurs für Berlin &nbsp;·&nbsp; v2.7.0<br>
+        KI-generierte Inhalte können gelegentlich Fehler enthalten. Fortschritt wird lokal im Browser gespeichert.<br>
+        Es werden keine Nutzerdaten gesammelt oder weitergegeben.
+      </div>
     </div>
 
     <div class="tabs">
-      <div class="tab active" id="tabBtnLesson" onclick="switchTab('lesson',this)">📚 Lesson</div>
+      <div class="tab" id="tabBtnLesson" onclick="switchTab('lesson',this)">📚 Lesson</div>
       <div class="tab" id="tabBtnSpeak" onclick="switchTab('speak',this)">🎤 Speaking</div>
       <div class="tab" id="tabBtnExam" onclick="switchTab('exam',this)">🎓 Exam Prep</div>
       <div class="tab" id="tabBtnTest" onclick="openTest()">🎯 Test</div>
     </div>
 
-    <div id="tab-lesson">
+    <div id="tab-lesson" class="hidden">
       <div id="lessonContent">
         <div class="lesson-loading"><div class="spinner"></div><div>Generating your lesson... hang tight! 🍛</div></div>
       </div>
@@ -1049,6 +1216,7 @@ function updateStreak(){
 }
 
 function showApp(){
+  document.body.dataset.tab='home';
   document.getElementById('loadingScreen').style.display='none';
   document.getElementById('loginScreen').classList.add('hidden');
   const app=document.getElementById('appScreen');
@@ -1056,21 +1224,12 @@ function showApp(){
   app.classList.remove('hidden');
   const dname = currentUser.displayName || currentUser.name;
   safeText(document.getElementById('headerName'), dname);
-  safeText(document.getElementById('streakCount'), userProgress.streak||1);
   const day=userProgress.day||1;
-  safeText(document.getElementById('currentDayLabel'),'Day '+day);
-  // hero section
-  const hr=new Date().getHours();
-  safeText(document.getElementById('heroLangChip'), '🗣️ German');
-  safeText(document.getElementById('journeyTitle'), 'Your German Journey 🗺️');
-  const greet=hr<5?'Gute Nacht':hr<12?'Guten Morgen':hr<17?'Guten Tag':'Guten Abend';
-  safeText(document.getElementById('heroGreeting'),greet);
-  safeText(document.getElementById('heroName'),dname+'!');
-  safeText(document.getElementById('heroDayChip'),'Day '+day+' of '+TOTAL_DAYS());
-  safeText(document.getElementById('heroStreak'),userProgress.streak||1);
   renderDayDots();
-  renderWeekStrip();
   updateMotBanner();
+  // Land on home dashboard, load lesson in background
+  switchTab('home', null);
+  renderHomeTab();
   const done=(userProgress.completedDays||[]).length;
   if(done>=60){
     document.getElementById('lessonContent').innerHTML=`
@@ -1086,6 +1245,96 @@ function showApp(){
     loadLesson(day);
   }
   startTimer();
+}
+
+function renderHomeTab(){
+  if(!currentUser||!userProgress)return;
+  const day=userProgress.day||1;
+  const completedDays=userProgress.completedDays||[];
+  const done=completedDays.length;
+  const total=60;
+  const streak=userProgress.streak||0;
+  const donePct=Math.round((done/total)*100);
+
+  // Greeting
+  const hr=new Date().getHours();
+  const greet=hr<5?'Gute Nacht':hr<12?'Guten Morgen':hr<17?'Guten Tag':'Guten Abend';
+  safeText(document.getElementById('homeGreetingName'), currentUser.displayName||currentUser.name);
+  safeText(document.getElementById('homeGreetingSub'), greet);
+
+  // Stats
+  safeText(document.getElementById('statDay'), day);
+  safeText(document.getElementById('statStreak'), streak);
+  safeText(document.getElementById('statDone'), donePct+'%');
+
+  // Lesson card day number
+  safeText(document.getElementById('homeDayNum'), day);
+
+  // Topic title + vocabulary chips from DAY_TOPICS
+  const rawTopic=DAY_TOPICS[(day-1)%DAY_TOPICS.length]||'';
+  const pipePart=rawTopic.split(' | ')[1]||rawTopic;
+  const dashIdx=pipePart.indexOf(' — ');
+  const topicTitle=dashIdx>-1?pipePart.slice(0,dashIdx):pipePart.split(',')[0];
+  const topicWords=dashIdx>-1?pipePart.slice(dashIdx+3).split(', ').slice(0,3):[];
+  safeText(document.getElementById('hlcTopic'), topicTitle||'Heute');
+
+  // Module tag
+  const mod=DAY_MODULE_MAP[day];
+  const tagEl=document.getElementById('homeModuleTag');
+  if(tagEl)tagEl.textContent=mod?'🎯 Übt: '+mod:'';
+
+  // Chips — use loaded lesson words if available, else topic description words
+  const chipsEl=document.getElementById('hlcChips');
+  if(chipsEl){
+    const words=(currentLesson&&currentLesson.day===day)
+      ?currentLesson.words.slice(0,3).map(w=>w.de.replace(/^(der|die|das)\s+/i,''))
+      :topicWords;
+    chipsEl.innerHTML=words.map(w=>`<div class="hlc-chip">${esc(w.trim())}</div>`).join('');
+  }
+
+  // Day 60 completion — replace lesson card
+  if(done>=60){
+    const lessonCard=document.getElementById('homeLessonCard');
+    if(lessonCard){
+      lessonCard.onclick=null;
+      lessonCard.style.background='linear-gradient(135deg,#059669,#10b981)';
+      lessonCard.innerHTML=`
+        <div style="font-size:32px;margin-bottom:8px">🎓</div>
+        <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:6px">60-Tage-Kurs abgeschlossen!</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.85);margin-bottom:14px">Du hast alle Wörter gelernt. Jetzt bist du bereit!</div>
+        <button class="hlc-btn" onclick="event.stopPropagation();switchTab('exam',document.getElementById('tabBtnExam'));renderExamTab()">Zur Prüfung →</button>`;
+    }
+  }
+
+  // Diese Woche calendar
+  const weekRow=document.getElementById('homeWeekRow');
+  if(weekRow){
+    const lessonDates=userProgress.lessonDates||[];
+    const now=new Date();
+    const todayIdx=(now.getDay()+6)%7;
+    const mondayOffset=(now.getDay()+6)%7;
+    const weekLabels=['M','D','M','D','F','S','S'];
+    let doneThisWeek=0;
+    weekRow.innerHTML=weekLabels.map((lbl,i)=>{
+      const d=new Date(now);
+      d.setDate(now.getDate()-mondayOffset+i);
+      const iso=d.toISOString().slice(0,10);
+      const isDone=lessonDates.includes(iso);
+      const isToday=i===todayIdx;
+      if(isDone)doneThisWeek++;
+      let dotStyle,dotContent;
+      if(isDone){dotStyle='background:#2563eb;color:#fff;border:2px solid transparent;';dotContent='✓';}
+      else if(isToday){dotStyle='background:transparent;border:2px solid #2563eb;color:#2563eb;';dotContent=lbl;}
+      else{dotStyle='background:#f1f5f9;color:#94a3b8;border:2px solid transparent;';dotContent=lbl;}
+      return `<div class="home-week-day"><div class="home-week-dot" style="${dotStyle}">${dotContent}</div><div class="home-week-lbl">${lbl}</div></div>`;
+    }).join('');
+    const weekBar=document.getElementById('weekProgressBar');
+    if(weekBar)weekBar.style.width=(doneThisWeek/7*100)+'%';
+    const weekLbl=document.getElementById('weekLabel');
+    if(weekLbl)weekLbl.textContent=doneThisWeek+' von 7 Tagen'+(doneThisWeek>0?' — weiter so!':'');
+  }
+
+  updateMotBanner();
 }
 
 function updateMotBanner(){
@@ -2176,12 +2425,17 @@ function appendMsg(text,type){
 }
 
 function switchTab(name,el){
-  ['lesson','speak','test','exam'].forEach(t=>document.getElementById('tab-'+t).classList.add('hidden'));
+  ['home','lesson','speak','test','exam'].forEach(t=>{
+    const d=document.getElementById('tab-'+t);
+    if(d)d.classList.add('hidden');
+  });
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.remove('hidden');
+  const target=document.getElementById('tab-'+name);
+  if(target)target.classList.remove('hidden');
   if(el)el.classList.add('active');
   if(name==='speak')renderSpeakTab();
   if(name==='exam')renderExamTab();
+  document.body.dataset.tab=name;
 }
 
 // ═══════════════════════════════════
@@ -2614,6 +2868,7 @@ function showSprekenExample(){
   document.getElementById('sprekenLiveWrap').classList.add('hidden');
   const ansEl=document.getElementById('sprekenAnswer');
   ansEl.classList.remove('hidden');
+  window._sprekenEx=task.example;
   ansEl.innerHTML=`
     ${spoken?`
     <div style="background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:12px 14px;margin-bottom:10px">
@@ -2633,7 +2888,7 @@ function showSprekenExample(){
     <div style="background:rgba(52,201,122,0.07);border:1px solid rgba(52,201,122,0.2);border-radius:12px;padding:14px 16px;margin-bottom:12px">
       <div style="font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">✅ Beispielantwort</div>
       <div style="font-size:13px;color:var(--text2);line-height:1.8">${esc(task.example)}</div>
-      <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="speakGerman(${JSON.stringify(task.example)})">🔊 Beispiel anhören</button>
+      <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="speakGerman(window._sprekenEx)">🔊 Beispiel anhören</button>
     </div>
     <button class="btn btn-gold" style="width:100%;padding:14px" onclick="nextSprekenTask()">
       ${sprekenState.idx+1<sprekenState.queue.length?'Nächste Aufgabe →':'Ergebnisse sehen →'}
@@ -3466,6 +3721,7 @@ function renderDWWord(ti,wi){
   const pct=Math.round((chunkWi+1)/10*100);
   setDWBackBtn('← Zurück',hideDailyWords);
   document.getElementById('dwHeaderTitle').textContent=topic.icon+' Teil '+chunk+' von 3';
+  window._dwWord=w.de;
   document.getElementById('dwContent').innerHTML=`
     <div style="padding:12px 16px 0">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
@@ -3489,13 +3745,13 @@ function renderDWWord(ti,wi){
       <div id="dwMicResult" style="margin-bottom:10px"></div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
-        <button onclick="speakDW(${JSON.stringify(w.de)},0.85)" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:14px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:var(--primary);font-size:11px;font-weight:600;cursor:pointer">
+        <button onclick="speakDW(window._dwWord,0.85)" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:14px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.3);color:var(--primary);font-size:11px;font-weight:600;cursor:pointer">
           <span style="font-size:20px">🔊</span>Hören
         </button>
-        <button onclick="speakDW(${JSON.stringify(w.de)},0.65)" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:14px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:var(--gold);font-size:11px;font-weight:600;cursor:pointer">
+        <button onclick="speakDW(window._dwWord,0.65)" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:14px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);color:var(--gold);font-size:11px;font-weight:600;cursor:pointer">
           <span style="font-size:20px">🐢</span>Langsam
         </button>
-        <button id="dwMicBtn" onclick="startDWMic(${ti},${wi},${JSON.stringify(w.de)})" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:14px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:var(--green);font-size:11px;font-weight:600;cursor:pointer">
+        <button id="dwMicBtn" onclick="startDWMic(${ti},${wi},window._dwWord)" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:14px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:var(--green);font-size:11px;font-weight:600;cursor:pointer">
           <span style="font-size:20px">🎤</span>Nachsprechen
         </button>
       </div>
