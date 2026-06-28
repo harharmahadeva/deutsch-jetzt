@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.7.6] - 2026-06-28
+
+### Changed
+- Security hardening: CSP, Permissions-Policy, Referrer-Policy headers added
+- Brute-force protection on login: exponential backoff (1s, 2s, 4s… up to 30s) per failed attempt
+- XSS fix: all lesson content passed to onclick handlers now safely encoded via jsq() helper
+- users.json response validated before use (type-checks all entries)
+- Email BCC list moved from workflow file to GitHub Secret
+- Email CHANGELOG content HTML-escaped before injection into email body
+
 ## [2.7.5] - 2026-06-28
 
 ### Changed

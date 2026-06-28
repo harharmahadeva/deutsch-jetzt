@@ -22,7 +22,9 @@ jobs:
           HTML_ITEMS=""
           while IFS= read -r line; do
             [ -z "$line" ] && continue
-            HTML_ITEMS="${HTML_ITEMS}<li style=\"margin-bottom:8px;\">${line}</li>"
+            # HTML-encode to prevent injection from changelog content
+            safe=$(printf '%s' "$line" | sed 's/&/\&amp;/g;s/</\&lt;/g;s/>/\&gt;/g;s/"/\&quot;/g')
+            HTML_ITEMS="${HTML_ITEMS}<li style=\"margin-bottom:8px;\">${safe}</li>"
           done <<< "$NOTES"
           echo "html_items<<EOF" >> $GITHUB_OUTPUT
           echo "$HTML_ITEMS" >> $GITHUB_OUTPUT
@@ -37,7 +39,7 @@ jobs:
           username: oranjeraksha@gmail.com
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
           to: oranjeraksha@gmail.com
-          bcc: sandeepsharma1984@gmail.com,manishaluthra03@gmail.com,nchhabra011@gmail.com,varunhn@rocketmail.com,sachan.ankita@outlook.com,rudrasharma271255@gmail.com
+          bcc: ${{ secrets.EMAIL_BCC_LIST }}
           from: OranjeRaksha <oranjeraksha@gmail.com>
           subject: "Speako German: Update v${{ steps.info.outputs.version }}"
           convert_markdown: false
