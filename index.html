@@ -1156,6 +1156,7 @@ function showDisclaimer(){
 }
 
 window.onload=async()=>{
+  await loadAccounts();
   const vEl=document.getElementById('appVersionDisplay');
   if(vEl)vEl.textContent='v'+APP_VERSION;
   const s=sessionStorage.getItem('dj2_sess');
@@ -1182,18 +1183,14 @@ window.onload=async()=>{
   }
 };
 
-// ═══════════════════════════════════
-// HARDCODED ACCOUNTS — closed system, no signup
-// Credentials shared privately by admin
-// ═══════════════════════════════════
 const APP_VERSION='2.7.4';
-const ACCOUNTS=[
-  {name:'manra',   pinHash:'df6ed983e4fa5ea6', displayName:'Manisha', lang:'de'},
-  {name:'nikra',   pinHash:'019b98f08339481d', displayName:'Nikhil',  lang:'de'},
-  {name:'varu',    pinHash:'019b98f08339481d', displayName:'Varun',   lang:'de'},
-  {name:'anki',    pinHash:'b32eb2e0f00a89af', displayName:'Ankita',  lang:'de'},
-  {name:'rudr',    pinHash:'f7e41f9685aa1c32', displayName:'Rudra',   lang:'de'}
-];
+let ACCOUNTS=[];
+async function loadAccounts(){
+  try{
+    const r=await fetch('/users.json?v='+APP_VERSION);
+    if(r.ok)ACCOUNTS=await r.json();
+  }catch(e){}
+}
 
 async function isValidAccount(name, pin){
   const h=await hashPin(pin.trim());
