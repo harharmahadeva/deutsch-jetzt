@@ -1,8 +1,19 @@
 # Changelog
 
-## [2.7.2] - 2026-06-28
+## [2.7.3] - 2026-06-28
+
+### Release Notes
+- New home screen showing your daily greeting, current day, streak and completion percentage
+- All quiz and exam buttons now work correctly on iPhone
+- Audio play buttons in listening and speaking sections are fixed
+- Back buttons are larger and easier to tap on iPhone
+- Content no longer hides behind the iPhone notch
+- Home screen no longer scrolls — fills the screen properly
+- Login screen now shows version number
+- Login screen now says Password instead of PIN
 
 ### Fixed
+- Version number display added to login screen
 - **ISSUE 1 — Back buttons (iOS):** Removed conflicting light-mode CSS rule that set `background:transparent!important` on `.exam-back-btn`, overriding the solid pill style. Final `.exam-back-btn` rule now unambiguously sets `background:#f1f5f9`, `border:1.5px solid rgba(0,0,0,0.18)`, `color:#1e1b4b`, `min-height:44px`, with `-webkit-tap-highlight-color:transparent` and `touch-action:manipulation` for reliable iOS taps. Added `:active` state for visual feedback.
 - **ISSUE 2 — MCQ / all buttons not clickable on iOS Safari:** Added `touch-action:manipulation` and `-webkit-tap-highlight-color:transparent` to `.btn`, `.test-opt`, and a bulk rule covering all interactive elements (`button`, `.tab`, `.exam-back-btn`, `.dw-back`, `.hlc-btn`, `.home-lesson-card`, `.home-dw-card`, `.home-exam-card`, `.dw-topic-card`). This eliminates the 300ms tap delay on iOS Safari and the grey flash that can suppress click events.
 - **ISSUE 3 — Home screen scrolls vertically and horizontally:** Replaced hard-coded `56px` header offset in the no-scroll home calc with CSS custom properties `--sat` (safe-area-inset-top), `--sab` (safe-area-inset-bottom), and `--header-h` (dynamically computed from actual padding). New formula: `height:calc(100dvh - var(--sat) - var(--sab) - var(--header-h) - 60px)`. This correctly accounts for the Dynamic Island header padding instead of assuming a fixed 56px height.

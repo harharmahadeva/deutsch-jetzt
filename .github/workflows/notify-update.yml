@@ -1,0 +1,168 @@
+name: Notify users on update
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    environment: email-approval
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version and release notes
+        id: info
+        run: |
+          VERSION=$(grep -o "APP_VERSION='[^']*'" index.html | head -1 | grep -o "'[^']*'" | tr -d "'")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          NOTES=$(awk '/^### Release Notes/{found=1;next} found && /^###/{exit} found{print}' CHANGELOG.md | sed 's/^- //')
+          HTML_ITEMS=""
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            HTML_ITEMS="${HTML_ITEMS}<li style=\"margin-bottom:8px;\">${line}</li>"
+          done <<< "$NOTES"
+          echo "html_items<<EOF" >> $GITHUB_OUTPUT
+          echo "$HTML_ITEMS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Send update email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: oranjeraksha@gmail.com
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          to: oranjeraksha@gmail.com
+          bcc: sandeepsharma1984@gmail.com,manishaluthra03@gmail.com,nchhabra011@gmail.com,varunhn@rocketmail.com,sachan.ankita@outlook.com
+          from: OranjeRaksha <oranjeraksha@gmail.com>
+          subject: "Speako German — Update v${{ steps.info.outputs.version }}"
+          convert_markdown: false
+          html_body: |
+            <!DOCTYPE html>
+            <html>
+            <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+            <body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,sans-serif;">
+
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f1f5f9;padding:40px 16px;">
+                <tr><td align="center">
+                  <table width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+
+                    <!-- Header -->
+                    <tr>
+                      <td style="background:#0f172a;padding:28px 32px 22px;">
+                        <div style="font-family:'Barlow Condensed',Impact,sans-serif;font-size:30px;font-weight:900;letter-spacing:-1px;line-height:1;margin-bottom:5px;">
+                          <span style="color:#e87722;">Oranje</span><span style="color:#f9fafb;">Raksha</span>
+                        </div>
+                        <div style="font-size:10px;color:#64748b;font-style:italic;">Uw Schild, Onze Belofte &nbsp;·&nbsp; Your Shield, Our Promise</div>
+                      </td>
+                    </tr>
+
+                    <!-- Orange bar -->
+                    <tr><td style="background:#e87722;height:3px;font-size:0;">&nbsp;</td></tr>
+
+                    <!-- Body -->
+                    <tr>
+                      <td style="padding:32px 32px 24px;">
+
+                        <p style="font-size:12px;color:#94a3b8;margin:0 0 6px 0;text-transform:uppercase;letter-spacing:2px;font-weight:700;">App Update</p>
+                        <h1 style="font-size:20px;font-weight:900;color:#0f172a;margin:0 0 4px 0;">Speako German</h1>
+                        <p style="font-size:13px;color:#64748b;margin:0 0 28px 0;">Version <strong style="color:#e87722;">v${{ steps.info.outputs.version }}</strong> is now live.</p>
+
+                        <!-- What's new -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;border-left:3px solid #e87722;margin-bottom:28px;">
+                          <tr>
+                            <td style="padding:18px 22px;">
+                              <p style="font-size:11px;font-weight:700;color:#e87722;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px 0;">What's New</p>
+                              <ul style="margin:0;padding-left:16px;font-size:13px;color:#374151;line-height:1.7;">
+                                ${{ steps.info.outputs.html_items }}
+                              </ul>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <!-- How to update -->
+                        <p style="font-size:11px;font-weight:700;color:#1e3a8a;text-transform:uppercase;letter-spacing:2px;margin:0 0 14px 0;">How to Get the Update</p>
+
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:24px;">
+                          <tr valign="top">
+                            <td width="48%" style="background:#f8fafc;border-radius:8px;padding:14px 16px;">
+                              <p style="font-size:12px;font-weight:700;color:#0f172a;margin:0 0 8px 0;">iPhone (Safari)</p>
+                              <p style="font-size:12px;color:#374151;line-height:1.8;margin:0;">
+                                1. Open the app and pull down to refresh.<br>
+                                2. If unchanged, close Safari and reopen.<br>
+                                3. If on home screen, delete and re-add from Safari.
+                              </p>
+                            </td>
+                            <td width="4%">&nbsp;</td>
+                            <td width="48%" style="background:#f8fafc;border-radius:8px;padding:14px 16px;">
+                              <p style="font-size:12px;font-weight:700;color:#0f172a;margin:0 0 8px 0;">Android (Chrome)</p>
+                              <p style="font-size:12px;color:#374151;line-height:1.8;margin:0;">
+                                1. Open the app and pull down to refresh.<br>
+                                2. If unchanged, tap the menu and select Refresh.
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <p style="font-size:12px;color:#94a3b8;margin:0;">For any questions, please contact us at <strong>oranjeraksha@gmail.com</strong>. Please do not reply directly to this email.</p>
+
+                      </td>
+                    </tr>
+
+                    <!-- Divider -->
+                    <tr><td style="padding:0 32px;"><div style="height:1px;background:#e2e8f0;"></div></td></tr>
+
+                    <!-- Signature -->
+                    <tr>
+                      <td style="padding:20px 32px 20px;">
+                        <table cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td style="padding-right:16px;border-right:3px solid #e87722;vertical-align:middle;white-space:nowrap;">
+                              <div style="font-family:'Barlow Condensed',Impact,sans-serif;font-size:20px;font-weight:900;letter-spacing:-1px;line-height:1;">
+                                <span style="color:#e87722;">Oranje</span><span style="color:#0f172a;">Raksha</span>
+                              </div>
+                              <div style="font-size:9px;color:#94a3b8;font-style:italic;margin-top:3px;">Uw Schild, Onze Belofte</div>
+                            </td>
+                            <td style="padding-left:16px;vertical-align:middle;">
+                              <div style="font-size:11px;color:#64748b;line-height:1.8;">
+                                oranjeraksha@gmail.com<br>
+                                www.oranjeraksha.nl
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+
+                    <!-- Divider -->
+                    <tr><td style="padding:0 32px;"><div style="height:1px;background:#e2e8f0;"></div></td></tr>
+
+                    <!-- Disclaimers -->
+                    <tr>
+                      <td style="padding:16px 32px 20px;">
+                        <p style="font-size:11px;color:#94a3b8;line-height:1.7;margin:0 0 8px 0;">
+                          <strong style="color:#64748b;">Test Application:</strong> Speako German is currently a private test application available to invited users only. Features and content may change without prior notice.
+                        </p>
+                        <p style="font-size:11px;color:#94a3b8;line-height:1.7;margin:0;">
+                          <strong style="color:#64748b;">Privacy:</strong> Your email address is used solely to deliver app update notifications. It is not shared with any third party, stored on external servers, or used for any other purpose. To opt out, contact oranjeraksha@gmail.com.
+                        </p>
+                      </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                      <td style="background:#0f172a;padding:12px 32px;text-align:center;">
+                        <p style="font-size:10px;color:#374151;margin:0;">You are receiving this as a registered Speako user &nbsp;·&nbsp; &copy; OranjeRaksha</p>
+                      </td>
+                    </tr>
+
+                  </table>
+                </td></tr>
+              </table>
+
+            </body>
+            </html>
