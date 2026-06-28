@@ -63,7 +63,7 @@
 ## [2.5.2] - 2026-06-26
 
 ### Added
-- **User: Ankita** — login `anki`, German A2 curriculum
+- User roster updated
 
 ---
 
@@ -94,7 +94,7 @@
 
 ## [2.4.1] - 2026-06-26
 ### Added
-- New user: Varun (`varu`, hashed PIN)
+- User roster updated
 
 ---
 
@@ -274,7 +274,7 @@
 
 ## [1.1.0] - 2026-06-23
 ### Removed
-- Sakshi (`sharmsa`) Dutch user account
+- User roster updated
 - `DAY_TOPICS_NL` Dutch curriculum (45-day inburgering plan)
 - Dutch AI prompt from lesson generation
 - All `isNL` conditionals throughout the app
@@ -282,7 +282,6 @@
 - TTS and speech recognition hardcoded to `de-DE`
 - `TOTAL_DAYS()` simplified to always return 60
 ### Notes
-- Manisha and Nikhil accounts and saved progress unaffected
 - App is now German-only (60-day Goethe/TELC A2 curriculum)
 
 ## [1.0.9] - prior
@@ -325,7 +324,7 @@
 - Dutch UI: greeting, chip, journey title, motivation banners all language-aware
 
 ## [1.0.0] - Initial release
-- Multi-language PWA with German (Manisha, Nikhil) and Dutch (Sakshi) users
+- Multi-language PWA — initial release
 - 60-day Goethe/TELC A2 German curriculum
 - AI-generated lessons via Claude API (Vercel proxy)
 - iOS PWA: manifest, service worker, apple-touch-icon, standalone display
