@@ -12,7 +12,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Send invite email to Rudra
+      - name: Get version and release notes
+        id: info
+        run: |
+          VERSION=$(grep -o "APP_VERSION='[^']*'" index.html | head -1 | grep -o "'[^']*'" | tr -d "'")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          NOTES=$(awk '/^### Release Notes/{found=1;next} found && /^###/{exit} found{print}' CHANGELOG.md | sed 's/^- //')
+          HTML_ITEMS=""
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            HTML_ITEMS="${HTML_ITEMS}<li style=\"margin-bottom:8px;\">${line}</li>"
+          done <<< "$NOTES"
+          echo "html_items<<EOF" >> $GITHUB_OUTPUT
+          echo "$HTML_ITEMS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Send update email
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -20,10 +36,10 @@ jobs:
           secure: true
           username: oranjeraksha@gmail.com
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
-          to: rudrasharma271255@gmail.com
-          bcc: oranjeraksha@gmail.com
-          from: Sandeep Sharma <oranjeraksha@gmail.com>
-          subject: "Sandeep Sharma has invited you to try Speako - German Learning App"
+          to: oranjeraksha@gmail.com
+          bcc: sandeepsharma1984@gmail.com,manishaluthra03@gmail.com,nchhabra011@gmail.com,varunhn@rocketmail.com,sachan.ankita@outlook.com,rudrasharma271255@gmail.com
+          from: OranjeRaksha <oranjeraksha@gmail.com>
+          subject: "Speako German: Update v${{ steps.info.outputs.version }}"
           convert_markdown: false
           html_body: |
             <!DOCTYPE html>
@@ -52,105 +68,64 @@ jobs:
                     <tr>
                       <td style="padding:32px 32px 24px;">
 
-                        <p style="font-size:12px;color:#94a3b8;margin:0 0 6px 0;text-transform:uppercase;letter-spacing:2px;font-weight:700;">You're Invited</p>
-                        <h1 style="font-size:22px;font-weight:900;color:#0f172a;margin:0 0 8px 0;">Welcome to Speako, Rudra!</h1>
-                        <p style="font-size:14px;color:#475569;line-height:1.7;margin:0 0 28px 0;">Sandeep Sharma has personally invited you to try <strong>Speako</strong> - a German language learning app built to help you learn German step by step, at your own pace.</p>
+                        <p style="font-size:12px;color:#94a3b8;margin:0 0 6px 0;text-transform:uppercase;letter-spacing:2px;font-weight:700;">App Update</p>
+                        <h1 style="font-size:20px;font-weight:900;color:#0f172a;margin:0 0 4px 0;">Speako German</h1>
+                        <p style="font-size:13px;color:#64748b;margin:0 0 28px 0;">Version <strong style="color:#e87722;">v${{ steps.info.outputs.version }}</strong> is now live.</p>
 
-                        <!-- Login details -->
+                        <!-- What's new -->
                         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;border-left:3px solid #e87722;margin-bottom:28px;">
                           <tr>
                             <td style="padding:18px 22px;">
-                              <p style="font-size:11px;font-weight:700;color:#e87722;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px 0;">Your Login Details</p>
-                              <p style="font-size:14px;color:#0f172a;margin:0 0 6px 0;"><strong>Username:</strong> rudr</p>
-                              <p style="font-size:14px;color:#0f172a;margin:0;">PIN: Sandeep will share this with you directly</p>
-                            </td>
-                          </tr>
-                        </table>
-
-                        <!-- Install instructions -->
-                        <p style="font-size:11px;font-weight:700;color:#1e3a8a;text-transform:uppercase;letter-spacing:2px;margin:0 0 14px 0;">How to Install on Android</p>
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8fafc;border-radius:8px;margin-bottom:28px;">
-                          <tr>
-                            <td style="padding:18px 22px;">
-                              <ol style="margin:0;padding-left:18px;font-size:13px;color:#374151;line-height:2;">
-                                <li>Open <strong>Google Chrome</strong> on your Android phone</li>
-                                <li>Go to: <a href="https://deutsch-jetzt.vercel.app" style="color:#1d4ed8;font-weight:700;">https://deutsch-jetzt.vercel.app</a></li>
-                                <li>Tap the <strong>three dots menu</strong> (top right corner)</li>
-                                <li>Tap <strong>"Add to Home screen"</strong></li>
-                                <li>Tap <strong>"Add"</strong> to confirm</li>
-                                <li>Speako will appear on your home screen like a regular app</li>
-                                <li>Open it, enter username <strong>rudr</strong> and the PIN Sandeep shares with you</li>
-                              </ol>
-                            </td>
-                          </tr>
-                        </table>
-
-                        <!-- How it works -->
-                        <p style="font-size:11px;font-weight:700;color:#1e3a8a;text-transform:uppercase;letter-spacing:2px;margin:0 0 14px 0;">How the App Works</p>
-                        <p style="font-size:13px;color:#374151;line-height:1.8;margin:0 0 12px 0;">Speako follows an <strong>immersion-first approach</strong> - you start by listening and speaking, not reading and writing. This is how children naturally learn a language and it is the most effective method.</p>
-
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
-
-                          <tr>
-                            <td style="padding:10px 0;border-bottom:1px solid #f1f5f9;">
-                              <p style="font-size:13px;font-weight:700;color:#0f172a;margin:0 0 4px 0;">Day by Day Structure</p>
-                              <p style="font-size:13px;color:#475569;margin:0;line-height:1.7;">Each day is one focused lesson. Complete it, come back the next day for the next one. Even 10 minutes a day builds fluency fast.</p>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td style="padding:10px 0;border-bottom:1px solid #f1f5f9;">
-                              <p style="font-size:13px;font-weight:700;color:#0f172a;margin:0 0 4px 0;">Step 1 - Listen First</p>
-                              <p style="font-size:13px;color:#475569;margin:0;line-height:1.7;">Every word and sentence is spoken aloud in German. Tap play and just listen. Get used to the sounds before you speak.</p>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td style="padding:10px 0;border-bottom:1px solid #f1f5f9;">
-                              <p style="font-size:13px;font-weight:700;color:#0f172a;margin:0 0 4px 0;">Step 2 - Speak Out Loud</p>
-                              <p style="font-size:13px;color:#475569;margin:0;line-height:1.7;">Tap the mic and say the word yourself. The app listens and tells you instantly if you said it correctly. Don't worry about being perfect - just keep trying.</p>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td style="padding:10px 0;border-bottom:1px solid #f1f5f9;">
-                              <p style="font-size:13px;font-weight:700;color:#0f172a;margin:0 0 4px 0;">Build Up Gradually</p>
-                              <p style="font-size:13px;color:#475569;margin:0;line-height:1.7;">Each lesson introduces new vocabulary in context - greetings, numbers, daily life, colours, food and more. By Day 7 you will have a solid spoken foundation.</p>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td style="padding:10px 0;border-bottom:1px solid #f1f5f9;">
-                              <p style="font-size:13px;font-weight:700;color:#0f172a;margin:0 0 4px 0;">Daily Streak</p>
-                              <p style="font-size:13px;color:#475569;margin:0;line-height:1.7;">Every day you complete a lesson, your streak grows. Keep it going - consistency is everything in language learning.</p>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td style="padding:10px 0;">
-                              <p style="font-size:13px;font-weight:700;color:#0f172a;margin:0 0 4px 0;">Cloud Progress</p>
-                              <p style="font-size:13px;color:#475569;margin:0;line-height:1.7;">Everything saves automatically. Pick up exactly where you left off, on any device, anytime.</p>
-                            </td>
-                          </tr>
-
-                        </table>
-
-                        <!-- Tips -->
-                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fffbeb;border-radius:8px;border-left:3px solid #f59e0b;margin-bottom:28px;">
-                          <tr>
-                            <td style="padding:18px 22px;">
-                              <p style="font-size:11px;font-weight:700;color:#b45309;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px 0;">Tips for Best Results</p>
-                              <ul style="margin:0;padding-left:16px;font-size:13px;color:#374151;line-height:2;">
-                                <li>Use headphones for the best audio experience</li>
-                                <li>Find a quiet spot when practicing speaking - the mic works best without background noise</li>
-                                <li>One lesson a day beats multiple lessons in one go - your brain retains more with spaced repetition</li>
-                                <li>Never skip the speaking step - that is where the real learning happens</li>
+                              <p style="font-size:11px;font-weight:700;color:#e87722;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px 0;">What's New</p>
+                              <ul style="margin:0;padding-left:16px;font-size:13px;color:#374151;line-height:1.7;">
+                                ${{ steps.info.outputs.html_items }}
                               </ul>
                             </td>
                           </tr>
                         </table>
 
-                        <p style="font-size:13px;color:#94a3b8;margin:0;">Any questions, contact Sandeep directly at <strong>sandeepsharma1984@gmail.com</strong>. Please do not reply to this email.</p>
+                        <!-- How to update -->
+                        <p style="font-size:11px;font-weight:700;color:#1e3a8a;text-transform:uppercase;letter-spacing:2px;margin:0 0 14px 0;">How to Get the Update</p>
+
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:24px;">
+                          <tr valign="top">
+                            <td width="48%" style="background:#f8fafc;border-radius:8px;padding:14px 16px;">
+                              <p style="font-size:12px;font-weight:700;color:#0f172a;margin:0 0 10px 0;">iPhone (Safari)</p>
+                              <p style="font-size:12px;color:#374151;line-height:1.9;margin:0 0 10px 0;">
+                                <strong>If using via Safari:</strong><br>
+                                1. Open Safari and go to the app.<br>
+                                2. Pull the page down and release to refresh.<br>
+                                3. If still on old version, close Safari fully by swiping it away from the app switcher, then reopen.
+                              </p>
+                              <p style="font-size:12px;color:#374151;line-height:1.9;margin:0;">
+                                <strong>If installed on Home Screen:</strong><br>
+                                1. Press and hold the app icon on your home screen.<br>
+                                2. Tap "Remove App" and confirm delete.<br>
+                                3. Open Safari and visit the app link.<br>
+                                4. Tap the Share button (box with arrow) at the bottom of Safari.<br>
+                                5. Scroll down and tap "Add to Home Screen", then tap "Add".
+                              </p>
+                            </td>
+                            <td width="4%">&nbsp;</td>
+                            <td width="48%" style="background:#f8fafc;border-radius:8px;padding:14px 16px;">
+                              <p style="font-size:12px;font-weight:700;color:#0f172a;margin:0 0 10px 0;">Android (Chrome)</p>
+                              <p style="font-size:12px;color:#374151;line-height:1.9;margin:0 0 10px 0;">
+                                <strong>If using via Chrome:</strong><br>
+                                1. Open Chrome and go to the app.<br>
+                                2. Pull the page down and release to refresh.<br>
+                                3. If still on old version, tap the three-dot menu (top right) and tap "Refresh".
+                              </p>
+                              <p style="font-size:12px;color:#374151;line-height:1.9;margin:0;">
+                                <strong>If installed on Home Screen:</strong><br>
+                                1. Press and hold the app icon and tap "Uninstall".<br>
+                                2. Open Chrome and visit the app link.<br>
+                                3. Tap the three-dot menu and tap "Add to Home Screen", then tap "Add".
+                              </p>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <p style="font-size:12px;color:#94a3b8;margin:0;">For any questions, please contact us at <strong>oranjeraksha@gmail.com</strong>. Please do not reply directly to this email.</p>
 
                       </td>
                     </tr>
@@ -160,7 +135,7 @@ jobs:
 
                     <!-- Signature -->
                     <tr>
-                      <td style="padding:20px 32px;">
+                      <td style="padding:20px 32px 20px;">
                         <table cellpadding="0" cellspacing="0" border="0">
                           <tr>
                             <td style="padding-right:16px;border-right:3px solid #e87722;vertical-align:middle;white-space:nowrap;">
@@ -183,10 +158,22 @@ jobs:
                     <!-- Divider -->
                     <tr><td style="padding:0 32px;"><div style="height:1px;background:#e2e8f0;"></div></td></tr>
 
+                    <!-- Disclaimers -->
+                    <tr>
+                      <td style="padding:16px 32px 20px;">
+                        <p style="font-size:11px;color:#94a3b8;line-height:1.7;margin:0 0 8px 0;">
+                          <strong style="color:#64748b;">Test Application:</strong> Speako German is currently a private test application available to invited users only. Features and content may change without prior notice.
+                        </p>
+                        <p style="font-size:11px;color:#94a3b8;line-height:1.7;margin:0;">
+                          <strong style="color:#64748b;">Privacy:</strong> Your email address is used solely to deliver app update notifications. It is not shared with any third party, stored on external servers, or used for any other purpose. To opt out, contact oranjeraksha@gmail.com.
+                        </p>
+                      </td>
+                    </tr>
+
                     <!-- Footer -->
                     <tr>
                       <td style="background:#0f172a;padding:12px 32px;text-align:center;">
-                        <p style="font-size:10px;color:#374151;margin:0;">Private access only &nbsp;·&nbsp; Speako by OranjeRaksha</p>
+                        <p style="font-size:10px;color:#374151;margin:0;">You are receiving this as a registered Speako user &nbsp;·&nbsp; &copy; OranjeRaksha</p>
                       </td>
                     </tr>
 
