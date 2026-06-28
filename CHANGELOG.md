@@ -8,7 +8,7 @@
 - Audio play buttons in listening and speaking sections are fixed
 - Back buttons are larger and easier to tap on iPhone
 - Content no longer hides behind the iPhone notch
-- Home screen no longer scrolls — fills the screen properly
+- Home screen no longer scrolls, fills the screen properly
 - Login screen now shows version number
 - Login screen now says Password instead of PIN
 
