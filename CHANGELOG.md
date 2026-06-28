@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.7.5] - 2026-06-28
+
+### Changed
+- Users moved from hardcoded array in index.html to external users.json file
+- New users can now be added by editing users.json only, no changes to app code needed
+- Added PIN hash generator tool at /generate-pin-hash.html
+
+---
+
 ## [2.7.4] - 2026-06-28
 ### Release Notes
 - New user Rudra (rudr) added
