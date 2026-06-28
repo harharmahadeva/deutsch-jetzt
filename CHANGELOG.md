@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.7.4] - 2026-06-28
+### Release Notes
+- New user Rudra (rudr) added
+
 ## [2.7.3] - 2026-06-28
 
 ### Release Notes
